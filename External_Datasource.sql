@@ -39,3 +39,31 @@ GO
 
 SELECT TOP 100 * FROM dbo.raleigh_airport_weather
 GO
+
+SELECT 
+min(cast(date as DATE)) as mindate, 
+max(cast(date as DATE)) as maxdate 
+FROM dbo.raleigh_airport_weather
+GO
+
+SELECT min(tmin) as lowesttemp, 
+max(tmax) as greatesttemp 
+FROM dbo.raleigh_airport_weather
+GO
+
+--Find max and min temp by year and month
+
+select tempyear,
+tempmonth,
+max(tmax) as maxtemp,
+min(tmin) as mintemp
+FROM ( 
+SELECT 
+YEAR(cast(date as DATE)) as tempyear,
+MONTH(cast(date as DATE)) as tempmonth,
+tmin, 
+tmax 
+FROM dbo.raleigh_airport_weather
+) X
+GROUP BY X.tempyear, X.tempmonth
+ORDER BY X.tempyear, X.tempmonth
