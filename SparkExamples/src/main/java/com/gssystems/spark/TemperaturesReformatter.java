@@ -25,19 +25,30 @@ public class TemperaturesReformatter {
 		Dataset<?> tempsDF = spark.read().json(temperaturesDir);
 		tempsDF.printSchema();
 
-		Dataset<?> timeValuesDF = tempsDF.select(
-			org.apache.spark.sql.functions.explode(tempsDF.col("hourly.time").alias("time"))
-		);
-
-		timeValuesDF.printSchema();		
-		timeValuesDF.show();
-
-		Dataset<?> tempValuesDF = tempsDF.select(
-			org.apache.spark.sql.functions.explode(tempsDF.col("hourly.temperature_2m").alias("reading"))
-		);
+		//Using the arrays_zip function to make both the arrays come together
 		
-		tempValuesDF.printSchema();		
-		tempValuesDF.show();
+		Dataset<?> timeAndTempDF = tempsDF.withColumn("tmp",
+			org.apache.spark.sql.functions.arrays_zip(
+				tempsDF.col("hourly.time"), 
+				tempsDF.col("hourly.temperature_2m")
+			)
+		).drop("generationtime_ms", "hourly", "hourly_units", "timezone", "timezone_abbreviation", "utc_offset_seconds");
+
+		//Exploding the  zipped array to create rows per time and temp.
+		Dataset<?> timeAndTempDFexploded = timeAndTempDF.withColumn("tmp", 
+			org.apache.spark.sql.functions.explode(timeAndTempDF.col("tmp")));
+
+		Dataset<?> timeAndTempDFFinal = timeAndTempDFexploded.select(
+			timeAndTempDFexploded.col("elevation"),
+			timeAndTempDFexploded.col("latitude"),
+			timeAndTempDFexploded.col("longitude"),
+			timeAndTempDFexploded.col("tmp.time"),
+			timeAndTempDFexploded.col("tmp.temperature_2m")
+		).drop("tmp");
+
+		timeAndTempDFFinal.printSchema();		
+		timeAndTempDFFinal.show();
+
 
 		if (WRITE_FILE_OUTPUTS) {
 			System.out.println("Writing reformatted temperatures file...");
