@@ -2,17 +2,13 @@ package com.gssystems.spark;
 
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.SparkSession;
-import org.apache.spark.sql.types.DataTypes;
-import org.apache.spark.sql.types.Metadata;
-import org.apache.spark.sql.types.StructField;
-import org.apache.spark.sql.types.StructType;
 
 public class TemperaturesReformatter {
 	private static final boolean WRITE_FILE_OUTPUTS = true;
 	public static void main(String[] args) {
 		
-		if (args == null || args.length != 2) {
-			System.out.println("Need to pass 1 parameters - directory of the downloaded temperature files for this to work!");
+		if (args == null || args.length != 3) {
+			System.out.println("Need to pass 2 parameters - directory of the downloaded temperature files for this to work!");
 			System.exit(-1);
 		}
 
@@ -39,7 +35,6 @@ public class TemperaturesReformatter {
 			org.apache.spark.sql.functions.explode(timeAndTempDF.col("tmp")));
 
 		Dataset<?> timeAndTempDFFinal = timeAndTempDFexploded.select(
-			timeAndTempDFexploded.col("elevation"),
 			timeAndTempDFexploded.col("latitude"),
 			timeAndTempDFexploded.col("longitude"),
 			timeAndTempDFexploded.col("tmp.time"),
@@ -52,8 +47,20 @@ public class TemperaturesReformatter {
 
 		if (WRITE_FILE_OUTPUTS) {
 			System.out.println("Writing reformatted temperatures file...");
+			timeAndTempDFFinal.repartition(1).write().parquet(args[1]);
 		}
 
+		Dataset<?> locationMaster = timeAndTempDFexploded.select(
+			timeAndTempDFexploded.col("elevation"),
+			timeAndTempDFexploded.col("latitude"),
+			timeAndTempDFexploded.col("longitude")
+		).drop("tmp").distinct();
+
+		if (WRITE_FILE_OUTPUTS) {
+			System.out.println("Writing location master file...");
+			locationMaster.repartition(1).write().parquet(args[2]);
+		}
+		
 		spark.close();
 	}
 
