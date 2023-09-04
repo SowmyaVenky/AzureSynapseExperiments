@@ -1,8 +1,9 @@
 -- This is auto-generated code
 SELECT
-    TOP 100 time, temperature_2m
+     latitude, longitude, max(temperature_2m) as maxtemp
 FROM
     OPENROWSET(
-        BULK 'https://venkydatalake101.dfs.core.windows.net/files/spring_tx_temps_formatted/**',
+        BULK 'https://venkydatalake1001.dfs.core.windows.net/files/spring_tx_temps_formatted/**',
         FORMAT = 'PARQUET'
     ) AS [result]
+GROUP BY latitude, longitude

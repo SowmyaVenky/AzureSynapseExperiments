@@ -127,6 +127,11 @@ spark-submit --master local[4] --class com.gssystems.spark.TemperaturesReformatt
 
 <img src="../images/synapse_pe_8.png" title="Sample Architecure" />
 
+* Now we can't connect to synapse from the web-ui. Let us download Azure data studio and try to connect. https://azure.microsoft.com/en-us/products/data-studio
+
+
+
+
 * These are the steps required to be followed on an Ubuntu machine to test things out. 
 
 ./azcopy login 
