@@ -71,7 +71,7 @@ spark-submit --master local[4] --class com.gssystems.spark.TemperaturesReformatt
   <img src="../images/Storage_Acct_With_Private_Endpoints.png" title="Sample Architecure">
 </p>
 
-* I also downloaded the Azure Storage EXplorer tool and installed it on the VM. I can't hit the storage account anymore from my personal computer because the firewall blocks access to it. I opened the explorer tool, logged into the subscription and loaded the storage accounts. Once I try to load the blob containers inside the storage account, I get an authorization error. It clearly says in the error that the storage account firewall is not allowing the connection to happen for data related operations. The control operations are just fine. 
+* I also downloaded the Azure Storage Explorer tool and installed it on the VM. I can't hit the storage account anymore from my personal computer because the firewall blocks access to it. I opened the explorer tool, logged into the subscription and loaded the storage accounts. Once I try to load the blob containers inside the storage account, I get an authorization error. It clearly says in the error that the storage account firewall is not allowing the connection to happen for data related operations. The control operations are just fine. 
 <p align="center">
   <img src="../images/explorer_error_with_disabled_setting.png" title="Sample Architecure">
 </p>
@@ -104,6 +104,28 @@ spark-submit --master local[4] --class com.gssystems.spark.TemperaturesReformatt
 <p align="center">
   <img src="../images/query_success_from_synapse.png" title="Sample Architecure">
 </p>
+
+* First we create a private endpoint to be used to connect to Synapse once we disable public access to the workspace. We will target the private endpoint to be in the same vnet that we have hosted the virtual machine. That way the same VM can be used to connect to and test both the storage and the synapse workspace. We possibly could remove the private endpoint to the storage account, but that will make things pretty hard since it would be impossible to upload the raw files that we want to use on the ADLS storage. 
+<img src="../images/synapse_pe_1.png" title="Sample Architecure" />
+<img src="../images/synapse_pe_2.png" title="Sample Architecure" />
+<img src="../images/synapse_pe_3.png" title="Sample Architecure" />
+<img src="../images/synapse_pe_4.png" title="Sample Architecure" />
+
+* Go to the Synapse workspace, Networking and Disable the public access to the synapse workspace.
+
+<img src="../images/synapse_pe_5.png" title="Sample Architecure" />
+
+* Go to the Synapse workspace, Networking and Disable the public access to the synapse workspace.
+<img src="../images/synapse_cant_connect_from_local.png" title="Sample Architecure" />
+
+* If we check the private endpoints in the Synapse left menu, we see it is provisioned and approved.
+
+<img src="../images/synapse_pe_6.png" title="Sample Architecure" />
+<img src="../images/synapse_pe_7.png" title="Sample Architecure" />
+
+* Note that nslookup to both the storage account and the synapse on demand pool are configured with private links and resolve to private IPs from inside the subnet default where the vm is running.
+
+<img src="../images/synapse_pe_8.png" title="Sample Architecure" />
 
 * These are the steps required to be followed on an Ubuntu machine to test things out. 
 
