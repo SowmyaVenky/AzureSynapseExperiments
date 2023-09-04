@@ -1,3 +1,10 @@
+## Details weather analysis workflow
+
+* This example deals with extracting data from the weather service, preparing the dataset using Spark and then exploring various aspects of the Synapse Serverless Pools.
+
+
+## Commands to execute
+
 set JAVA_HOME=c:\Venky\jdk-11.0.15.10-hotspot
 set PATH=%PATH%;c:\Venky\spark\bin;c:\Venky\apache-maven-3.8.6\bin
 set SPARK_HOME=c:\Venky\spark
