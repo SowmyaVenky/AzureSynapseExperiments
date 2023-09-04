@@ -1,2 +1,3 @@
 com\gssystems\spark\TemperaturesReformatter.class
 com\gssystems\spark\DownloadWeatherDataHistorical.class
+com\gssystems\spark\SynapseJDBCTesting.class

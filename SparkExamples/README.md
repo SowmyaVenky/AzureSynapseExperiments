@@ -135,6 +135,14 @@ spark-submit --master local[4] --class com.gssystems.spark.TemperaturesReformatt
 
 <img src="../images/synapse_AD_login_via_data_studio_2.png" title="Sample Architecure" />
 
+## Synapse JDBC 
+* Since we are using the serverless pool, we need to have AD authentication when using the JDBC driver. Without this, a pass through authentication will not happen and the ADLS directory can't be listed anymore...
+
+* Please take a look at the code in SynapseJDBCTesting. Note the use of the special datasource and password based authentication in use. Once we do this and run the following command, we an see the results.
+
+mvn exec:java -Dexec.mainClass="com.gssystems.spark.SynapseJDBCTesting"
+
+<img src="../images/synapse_jdbc_testing.png" title="Sample Architecure" />
 
 * These are the steps required to be followed on an Ubuntu machine to test things out. 
 
