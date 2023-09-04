@@ -129,7 +129,11 @@ spark-submit --master local[4] --class com.gssystems.spark.TemperaturesReformatt
 
 * Now we can't connect to synapse from the web-ui. Let us download Azure data studio and try to connect. https://azure.microsoft.com/en-us/products/data-studio
 
+* When we authenticate using the Azure Data Studio, we need to ensure that we are authenticating with AD credentials, not SQL Server credentials. If we login with SQL Server credentials, the principal will not be able to query the ADLS dataset. For a firewall based storage, user identity with SQL login is not supported. After we login and create the database and external tables, we can query the data. 
 
+<img src="../images/synapse_AD_login_via_data_studio.png" title="Sample Architecure" />
+
+<img src="../images/synapse_AD_login_via_data_studio_2.png" title="Sample Architecure" />
 
 
 * These are the steps required to be followed on an Ubuntu machine to test things out. 
