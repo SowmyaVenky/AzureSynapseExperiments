@@ -13,3 +13,6 @@ Various fun projects with Azure Synapse Suite
 * Create an external table and query data from serverless pool.
 * Try to update data in delta lake via Serverless pool (NOT ALLOWED WILL GIVE ERROR!)
 * Try updating the data (delete) via the notebook. Remove rows where prcp = 1 and rows where date is in 2017. Vaccum and see.
+
+## Weather data by Lat and Long
+* For a more exhaustive use-case where we download weather data for multiple years and create tables in Synapse Serverless Pools, please refer to the readme under <a href="./SparkExamples/">SparkExamples</a>
