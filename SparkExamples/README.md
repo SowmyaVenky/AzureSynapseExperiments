@@ -202,10 +202,12 @@ mvn spring-boot:run
 * This will make sure that the web app starts to allow us to call it locally and test connection to the synapse serverless pool.
 * Regular curl is not working for some reason. We will create a test.py with the contents below.
 
+<pre>
 import urllib3
 http = urllib3.PoolManager()
 resp = http.request("GET", "http://localhost:8080/minmax?pw=e4HDNs%5ELLT5mvVvF7yQB&id=cloud_user_p_1ece36c2%40realhandsonlabs.com")
 print(resp.data)
+</pre>
 
 * When we execute the python3 test.py it connects to the web service running locally, interacts with the serverless pool, and then get the data.
 
