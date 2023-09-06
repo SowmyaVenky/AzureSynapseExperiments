@@ -5,6 +5,7 @@
 
 ## Commands to execute
 
+<pre>
 set JAVA_HOME=c:\Venky\jdk-11.0.15.10-hotspot
 set PATH=%PATH%;c:\Venky\spark\bin;c:\Venky\apache-maven-3.8.6\bin
 set SPARK_HOME=c:\Venky\spark
@@ -12,10 +13,12 @@ SET HADOOP_HOME=C:\Venky\AzureSynapseExperiments\SparkExamples
 
 cd C:\Venky\AzureSynapseExperiments\SparkExamples
 mvn clean package
+</pre>
 
 * Run these steps on your local machine or run them on the DSVM that has spark installed and pre-configured. This will download the temperatures for a specific lat and long for a time period. Once the raw data is pulled down, we do some data massaging with Spark to clean the data up and make it into a format that can be used by Synapse easily.
 
 # Spring TX 
+<pre>
 mvn exec:java -Dexec.mainClass="com.gssystems.spark.DownloadWeatherDataHistorical" -Dexec.args="30.188530 -95.525810 2019-01-01 2019-12-31 2019_Spring_Temps.json"
 
 mvn exec:java -Dexec.mainClass="com.gssystems.spark.DownloadWeatherDataHistorical" -Dexec.args="30.188530 -95.525810 2020-01-01 2020-12-31 2020_Spring_Temps.json"
@@ -25,8 +28,9 @@ mvn exec:java -Dexec.mainClass="com.gssystems.spark.DownloadWeatherDataHistorica
 mvn exec:java -Dexec.mainClass="com.gssystems.spark.DownloadWeatherDataHistorical" -Dexec.args="30.188530 -95.525810 2022-01-01 2022-12-31 2022_Spring_Temps.json"
 
 mvn exec:java -Dexec.mainClass="com.gssystems.spark.DownloadWeatherDataHistorical" -Dexec.args="30.188530 -95.525810 2023-01-01 2023-06-30 2023_Spring_Temps.json"
-
+</pre>
 # Anchorage AK
+<pre>
 mvn exec:java -Dexec.mainClass="com.gssystems.spark.DownloadWeatherDataHistorical" -Dexec.args="61.217381 -149.863129 2019-01-01 2019-12-31 2019_Anchorage_Temps.json"
 
 mvn exec:java -Dexec.mainClass="com.gssystems.spark.DownloadWeatherDataHistorical" -Dexec.args="61.217381 -149.863129 2020-01-01 2020-12-31 2020_Anchorage_Temps.json"
@@ -36,8 +40,9 @@ mvn exec:java -Dexec.mainClass="com.gssystems.spark.DownloadWeatherDataHistorica
 mvn exec:java -Dexec.mainClass="com.gssystems.spark.DownloadWeatherDataHistorical" -Dexec.args="61.217381 -149.863129 2022-01-01 2022-12-31 2022_Anchorage_Temps.json"
 
 mvn exec:java -Dexec.mainClass="com.gssystems.spark.DownloadWeatherDataHistorical" -Dexec.args="61.217381 -149.863129 2023-01-01 2023-06-30 2023_Anchorage_Temps.json"
-
+</pre>
 # Bangalore 
+<pre>
 mvn exec:java -Dexec.mainClass="com.gssystems.spark.DownloadWeatherDataHistorical" -Dexec.args="12.971599 77.594566 2019-01-01 2019-12-31 2019_Bangalore_Temps.json"
 
 mvn exec:java -Dexec.mainClass="com.gssystems.spark.DownloadWeatherDataHistorical" -Dexec.args="12.971599 77.594566 2020-01-01 2020-12-31 2020_Bangalore_Temps.json"
@@ -52,6 +57,7 @@ Note that there is a problem when we are using windows 10 with spark. The hadoop
 https://github.com/steveloughran/winutils/tree/master/hadoop-3.0.0/bin and put into C:\Windows\System32 folder. Then we need to have the winutils.exe in a folder and set that as HADOOP_HOME. See setting above. 
 
 spark-submit --master local[4] --class com.gssystems.spark.TemperaturesReformatter target\SparkExamples-1.0-SNAPSHOT.jar file:///C:/Venky/AzureSynapseExperiments/datafiles/spring_tx_temps/ file:///C:/Venky/AzureSynapseExperiments/datafiles/spring_tx_temps_formatted/ file:///C:/Venky/AzureSynapseExperiments/datafiles/location_master/
+</pre>
 
 * Once we run all the steps above, we will have a parquet file that contains time and temperature readings. We will also have another folder that has the location data. We need to open the container that is provisioned and create a new folders location_master and spring_tx_temps_formatted. Upload the parquet files to the ADLS directory and the folder can be queried by synapse via the linked service. 
 
@@ -154,7 +160,7 @@ mvn exec:java -Dexec.mainClass="com.gssystems.spark.SynapseJDBCTesting" -Dexec.a
 ## Testing with Ubuntu Server
 * Spawn a Ubuntu VM using the Azure portal and it will create a vnet, subnet, nic and all that is needed to get started. 
 * Execute the following commands to get the sytem ready to run the spring boot app,
-
+<pre>
 sudo apt update
 sudo apt install default-jdk
 sudo apt install git
@@ -166,21 +172,30 @@ tar -xvf downloadazcopy-v10-linux
 export PATH=$PATH:/home/venkyuser/azcopy_linux_amd64_10.20.1
 
 git clone https://github.com/SowmyaVenky/AzureSynapseExperiments.git
+</pre>
 
 * These are the steps required to be followed on an Ubuntu machine to test things out. 
+<pre>
 cd /home/venkyuser/AzureSynapseExperiments/datafiles
-azcopy login 
+azcopy login
+</pre> 
 <img src="../images/azcopy_login.png" title="Sample Architecure" />
 
+<pre>
 azcopy copy "/home/venkyuser/AzureSynapseExperiments/datafiles/spring_tx_temps_formatted" "https://venkydatalake1001.dfs.core.windows.net/files/" --recursive=true
+</pre>
 
 <img src="../images/azcopy_1.png" title="Sample Architecure" />
 
+<pre>
 azcopy copy "/home/venkyuser/AzureSynapseExperiments/datafiles/location_master" "https://venkydatalake1001.dfs.core.windows.net/files/" --recursive=true
+</pre>
 
 <img src="../images/azcopy_2.png" title="Sample Architecure" />
 
+<pre>
 azcopy list "https://venkydatalake1001.dfs.core.windows.net/files/" 
+</pre>
 
 <img src="../images/azcopy_3.png" title="Sample Architecure" />
 
@@ -191,13 +206,17 @@ azcopy list "https://venkydatalake1001.dfs.core.windows.net/files/"
 * Make sure all the required external tables are created.
 After this we can run our maven test program to make sure the ubuntu server can query the data from synapse and display.
 
+<pre>
 mvn exec:java -Dexec.mainClass="com.gssystems.spark.SynapseJDBCTesting" -Dexec.args="cloud_user_p_1ece36c2@realhandsonlabs.com e4HDNs^LLT5mvVvF7yQB"
+</pre>
 
 <img src="../images/maven_testing_1.png" title="Sample Architecure" />
 
+<pre>
 cd AzureSynapseExperiments/SynapseRESTAPI/
 mvn clean package
 mvn spring-boot:run 
+</pre>
 
 * This will make sure that the web app starts to allow us to call it locally and test connection to the synapse serverless pool.
 * Regular curl is not working for some reason. We will create a test.py with the contents below.
