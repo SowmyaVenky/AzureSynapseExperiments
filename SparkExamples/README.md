@@ -153,7 +153,9 @@ spark-submit --master local[4] --class com.gssystems.spark.TemperaturesReformatt
 
 * Please take a look at the code in SynapseJDBCTesting. Note the use of the special datasource and password based authentication in use. Once we do this and run the following command, we an see the results.
 
+<pre>
 mvn exec:java -Dexec.mainClass="com.gssystems.spark.SynapseJDBCTesting" -Dexec.args="cloud_user_p_1ece36c2@realhandsonlabs.com e4HDNs^LLT5mvVvF7yQB"
+</pre>
 
 <img src="../images/synapse_jdbc_testing.png" title="Sample Architecure" />
 
