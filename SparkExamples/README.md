@@ -166,7 +166,6 @@ tar -xvf downloadazcopy-v10-linux
 export PATH=$PATH:/home/venkyuser/azcopy_linux_amd64_10.20.1
 
 git clone https://github.com/SowmyaVenky/AzureSynapseExperiments.git
-cd AzureSynapseExperiments/SynapseRESTAPI/
 
 * These are the steps required to be followed on an Ubuntu machine to test things out. 
 cd /home/venkyuser/AzureSynapseExperiments/datafiles
@@ -193,4 +192,34 @@ azcopy list "https://venkydatalake1001.dfs.core.windows.net/files/"
 After this we can run our maven test program to make sure the ubuntu server can query the data from synapse and display.
 
 mvn exec:java -Dexec.mainClass="com.gssystems.spark.SynapseJDBCTesting" -Dexec.args="cloud_user_p_1ece36c2@realhandsonlabs.com e4HDNs^LLT5mvVvF7yQB"
+
+<img src="../images/maven_testing_1.png" title="Sample Architecure" />
+
+cd AzureSynapseExperiments/SynapseRESTAPI/
+mvn clean package
+mvn spring-boot:run 
+
+* This will make sure that the web app starts to allow us to call it locally and test connection to the synapse serverless pool.
+* Regular curl is not working for some reason. We will create a test.py with the contents below.
+
+import urllib3
+http = urllib3.PoolManager()
+resp = http.request("GET", "http://localhost:8080/minmax?pw=e4HDNs%5ELLT5mvVvF7yQB&id=cloud_user_p_1ece36c2%40realhandsonlabs.com")
+print(resp.data)
+
+* When we execute the python3 test.py it connects to the web service running locally, interacts with the serverless pool, and then get the data.
+
+<img src="../images/python_get_test.png" title="Sample Architecure" />
+
+* Since the synapse endpoint is exposed publically, the server can even run on my laptop and it can connect to Synapse and pull data. 
+
+<img src="../images/local_web_server_test.png" title="Sample Architecure" />
+
+* Now we will disable the public endpoint for synapse and create a private endpoint to enable connection from the same vnet/subnet where we have the ubuntu server running. This will prevent our local laptop server from getting data, while ubuntu wull be allowed to get data. 
+
+<img src="../images/local_web_server_error.png" title="Sample Architecure" />
+
+* nslookup proves the local IP for resolving to synapse endpoint. The first request takes time, but the subsequent responses are very quick! 
+
+<img src="../images/synapse_private_endpoint.png" title="Sample Architecure" />
 
