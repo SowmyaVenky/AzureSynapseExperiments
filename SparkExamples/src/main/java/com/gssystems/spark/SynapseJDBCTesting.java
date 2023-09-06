@@ -8,6 +8,11 @@ import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 
 public class SynapseJDBCTesting {
     public static void main(String[] args ) throws Exception {
+        if( args.length != 2 ) {
+            System.out.println("Usage java SynapseJDBCTesting <<user>> <<pw>>");
+            System.exit(-1);            
+        }
+
         String sqlToExecute = "SELECT " + 
         " latitude " +
         ", longitude " +
@@ -21,8 +26,8 @@ public class SynapseJDBCTesting {
         SQLServerDataSource ds = new SQLServerDataSource();
         ds.setServerName("venkysynapse1001-ondemand.sql.azuresynapse.net"); // Replace with your server name
         ds.setDatabaseName("TEMPERATURES_LAKEHOUSE"); // Replace with your database
-        ds.setUser("cloud_user_p_96a44aa7@realhandsonlabs.com"); // Replace with your user name
-        ds.setPassword("iARs%K0JH7hjwLqUK9ch"); // Replace with your password
+        ds.setUser(args[0]); // Replace with your user name
+        ds.setPassword(args[1]); // Replace with your password
         ds.setAuthentication("ActiveDirectoryPassword");
 
         try (Connection connection = ds.getConnection();

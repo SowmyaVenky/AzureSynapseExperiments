@@ -20,14 +20,8 @@ GO
 DROP  DATABASE SCOPED CREDENTIAL SasCredential
 GO 
 
--- Replace with the SAS token for the new storage account, this will be inactive. 
-
-CREATE DATABASE SCOPED CREDENTIAL SasCredential
-WITH IDENTITY = 'SHARED ACCESS SIGNATURE', SECRET = 'sv=2023-01-03&st=2023-09-04T02%3A40%3A31Z&se=2023-09-05T02%3A40%3A31Z&sr=c&sp=rl&sig=mJIGGvAKW36Eb09q03Qtv0R9MhX5hZxw%2FK5kVpSvi8M%3D'
-GO
-
 CREATE EXTERNAL DATA SOURCE locations_ds
-WITH ( LOCATION = 'https://venkydatalake1001.dfs.core.windows.net/files/' ,CREDENTIAL = SasCredential )
+WITH ( LOCATION = 'https://venkydatalake1001.dfs.core.windows.net/files/' )
 GO
 
 CREATE EXTERNAL FILE FORMAT parquet_format
@@ -69,4 +63,14 @@ WITH (
 GO
 
 
+SELECT 
+latitude
+,longitude
+,max(temperature_2m) as maxtemp
+,min(temperature_2m) as mintemp
+from temperatures_external
+group BY
+latitude,
+longitude
+GO
 

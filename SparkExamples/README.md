@@ -147,16 +147,50 @@ spark-submit --master local[4] --class com.gssystems.spark.TemperaturesReformatt
 
 * Please take a look at the code in SynapseJDBCTesting. Note the use of the special datasource and password based authentication in use. Once we do this and run the following command, we an see the results.
 
-mvn exec:java -Dexec.mainClass="com.gssystems.spark.SynapseJDBCTesting"
+mvn exec:java -Dexec.mainClass="com.gssystems.spark.SynapseJDBCTesting" -Dexec.args="cloud_user_p_1ece36c2@realhandsonlabs.com e4HDNs^LLT5mvVvF7yQB"
 
 <img src="../images/synapse_jdbc_testing.png" title="Sample Architecure" />
 
+## Testing with Ubuntu Server
+* Spawn a Ubuntu VM using the Azure portal and it will create a vnet, subnet, nic and all that is needed to get started. 
+* Execute the following commands to get the sytem ready to run the spring boot app,
+
+sudo apt update
+sudo apt install default-jdk
+sudo apt install git
+sudo apt install maven 
+sudo apt install dnsutils
+
+wget https://aka.ms/downloadazcopy-v10-linux
+tar -xvf downloadazcopy-v10-linux
+export PATH=$PATH:/home/venkyuser/azcopy_linux_amd64_10.20.1
+
+git clone https://github.com/SowmyaVenky/AzureSynapseExperiments.git
+cd AzureSynapseExperiments/SynapseRESTAPI/
+
 * These are the steps required to be followed on an Ubuntu machine to test things out. 
+cd /home/venkyuser/AzureSynapseExperiments/datafiles
+azcopy login 
+<img src="../images/azcopy_login.png" title="Sample Architecure" />
 
-./azcopy login 
+azcopy copy "/home/venkyuser/AzureSynapseExperiments/datafiles/spring_tx_temps_formatted" "https://venkydatalake1001.dfs.core.windows.net/files/" --recursive=true
 
-./azcopy copy "/home/venkyuser/spring_tx_temps_formatted" "https://venkydatalake.dfs.core.windows.net/files/" --recursive=true
+<img src="../images/azcopy_1.png" title="Sample Architecure" />
 
-./azcopy list "https://venkydatalake.dfs.core.windows.net/files/" 
+azcopy copy "/home/venkyuser/AzureSynapseExperiments/datafiles/location_master" "https://venkydatalake1001.dfs.core.windows.net/files/" --recursive=true
 
-./azcopy remove "https://venkydatalake.dfs.core.windows.net/files/spring_tx_temps_formatted" --recursive=true
+<img src="../images/azcopy_2.png" title="Sample Architecure" />
+
+azcopy list "https://venkydatalake1001.dfs.core.windows.net/files/" 
+
+<img src="../images/azcopy_3.png" title="Sample Architecure" />
+
+* Now create the Synapse workspace. Make sure to target the workspace to the ADLS we created. Synapse will establish the required private links and vnet integrations needed. Once this is done, we can go to the develop tab and issue the queries to create the required database and tables. See the locations_external_table.sql file.
+
+<img src="../images/synapse_create_lakehouse.png" title="Sample Architecure" />
+
+* Make sure all the required external tables are created.
+After this we can run our maven test program to make sure the ubuntu server can query the data from synapse and display.
+
+mvn exec:java -Dexec.mainClass="com.gssystems.spark.SynapseJDBCTesting" -Dexec.args="cloud_user_p_1ece36c2@realhandsonlabs.com e4HDNs^LLT5mvVvF7yQB"
+
