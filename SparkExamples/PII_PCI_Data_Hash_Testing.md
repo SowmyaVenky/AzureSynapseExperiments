@@ -21,3 +21,10 @@ Here is the query for the person who does not have access to PII/PCI data.
 <img src="../images/pii_data_hashed.png" title="Sample Architecure" />
 
 <img src="../images/pii_data_as_is_with_hashed_cols.png" title="Sample Architecure" />
+
+* There is a way we can disable the usage of OPENROWSET. This will not allow users to directly query the files from ADLS bypassing our external tables. This can be used in conjunction with external tables we created before to hide the PCI columns. 
+
+<img src="../images/disable_bulk_operations_for_user.png" />
+
+* Here is more information about this setting. 
+<img src="../images/ad_hoc_analyst.png" />
