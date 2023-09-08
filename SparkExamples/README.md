@@ -245,4 +245,3 @@ print(resp.data)
 * nslookup proves the local IP for resolving to synapse endpoint. The first request takes time, but the subsequent responses are very quick! 
 
 <img src="../images/synapse_private_endpoint.png" title="Sample Architecure" />
-
