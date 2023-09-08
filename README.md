@@ -17,6 +17,6 @@ Various fun projects with Azure Synapse Suite
 ## Weather data by Lat and Long
 * For a more exhaustive use-case where we download weather data for multiple years and create tables in Synapse Serverless Pools, please refer to the readme under <a href="./SparkExamples/">SparkExamples</a>
 
-##PII/PCI Fun test case. 
+## PII/PCI Fun test case. 
 
 *  For a fun use-case where we can test how to scramble PII/PCI data and control access via entitlements, refer to <a href="./SparkExamples/PII_PCI_Data_Hash_Testing.md">this</a>
