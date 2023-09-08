@@ -1,5 +1,8 @@
 
 ## Customer data testing. Hashing PII/PCI data and creating two versions of external tables, controlled by entitlements.
+* The following shows the basic setup to test the entitlements. It is more of a layered security model. 
+
+<img src="../images/synapse_setup.png" />
 
 * Let us generate a ton of customers and import them to ADLS for analyzing via Synapse.
 <pre>
