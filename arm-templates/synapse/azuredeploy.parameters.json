@@ -3,10 +3,10 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "workspaceName": {
-                "value": "venkysynapseworkspace101"
+                "value": "venkysynapseworksp1001"
         },
         "dataLakeAccountName": {
-               "value": "venkydatalake101"
+               "value": "venkydatalake1001"
         },
         "sparkPoolName" : {
             "value": "venkysparkpool"
@@ -18,7 +18,7 @@
                 "value": "venkyuser"
         },
         "sqlPassword": {
-                "value": "Ganesh20022002"
+                "value": "Ganesh20022002!"
         },
         "adxPoolName": {
             "value": "venkyadxpool"

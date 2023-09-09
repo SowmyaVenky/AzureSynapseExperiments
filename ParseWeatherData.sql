@@ -13,7 +13,7 @@ SELECT
     JSON_VALUE( [value], '$.awnd' ) awnd
 FROM
     OPENROWSET(
-        BULK 'https://venkydatalake101.dfs.core.windows.net/files/rdu-weather-history.json',
+        BULK 'https://venkydatalake1001.dfs.core.windows.net/files/rdu-weather-history.json',
         FORMAT = 'CSV',
         FIELDQUOTE = '0x0b',
         FIELDTERMINATOR ='0x0b',

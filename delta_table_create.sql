@@ -3,7 +3,7 @@ IF NOT EXISTS (SELECT * FROM sys.external_file_formats WHERE name = 'SynapseParq
 	WITH ( FORMAT_TYPE = PARQUET)
 GO
 
-IF NOT EXISTS (SELECT * FROM sys.external_data_sources WHERE name = 'files_venkydatalake101_dfs_core_windows_net') 
+IF NOT EXISTS (SELECT * FROM sys.external_data_sources WHERE name = 'files_venkydatalake1001_dfs_core_windows_net') 
 	CREATE EXTERNAL DATA SOURCE [files_venkydatalake101_dfs_core_windows_net] 
 	WITH (
 		LOCATION = 'abfss://files@venkydatalake1001.dfs.core.windows.net' 
@@ -21,7 +21,7 @@ CREATE EXTERNAL TABLE dbo.raleigh_airport_weather_delta (
 	)
 	WITH (
 	LOCATION = 'raleigh_weather_delta/**',
-	DATA_SOURCE = [files_venkydatalake101_dfs_core_windows_net],
+	DATA_SOURCE = [files_venkydatalake1001_dfs_core_windows_net],
 	FILE_FORMAT = [SynapseParquetFormat]
 	)
 GO
