@@ -10,3 +10,7 @@ Various fun projects with Azure Synapse Suite
 ## PII/PCI Fun test case. 
 
 *  For a fun use-case where we can test how to scramble PII/PCI data and control access via entitlements, refer to <a href="./SparkExamples/PII_PCI_Data_Hash_Testing.md">this</a>
+
+## Stream new temperature data to Kafka.  
+
+*  We now switch focus to using the temperature dataset from London, and stream that to KAFKA. Once it is in KAFKA we can take different routes, refer to <a href="./kafka_docker/Readme.md">this</a>
