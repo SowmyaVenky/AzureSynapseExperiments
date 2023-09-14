@@ -1,0 +1,49 @@
+## Message Streaming via KAFKA.
+* This experiment will setup a single node KAFKA cluster for testing purposes via the docker-compose utility. 
+* Make sure that docker is up and running inside the machine this is getting tested on. 
+<pre>
+    cd C:\Venky\DP-203\AzureSynapseExperiments\kafka_docker
+    docker-compose up -d  
+    docker ps 
+</pre>
+
+<img src="../images/docker-kafka.png" />
+
+* Download the kafka tool from https://kafkatool.com/download.html
+* After install, connect it to the kafka cluster running locally pointing to ports 22181 (ZK), and 29092 (bootstrap server)
+* Let us start the producer to take new weather files we have downloaded and stream that to KAFKA for consumption.
+
+<img src="../images/kafka_offset_explorer.png" />
+
+<pre>
+set JAVA_HOME=c:\Venky\jdk-11.0.15.10-hotspot
+set PATH=%PATH%;c:\Venky\spark\bin;c:\Venky\apache-maven-3.8.6\bin
+set SPARK_HOME=c:\Venky\spark
+SET HADOOP_HOME=C:\Venky\AzureSynapseExperiments\SparkExamples
+
+cd C:\Venky\AzureSynapseExperiments\SparkExamples
+mvn clean package
+
+mvn exec:java -Dexec.mainClass="com.gssystems.spark.DownloadWeatherDataHistorical" -Dexec.args="51.508530 -0.076132 2019-01-01 2019-12-31 ../datafiles/streaming/input/2019_London_Temps.json"
+
+mvn exec:java -Dexec.mainClass="com.gssystems.spark.DownloadWeatherDataHistorical" -Dexec.args="51.508530 -0.076132 2020-01-01 2020-12-31 ../datafiles/streaming/input/2020_London_Temps.json"
+
+mvn exec:java -Dexec.mainClass="com.gssystems.spark.DownloadWeatherDataHistorical" -Dexec.args="51.508530 -0.076132 2021-01-01 2021-12-31 ../datafiles/streaming/input/2021_London_Temps.json"
+
+mvn exec:java -Dexec.mainClass="com.gssystems.spark.DownloadWeatherDataHistorical" -Dexec.args="51.508530 -0.076132 2022-01-01 2022-12-31 ../datafiles/streaming/input/2022_London_Temps.json"
+
+mvn exec:java -Dexec.mainClass="com.gssystems.spark.DownloadWeatherDataHistorical" -Dexec.args="51.508530 -0.076132 2023-01-01 2023-06-30 ../datafiles/streaming/input/2023_London_Temps.json"
+
+spark-submit --master local[4] --class com.gssystems.spark.TemperaturesReformatterJSON target\SparkExamples-1.0-SNAPSHOT.jar file:///C:/Venky/DP-203/AzureSynapseExperiments/datafiles/streaming/input file:///C:/Venky/DP-203/AzureSynapseExperiments/datafiles/streaming/output/ file:///C:/Venky/DP-203/AzureSynapseExperiments/datafiles/streaming/location_master/
+
+
+## Note - the JSON file names are created by spark and will change with each run. 
+
+mvn exec:java -Dexec.mainClass="com.gssystems.kafka.WeatherDataStreamingProducer" -Dexec.args="C:\Venky\DP-203\AzureSynapseExperiments\datafiles\streaming\output\part-00000-ceffe212-215d-4487-8a37-ff976381f395-c000.json C:\Venky\DP-203\AzureSynapseExperiments\datafiles\streaming\location_master\part-00000-32c8c92e-174b-4636-b739-5f20b5309d21-c000.json"
+
+## Read consumer
+mvn exec:java -Dexec.mainClass="com.gssystems.kafka.WeatherDataStreamReceiver" 
+</pre>
+
+<img src="../images/kafka_consumer.png" />
+
