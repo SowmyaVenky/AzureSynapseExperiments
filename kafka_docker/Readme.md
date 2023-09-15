@@ -47,3 +47,11 @@ mvn exec:java -Dexec.mainClass="com.gssystems.kafka.WeatherDataStreamReceiver"
 
 <img src="../images/kafka_consumer.png" />
 
+* Now we can start a spark streaming job that can read from the KAFKA stream and do some queries on it. 
+
+* Note the versions of the kafka clients and the streaming jars. They are sensitive and we need to update the pom xml to make them complaint.
+
+<pre>
+spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.0 --master local[4] --class com.gssystems.kafka.WeatherSparkStreaming target\SparkExamples-1.0-SNAPSHOT.jar temperatures
+</pre>
+

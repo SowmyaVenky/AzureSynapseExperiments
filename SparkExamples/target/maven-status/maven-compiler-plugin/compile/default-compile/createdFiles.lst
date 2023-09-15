@@ -3,6 +3,8 @@ com\gssystems\spark\GenerateHashedColumns.class
 com\gssystems\spark\Person.class
 com\gssystems\spark\TemperaturesReformatterJSON.class
 com\gssystems\kafka\WeatherDataStreamingProducer.class
+com\gssystems\kafka\WeatherSparkStreaming.class
 com\gssystems\spark\TemperaturesReformatter.class
 com\gssystems\spark\SynapseJDBCTesting.class
 com\gssystems\spark\GenerateFakeCustomers.class
+com\gssystems\kafka\WeatherDataStreamReceiver.class
