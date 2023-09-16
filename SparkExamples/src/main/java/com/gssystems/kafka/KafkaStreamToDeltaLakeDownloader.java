@@ -8,22 +8,32 @@ import org.apache.spark.sql.types.Metadata;
 import org.apache.spark.sql.types.StructField;
 import org.apache.spark.sql.types.StructType;
 
+public class KafkaStreamToDeltaLakeDownloader {
+    public static void main(String[] args) throws Exception {
+        String serverToUse = "127.0.0.1";
+        String topic = "temperatures";
+        String outputDiretory = "temperatures_delta";
 
-public class WeatherSparkStreaming {
-    public static void main(String[] args) throws Exception {		
-		if (args == null || args.length != 1) {
-			System.out.println("Need to topic name for this to work!");
-			System.exit(-1);
-		}
+        if( args != null && args.length == 3 ) {
+            serverToUse = args[0];
+            topic = args[1];
+            outputDiretory = args[2];
+        }
+        else {
+            System.out.println("Error pass kafka host ip and topic name");
+            System.exit(-1);
+        }
+
+        String bootstrapServers = serverToUse + ":29092";
 
         SparkSession spark = SparkSession.builder().appName("Temperatures").getOrCreate();
 		spark.sparkContext().setLogLevel("ERROR");
         Dataset<Row> df = spark
             .readStream()
             .format("kafka")
-            .option("kafka.bootstrap.servers", "localhost:29092")
+            .option("kafka.bootstrap.servers", bootstrapServers)
             .option("startingOffsets", "earliest")
-            .option("subscribe", "temperatures")
+            .option("subscribe", topic)
             .load();
         
         StructField[] fields = new StructField[] {
@@ -39,16 +49,10 @@ public class WeatherSparkStreaming {
         Dataset<Row> jsonDf1 = jsonDf.withColumn("year", org.apache.spark.sql.functions.substring(jsonDf.col("value.time"),1,4))
         .withColumn("month", org.apache.spark.sql.functions.substring(jsonDf.col("value.time"),6,2));
 
-        jsonDf1.groupBy(
-            "value.latitude",
-            "value.longitude",
-            "year",
-            "month"
-        ).agg( 
-            org.apache.spark.sql.functions.count("value.temperature_2m").as("Measurements"),
-            org.apache.spark.sql.functions.min("value.temperature_2m").as("Min_Temp"),
-            org.apache.spark.sql.functions.max("value.temperature_2m").as("Max_Temp")
-        ).writeStream().outputMode("complete").format("console").start();
+        jsonDf1.writeStream()
+        .outputMode("append")
+        .format("delta")
+        .start(outputDiretory);
         
         //Wait indefinitely!
         spark.streams().awaitAnyTermination();
