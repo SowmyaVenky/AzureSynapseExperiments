@@ -92,3 +92,7 @@ spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.0 --maste
 * Added more aggregations at the year and month level to show how the aggregates are calculated on the stream
 
 <img src="../images/kafka_stream_aggregations_4.png" />
+
+* After the experiment is done, bring down the kafka setup.
+<img src="../images/shutting_down.png" />
+
