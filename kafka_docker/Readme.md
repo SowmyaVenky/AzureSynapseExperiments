@@ -75,7 +75,7 @@ mvn exec:java -Dexec.mainClass="com.gssystems.kafka.WeatherDataStreamReceiver"
 * Note the versions of the kafka clients and the streaming jars. They are sensitive and we need to update the pom xml to make them complaint.
 
 <pre>
-spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.0 --master local[4] --class com.gssystems.kafka.WeatherSparkStreaming target\SparkExamples-1.0-SNAPSHOT.jar temperatures
+spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.0 --master local[4] --class com.gssystems.kafka.WeatherSparkStreaming target/SparkExamples-1.0-SNAPSHOT.jar temperatures
 </pre>
 
 * As we can see the producer is slowly pushing messages to KAFKA, the structured streaming job is aggregating over the stream and computing the max and min tempertures for each latitude and longitude.
@@ -98,4 +98,9 @@ spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.0 --maste
 
 * After the experiment is done, bring down the kafka setup.
 <img src="../images/shutting_down.png" />
+
+* Now we will try to pull from the kafka stream and push that to a folder in local machine to write in delta format. 
+<pre>
+spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.0,io.delta:delta-core_2.12:2.4.0 --master local[4] --class com.gssystems.kafka.KafkaStreamToDeltaLakeDownloader target/SparkExamples-1.0-SNAPSHOT.jar 20.120.94.171 temperatures file:///C:\Venky\AzureSynapseExperiments\datafiles\temperatures_delta
+</pre>
 
