@@ -26,7 +26,12 @@ public class KafkaStreamToDeltaLakeDownloader {
 
         String bootstrapServers = serverToUse + ":29092";
 
-        SparkSession spark = SparkSession.builder().appName("Temperatures").getOrCreate();
+        SparkSession spark = SparkSession.builder()
+            .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension")
+            .config("spark.sql.catalog.spark_catalog", "org.apache.spark.sql.delta.catalog.DeltaCatalog")
+            .appName("Temperatures")
+            .getOrCreate();
+
 		spark.sparkContext().setLogLevel("ERROR");
         Dataset<Row> df = spark
             .readStream()
