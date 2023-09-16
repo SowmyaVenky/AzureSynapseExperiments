@@ -38,15 +38,19 @@ public class WeatherSparkStreaming {
         StructType schema = new StructType(fields);
 
         Dataset<Row> jsonDf = df.select(org.apache.spark.sql.functions.from_json(df.col("value").cast("string"), schema).alias("value"));
+        Dataset<Row> jsonDf1 = jsonDf.withColumn("year", org.apache.spark.sql.functions.substring(jsonDf.col("value.time"),1,4))
+        .withColumn("month", org.apache.spark.sql.functions.substring(jsonDf.col("value.time"),6,2));
 
-        jsonDf.groupBy(
+        jsonDf1.groupBy(
             "value.latitude",
-            "value.longitude"
+            "value.longitude",
+            "year",
+            "month"
         ).agg( 
             org.apache.spark.sql.functions.count("value.temperature_2m").as("Measurements"),
             org.apache.spark.sql.functions.min("value.temperature_2m").as("Min_Temp"),
             org.apache.spark.sql.functions.max("value.temperature_2m").as("Max_Temp")
-        ).writeStream().outputMode("update").format("console").start();
+        ).writeStream().outputMode("complete").format("console").start();
         
         //Wait indefinitely!
         spark.streams().awaitAnyTermination();

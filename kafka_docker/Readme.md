@@ -34,12 +34,32 @@ mvn exec:java -Dexec.mainClass="com.gssystems.spark.DownloadWeatherDataHistorica
 
 mvn exec:java -Dexec.mainClass="com.gssystems.spark.DownloadWeatherDataHistorical" -Dexec.args="51.508530 -0.076132 2023-01-01 2023-06-30 ../datafiles/streaming/input/2023_London_Temps.json"
 
+mvn exec:java -Dexec.mainClass="com.gssystems.spark.DownloadWeatherDataHistorical" -Dexec.args="41.902782 12.496366 2019-01-01 2019-12-31 ../datafiles/streaming/input/2019_Rome_Temps.json"
+
+mvn exec:java -Dexec.mainClass="com.gssystems.spark.DownloadWeatherDataHistorical" -Dexec.args="41.902782 12.496366 2020-01-01 2020-12-31 ../datafiles/streaming/input/2020_Rome_Temps.json"
+
+mvn exec:java -Dexec.mainClass="com.gssystems.spark.DownloadWeatherDataHistorical" -Dexec.args="41.902782 12.496366 2021-01-01 2021-12-31 ../datafiles/streaming/input/2021_Rome_Temps.json"
+
+mvn exec:java -Dexec.mainClass="com.gssystems.spark.DownloadWeatherDataHistorical" -Dexec.args="41.902782 12.496366 2022-01-01 2022-12-31 ../datafiles/streaming/input/2022_Rome_Temps.json"
+
+mvn exec:java -Dexec.mainClass="com.gssystems.spark.DownloadWeatherDataHistorical" -Dexec.args="41.902782 12.496366 2023-01-01 2023-06-30 ../datafiles/streaming/input/2023_Rome_Temps.json"
+
+mvn exec:java -Dexec.mainClass="com.gssystems.spark.DownloadWeatherDataHistorical" -Dexec.args="48.864716 2.349014 2019-01-01 2019-12-31 ../datafiles/streaming/input/2019_Paris_Temps.json"
+
+mvn exec:java -Dexec.mainClass="com.gssystems.spark.DownloadWeatherDataHistorical" -Dexec.args="48.864716 2.349014 2020-01-01 2020-12-31 ../datafiles/streaming/input/2020_Paris_Temps.json"
+
+mvn exec:java -Dexec.mainClass="com.gssystems.spark.DownloadWeatherDataHistorical" -Dexec.args="48.864716 2.349014 2021-01-01 2021-12-31 ../datafiles/streaming/input/2021_Paris_Temps.json"
+
+mvn exec:java -Dexec.mainClass="com.gssystems.spark.DownloadWeatherDataHistorical" -Dexec.args="48.864716 2.349014 2022-01-01 2022-12-31 ../datafiles/streaming/input/2022_Paris_Temps.json"
+
+mvn exec:java -Dexec.mainClass="com.gssystems.spark.DownloadWeatherDataHistorical" -Dexec.args="48.864716 2.349014 2023-01-01 2023-06-30 ../datafiles/streaming/input/2023_Paris_Temps.json"
+
 spark-submit --master local[4] --class com.gssystems.spark.TemperaturesReformatterJSON target\SparkExamples-1.0-SNAPSHOT.jar file:///C:/Venky/DP-203/AzureSynapseExperiments/datafiles/streaming/input file:///C:/Venky/DP-203/AzureSynapseExperiments/datafiles/streaming/output/ file:///C:/Venky/DP-203/AzureSynapseExperiments/datafiles/streaming/location_master/
 
 
 ## Note - the JSON file names are created by spark and will change with each run. 
 
-mvn exec:java -Dexec.mainClass="com.gssystems.kafka.WeatherDataStreamingProducer" -Dexec.args="C:\Venky\DP-203\AzureSynapseExperiments\datafiles\streaming\output\part-00000-ceffe212-215d-4487-8a37-ff976381f395-c000.json C:\Venky\DP-203\AzureSynapseExperiments\datafiles\streaming\location_master\part-00000-32c8c92e-174b-4636-b739-5f20b5309d21-c000.json"
+mvn exec:java -Dexec.mainClass="com.gssystems.kafka.WeatherDataStreamingProducer" -Dexec.args="C:\Venky\DP-203\AzureSynapseExperiments\datafiles\streaming\output\part-00000-ed31cf36-6e94-4463-918e-b69689d6f8cf-c000.json C:\Venky\DP-203\AzureSynapseExperiments\datafiles\streaming\location_master\part-00000-0c100159-41cd-4d73-a20c-6f1fd4acc873-c000.json"
 
 ## Read consumer
 mvn exec:java -Dexec.mainClass="com.gssystems.kafka.WeatherDataStreamReceiver" 
@@ -68,3 +88,7 @@ spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.0 --maste
 * Added a count field to show that the entire dataset is taken into consideration with the offset starting from the earliest as asked for in the code. 
 
 <img src="../images/kafka_stream_aggregations_3.png" />
+
+* Added more aggregations at the year and month level to show how the aggregates are calculated on the stream
+
+<img src="../images/kafka_stream_aggregations_4.png" />
