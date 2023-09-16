@@ -86,3 +86,6 @@ mvn exec:java -Dexec.mainClass="com.gssystems.kafka.WeatherDataStreamingProducer
 
 <img src="../images/kafka_to_delta_format.png" />
 
+* After running the streaming producer again, we can see that the data gets appended with frequent checkpoints..
+
+<img src="../images/kafka_to_delta_format_appending.png" />
