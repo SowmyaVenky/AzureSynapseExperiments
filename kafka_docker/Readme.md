@@ -1,5 +1,8 @@
 ## Message Streaming via KAFKA.
 * This experiment will setup a single node KAFKA cluster for testing purposes via the docker-compose utility. 
+
+<img src="../images/kafka_streaming_arch.png" />
+
 * Make sure that docker is up and running inside the machine this is getting tested on. 
 <pre>
     cd C:\Venky\DP-203\AzureSynapseExperiments\kafka_docker
