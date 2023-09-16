@@ -57,6 +57,7 @@ public class KafkaStreamToDeltaLakeDownloader {
         jsonDf1.writeStream()
         .outputMode("append")
         .format("delta")
+        .option("checkpointLocation", "/tmp")
         .start(outputDiretory);
         
         //Wait indefinitely!
