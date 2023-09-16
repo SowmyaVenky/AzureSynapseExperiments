@@ -42,4 +42,39 @@ docker-compose up -d
 
 <img src="../images/telnet_connect_test.png" />
 
+* Next we need to install spark and java to start the producers on Ubuntu. The messages will stream into Kafka and we can use various techniques to consume the data and experiment with it.
+
+<pre>
+sudo apt-get install default-jdk -y
+sudo apt-get install scala -y
+wget https://archive.apache.org/dist/spark/spark-3.3.1/spark-3.3.1-bin-hadoop3.tgz
+tar -xvzf spark-3.3.1-bin-hadoop3.tgz
+sudo mv spark-3.3.1-bin-hadoop3 /mnt/spark
+
+## Set paths.
+nano ~/.bashrc
+
+## Add paths 
+export SPARK_HOME=/mnt/spark
+export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin
+
+source ~/.bashrc
+
+sudo apt install -y maven
+cd /home/venkyuser/AzureSynapseExperiments/SparkExamples
+mvn clean package
+
+## Now we need to create two terminals and test spark sender and receiver
+# Receiver
+spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.0 --master local[4] --class com.gssystems.kafka.WeatherSparkStreaming target/SparkExamples-1.0-SNAPSHOT.jar temperatures
+
+# Sender
+mvn exec:java -Dexec.mainClass="com.gssystems.kafka.WeatherDataStreamingProducer" -Dexec.args="/home/venkyuser/AzureSynapseExperiments/datafiles/streaming/output/part-00000-ed31cf36-6e94-4463-918e-b69689d6f8cf-c000.json /home/venkyuser/AzureSynapseExperiments/datafiles/streaming/location_master/part-00000-0c100159-41cd-4d73-a20c-6f1fd4acc873-c000.json"
+
+</pre>
+
+* After running the setup for more than 1 hr, we will have a lot of messages sitting in the KAFKA topic that we can experiment consuming from other tools like Synapse and Azure Streaming Analytics.s
+
+<img src="../images/kafka_ubuntu_running_1h.png" />
+
 
