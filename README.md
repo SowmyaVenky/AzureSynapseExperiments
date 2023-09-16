@@ -11,6 +11,10 @@ Various fun projects with Azure Synapse Suite
 
 *  For a fun use-case where we can test how to scramble PII/PCI data and control access via entitlements, refer to <a href="./SparkExamples/PII_PCI_Data_Hash_Testing.md">this</a>
 
-## Stream new temperature data to Kafka.  
+## Stream new temperature data to Kafka running locally in docker.  
 
 *  We now switch focus to using the temperature dataset from London, and stream that to KAFKA. Once it is in KAFKA we can take different routes, refer to <a href="./kafka_docker/Readme.md">this</a>
+
+## Configure Kafka on Ubuntu VM and test with various integration tools.  
+
+*  We will setup the Ubuntu VM inside Azure. We will then setup docker + Kafka and use it as a base for various experiments. Read more about <a href="./kafka_docker/Kafka_on_Azure_VM.md">this</a>
