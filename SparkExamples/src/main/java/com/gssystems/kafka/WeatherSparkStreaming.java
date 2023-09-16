@@ -39,11 +39,12 @@ public class WeatherSparkStreaming {
 
         Dataset<Row> jsonDf = df.select(org.apache.spark.sql.functions.from_json(df.col("value").cast("string"), schema).alias("value"));
 
-        jsonDf.select(
+        jsonDf.groupBy(
             "value.latitude",
-            "value.longitude",
-            "value.time",
-            "value.temperature_2m"
+            "value.longitude"
+        ).agg( 
+            org.apache.spark.sql.functions.min("value.temperature_2m").as("Min_Temp"),
+            org.apache.spark.sql.functions.max("value.temperature_2m").as("Max_Temp")
         ).writeStream().outputMode("update").format("console").start();
         
         //Wait indefinitely!

@@ -55,3 +55,12 @@ mvn exec:java -Dexec.mainClass="com.gssystems.kafka.WeatherDataStreamReceiver"
 spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.0 --master local[4] --class com.gssystems.kafka.WeatherSparkStreaming target\SparkExamples-1.0-SNAPSHOT.jar temperatures
 </pre>
 
+* As we can see the producer is slowly pushing messages to KAFKA, the structured streaming job is aggregating over the stream and computing the max and min tempertures for each latitude and longitude.
+
+<img src="../images/kafka_stream_producer.png" />
+
+<img src="../images/kafka_stream_aggregations.png" />
+
+* After some time we can see the temperatures are changing (esp the max temp.)
+
+<img src="../images/kafka_stream_aggregations_2.png" />
