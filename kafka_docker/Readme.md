@@ -64,3 +64,7 @@ spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.0 --maste
 * After some time we can see the temperatures are changing (esp the max temp.)
 
 <img src="../images/kafka_stream_aggregations_2.png" />
+
+* Added a count field to show that the entire dataset is taken into consideration with the offset starting from the earliest as asked for in the code. 
+
+<img src="../images/kafka_stream_aggregations_3.png" />

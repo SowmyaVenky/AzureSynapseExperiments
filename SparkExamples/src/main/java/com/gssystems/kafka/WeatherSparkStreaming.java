@@ -43,6 +43,7 @@ public class WeatherSparkStreaming {
             "value.latitude",
             "value.longitude"
         ).agg( 
+            org.apache.spark.sql.functions.count("value.temperature_2m").as("Measurements"),
             org.apache.spark.sql.functions.min("value.temperature_2m").as("Min_Temp"),
             org.apache.spark.sql.functions.max("value.temperature_2m").as("Max_Temp")
         ).writeStream().outputMode("update").format("console").start();
