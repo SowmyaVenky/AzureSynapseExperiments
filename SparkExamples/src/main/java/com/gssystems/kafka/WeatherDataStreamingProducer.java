@@ -46,7 +46,7 @@ public class WeatherDataStreamingProducer {
             producer.send(producerRecord);
             System.out.println("Sent " + producerRecord);
             //Slow down the push so that we can do some streaming analytics
-            Thread.sleep(1000);
+            Thread.sleep(100);
         }
         
         br.close();

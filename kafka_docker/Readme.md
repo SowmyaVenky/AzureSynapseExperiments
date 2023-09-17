@@ -102,7 +102,7 @@ spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.0 --maste
 * Now we will try to pull from the kafka stream and push that to a folder in local machine to write in delta format. 
 
 <pre>
-spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.0,io.delta:delta-core_2.12:2.4.0 --master local[4] --class com.gssystems.kafka.KafkaStreamToDeltaLakeDownloader target/SparkExamples-1.0-SNAPSHOT.jar 20.120.94.171 temperatures file:///C:\Venky\AzureSynapseExperiments\datafiles\temperatures_delta
+spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.0,io.delta:delta-core_2.12:2.4.0 --master local[4] --class com.gssystems.kafka.KafkaStreamToDeltaLakeDownloader target/SparkExamples-1.0-SNAPSHOT.jar 20.120.94.171 temperatures file:///C:\Venky\DP-203\AzureSynapseExperiments\datafiles\temperatures_delta
 </pre>
 
 * For some reason running this on spark 3.4.1 causes a weird failure. Needs further research.
