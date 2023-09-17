@@ -1,0 +1,35 @@
+{
+  "description": "Scans messages from KAFKA, reads json from message, adds columns, and writes as delta format.",
+  "targetBigDataPool": {
+    "referenceName": "venkysparkpool",
+    "type": "BigDataPoolReference"
+  },
+  "requiredSparkVersion": "3.1",
+  "language": "scala",
+  "jobProperties": {
+    "name": "Kafka_to_ADLS",
+    "file": "abfss://files@venkydatalake1001.dfs.core.windows.net/synapse/workspaces/venkysynapseworksp1001/batchjobs/Kafka_to_ADLS/SparkExamples-1.0-SNAPSHOT.jar",
+    "className": "com.gssystems.kafka.KafkaStreamToDeltaLakeDownloader",
+    "args": [
+      "--packages",
+      "org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.0,io.delta:delta-core_2.12:2.2.0"
+    ],
+    "jars": [],
+    "pyFiles": [
+      ""
+    ],
+    "files": [],
+    "conf": {
+      "spark.dynamicAllocation.enabled": "false",
+      "spark.dynamicAllocation.minExecutors": "1",
+      "spark.dynamicAllocation.maxExecutors": "2",
+      "spark.autotune.trackingId": "ea3cc83d-b1de-4286-9c70-96deac635863",
+      "spark.synapse.context.sjdname": "Kafka_to_ADLS"
+    },
+    "numExecutors": 2,
+    "executorCores": 4,
+    "executorMemory": "28g",
+    "driverCores": 4,
+    "driverMemory": "28g"
+  }
+}
