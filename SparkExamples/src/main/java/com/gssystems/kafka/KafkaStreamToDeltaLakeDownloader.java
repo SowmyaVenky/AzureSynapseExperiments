@@ -3,6 +3,7 @@ package com.gssystems.kafka;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
+import org.apache.spark.sql.streaming.Trigger;
 import org.apache.spark.sql.types.DataTypes;
 import org.apache.spark.sql.types.Metadata;
 import org.apache.spark.sql.types.StructField;
@@ -54,11 +55,15 @@ public class KafkaStreamToDeltaLakeDownloader {
         Dataset<Row> jsonDf1 = jsonDf.withColumn("year", org.apache.spark.sql.functions.substring(jsonDf.col("value.time"),1,4))
         .withColumn("month", org.apache.spark.sql.functions.substring(jsonDf.col("value.time"),6,2));
 
+        //Flush every 2 mins
+        Trigger tr = Trigger.ProcessingTime(120000);
+
         jsonDf1.writeStream()
         .outputMode("append")
-        .format("delta")
-        .option("checkpointLocation", "/tmp")
-        .start(outputDiretory);
+        .format("parquet")
+        .option("path", outputDiretory)
+        .trigger(tr)
+        .start();
         
         //Wait indefinitely!
         spark.streams().awaitAnyTermination();
