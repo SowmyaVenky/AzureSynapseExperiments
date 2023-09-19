@@ -41,3 +41,10 @@ curl -L -O https://github.com/Azure/kafka-sink-azure-kusto/releases/download/v$K
 * TODO - Was not successful with this approach. Will try later.
 
 
+abfss://files@venkydatalake1001.dfs.core.windows.net/synapse/workspaces/venkysynapseworksp1001/batchjobs/Spark%20job%20definition%201/SparkExamples-1.0-SNAPSHOT.jar
+
+abfss://files@venkydatalake1001.dfs.core.windows.net/downloadedfromkafka/temperatures_delta
+abfss://files@venkydatalake1001.dfs.core.windows.net/downloadedfromkafka/temperatures_parquet
+
+
+--conf spark.sql.streaming.checkpointLocation=abfss://files@venkydatalake1001.dfs.core.windows.net/synapse/workspaces/venkysynapseworksp1001/checkpointdir/

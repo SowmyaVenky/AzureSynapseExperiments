@@ -102,8 +102,15 @@ spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.0 --maste
 
 * Now we will try to pull from the kafka stream and push that to a folder in local machine to write in delta format. 
 
+* CHANGE IP ADDRESS TO THE RIGHT PUBLIC IP OR LOCAL ADDRESS 127.0.0 1
+* Make sure we are running the Spark 3.3.3 and the delta core version 2.2.0 is used. Also make sure the scale 2.12 versions of spark and libraries are selected. Otherwise you will get weird class not found errors...
+
 <pre>
-spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.0,io.delta:delta-core_2.12:2.4.0 --conf spark.sql.streaming.checkpointLocation=file:///C:\Venky\spark_checkpoints\ --master local[4] --class com.gssystems.kafka.KafkaStreamToDeltaLakeDownloader target/SparkExamples-1.0-SNAPSHOT.jar 127.0.0.1 temperatures file:///C:\Venky\DP-203\AzureSynapseExperiments\datafiles\temperatures_parquet
+## This will download in delta format.
+spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.0,io.delta:delta-core_2.12:2.2.0 --conf spark.sql.streaming.checkpointLocation=file:///C:\Venky\spark_checkpoints\ --master local[4] --class com.gssystems.kafka.KafkaStreamToDeltaLakeDownloader target/SparkExamples-1.0-SNAPSHOT.jar 20.119.34.211 temperatures file:///C:\Venky\DP-203\AzureSynapseExperiments\datafiles\temperatures_delta
+
+## This will download as a parquet file.
+spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.0 --conf spark.sql.streaming.checkpointLocation=file:///C:\Venky\spark_checkpoints\ --master local[4] --class com.gssystems.kafka.KafkaStreamToParquetDownloader target/SparkExamples-1.0-SNAPSHOT.jar 20.119.34.211 temperatures file:///C:\Venky\DP-203\AzureSynapseExperiments\datafiles\temperatures_parquet
 </pre>
 
 * For some reason running this on spark 3.4.1 causes a weird failure. Needs further research.

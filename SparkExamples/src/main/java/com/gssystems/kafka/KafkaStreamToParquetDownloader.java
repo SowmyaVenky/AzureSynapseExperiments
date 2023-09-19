@@ -9,7 +9,7 @@ import org.apache.spark.sql.types.Metadata;
 import org.apache.spark.sql.types.StructField;
 import org.apache.spark.sql.types.StructType;
 
-public class KafkaStreamToDeltaLakeDownloader {
+public class KafkaStreamToParquetDownloader {
     public static void main(String[] args) throws Exception {
         String serverToUse = "127.0.0.1";
         String topic = "temperatures";
@@ -60,7 +60,7 @@ public class KafkaStreamToDeltaLakeDownloader {
 
         jsonDf1.writeStream()
         .outputMode("append")
-        .format("delta")
+        .format("parquet")
         .option("path", outputDiretory)
         .trigger(tr)
         .start();
@@ -68,4 +68,5 @@ public class KafkaStreamToDeltaLakeDownloader {
         //Wait indefinitely!
         spark.streams().awaitAnyTermination();
     }
+
 }
