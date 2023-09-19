@@ -22,7 +22,7 @@ public class WeatherDataStreamingProducer {
 
         log.info("I am a Kafka Producer");
 
-        String bootstrapServers = "127.0.0.1:29092";
+        String bootstrapServers = "127.0.0.1:9092";
 
         // create Producer properties
         Properties properties = new Properties();

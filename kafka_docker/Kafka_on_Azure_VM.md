@@ -73,7 +73,7 @@ mvn exec:java -Dexec.mainClass="com.gssystems.kafka.WeatherDataStreamingProducer
 
 </pre>
 
-* After running the setup for more than 1 hr, we will have a lot of messages sitting in the KAFKA topic that we can experiment consuming from other tools like Synapse and Azure Streaming Analytics.s
+* After running the setup for more than 1 hr, we will have a lot of messages sitting in the KAFKA topic that we can experiment consuming from other tools like Synapse and Azure Streaming Analytics.
 
 <img src="../images/kafka_ubuntu_running_1h.png" />
 
@@ -89,3 +89,27 @@ mvn exec:java -Dexec.mainClass="com.gssystems.kafka.WeatherDataStreamingProducer
 * After running the streaming producer again, we can see that the data gets appended with frequent checkpoints..
 
 <img src="../images/kafka_to_delta_format_appending.png" />
+
+## Install kafka on ubuntu VM
+* I was not able to expose the docker-compose version to expose outside the VM, trying to install locally instead.
+
+<pre>
+sudo apt-get install zookeeperd
+sudo adduser kafka
+sudo adduser kafka sudo
+su -l kafka
+mkdir ~/Downloads
+curl "https://downloads.apache.org/kafka/3.5.1/kafka_2.13-3.5.1.tgz" -o ~/Downloads/kafka.tgz
+mkdir ~/kafka && cd ~/kafka
+tar -xvzf ~/Downloads/kafka.tgz --strip 1
+
+nano ~/kafka/config/server.properties
+sudo nano /etc/systemd/system/zookeeper.service
+sudo nano /etc/systemd/system/kafka.service
+
+sudo systemctl start kafka
+sudo systemctl status kafka
+
+sudo systemctl enable zookeeper
+sudo systemctl enable kafka
+</pre>

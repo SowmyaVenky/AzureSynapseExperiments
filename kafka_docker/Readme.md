@@ -74,8 +74,9 @@ mvn exec:java -Dexec.mainClass="com.gssystems.kafka.WeatherDataStreamReceiver"
 
 * Note the versions of the kafka clients and the streaming jars. They are sensitive and we need to update the pom xml to make them complaint.
 
+* CHANGE PUBLIC IP OF machine if running from local to azure, else 127.0.0.1 
 <pre>
-spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.0 --master local[4] --class com.gssystems.kafka.WeatherSparkStreaming target/SparkExamples-1.0-SNAPSHOT.jar temperatures
+spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.0 --master local[4] --class com.gssystems.kafka.WeatherSparkStreaming target/SparkExamples-1.0-SNAPSHOT.jar 20.119.34.211 temperatures
 </pre>
 
 * As we can see the producer is slowly pushing messages to KAFKA, the structured streaming job is aggregating over the stream and computing the max and min tempertures for each latitude and longitude.

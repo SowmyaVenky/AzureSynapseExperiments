@@ -11,19 +11,22 @@ import org.apache.spark.sql.types.StructType;
 
 public class WeatherSparkStreaming {
     public static void main(String[] args) throws Exception {		
-		if (args == null || args.length != 1) {
-			System.out.println("Need to topic name for this to work!");
+		if (args == null || args.length != 2) {
+			System.out.println("Need the host and topic name for this to work!");
 			System.exit(-1);
 		}
+
+        System.out.println("USING KAFKA HOST " + args[0]);
+        System.out.println("USING KAFKA TOPIC " + args[1]);
 
         SparkSession spark = SparkSession.builder().appName("Temperatures").getOrCreate();
 		spark.sparkContext().setLogLevel("ERROR");
         Dataset<Row> df = spark
             .readStream()
             .format("kafka")
-            .option("kafka.bootstrap.servers", "localhost:29092")
+            .option("kafka.bootstrap.servers", args[0] + ":9092")
             .option("startingOffsets", "earliest")
-            .option("subscribe", "temperatures")
+            .option("subscribe", args[1])
             .load();
         
         StructField[] fields = new StructField[] {
