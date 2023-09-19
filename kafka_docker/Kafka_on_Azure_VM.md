@@ -1,5 +1,7 @@
 * This experiment will first create an ubuntu VM on Azure and then install the required components (docker, docker-compose, and kafka installs).
 
+<img src="../images/kafka_streaming_arch_vm.png" />
+
 <pre>
 sudo apt update
 sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
