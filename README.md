@@ -17,4 +17,9 @@ Various fun projects with Azure Synapse Suite
 
 ## Configure Kafka on Ubuntu VM and test with various integration tools.  
 
-*  We will setup the Ubuntu VM inside Azure. We will then setup docker + Kafka and use it as a base for various experiments. Read more about <a href="./kafka_docker/Kafka_on_Azure_VM.md">this</a>
+*  We will setup the Ubuntu VM inside Azure. We will then setup Kafka and use it as a base for various experiments. Read more about <a href="./kafka_docker/Kafka_on_Azure_VM.md">this</a>
+
+
+## Configure Synapse Spark pools and configure jobs for KAFKA structured streaming.  
+
+*  We will setup the Ubuntu VM inside Azure. We will then setup Kafka and connect to it from within Synapse to stream data and download it to ADLS. Read more about <a href="./kafka_docker/Kafka_From_Synapse.md">this</a>
