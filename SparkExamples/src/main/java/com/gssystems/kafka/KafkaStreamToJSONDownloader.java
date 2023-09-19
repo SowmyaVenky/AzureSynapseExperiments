@@ -9,7 +9,8 @@ import org.apache.spark.sql.types.Metadata;
 import org.apache.spark.sql.types.StructField;
 import org.apache.spark.sql.types.StructType;
 
-public class KafkaStreamToParquetDownloader {
+public class KafkaStreamToJSONDownloader {
+    
     public static void main(String[] args) throws Exception {
         String serverToUse = "127.0.0.1";
         String topic = "temperatures";
@@ -28,7 +29,7 @@ public class KafkaStreamToParquetDownloader {
         String bootstrapServers = serverToUse + ":9092";
 
         SparkSession spark = SparkSession.builder()
-            .appName("Temperatures")
+            .appName("Temperatures_JSON")
             .getOrCreate();
 
 		spark.sparkContext().setLogLevel("ERROR");
@@ -71,7 +72,7 @@ public class KafkaStreamToParquetDownloader {
 
         jsonDf1.writeStream()
         .outputMode("append")
-        .format("parquet")
+        .format("json")
         .option("path", outputDiretory)
         .trigger(tr)
         .start();

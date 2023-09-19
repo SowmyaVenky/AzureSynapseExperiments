@@ -63,6 +63,8 @@
 
 <img src="../images/synapse_kafka_job_12.png" />
 
+* As we can see, the value column has a JSON structure embedded. We can use Synapse's serverless capabilities to parse the JSON, or modify the streaming job to parse it upfront. 
+
 ## ADX pool testing
 * We need to create a database in the ADX pool. For that go to the resource group, click on the adx pool that is created and the bottom wizard should guide us to create a database as shown below:
 <img src="../images/adx_database_create.png" />

@@ -1,2 +1,2 @@
 v1
-{"path":"file:///C:/Venky/DP-203/AzureSynapseExperiments/datafiles/temperatures_parquet/part-00000-b8809712-83ad-4bd2-adda-64cc83179f96-c000.snappy.parquet","size":159862,"isDir":false,"modificationTime":1695089212440,"blockReplication":1,"blockSize":33554432,"action":"add"}
+{"path":"file:///C:/Venky/DP-203/AzureSynapseExperiments/datafiles/temperatures_parquet/part-00000-5d27057a-1926-4ab4-bc3b-ea7329d54de1-c000.snappy.parquet","size":130127,"isDir":false,"modificationTime":1695135871546,"blockReplication":1,"blockSize":33554432,"action":"add"}

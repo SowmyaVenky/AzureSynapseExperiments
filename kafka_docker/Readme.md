@@ -107,10 +107,14 @@ spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.0 --maste
 
 <pre>
 ## This will download in delta format.
-spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.0,io.delta:delta-core_2.12:2.2.0 --conf spark.sql.streaming.checkpointLocation=file:///C:\Venky\spark_checkpoints\ --master local[4] --class com.gssystems.kafka.KafkaStreamToDeltaLakeDownloader target/SparkExamples-1.0-SNAPSHOT.jar 20.119.34.211 temperatures file:///C:\Venky\DP-203\AzureSynapseExperiments\datafiles\temperatures_delta
+spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.0,io.delta:delta-core_2.12:2.2.0 --conf spark.sql.streaming.checkpointLocation=file:///C:\Venky\spark_checkpoints\ --master local[4] --class com.gssystems.kafka.KafkaStreamToDeltaLakeDownloader target/SparkExamples-1.0-SNAPSHOT.jar 127.0.0.1 temperatures file:///C:\Venky\DP-203\AzureSynapseExperiments\datafiles\temperatures_delta
 
 ## This will download as a parquet file.
-spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.0 --conf spark.sql.streaming.checkpointLocation=file:///C:\Venky\spark_checkpoints\ --master local[4] --class com.gssystems.kafka.KafkaStreamToParquetDownloader target/SparkExamples-1.0-SNAPSHOT.jar 20.119.34.211 temperatures file:///C:\Venky\DP-203\AzureSynapseExperiments\datafiles\temperatures_parquet
+spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.0 --conf spark.sql.streaming.checkpointLocation=file:///C:\Venky\spark_checkpoints\ --master local[4] --class com.gssystems.kafka.KafkaStreamToParquetDownloader target/SparkExamples-1.0-SNAPSHOT.jar 127.0.0.1 temperatures file:///C:\Venky\DP-203\AzureSynapseExperiments\datafiles\temperatures_parquet
+
+## This will download as a json file, for easier debugging.
+
+spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.0 --conf spark.sql.streaming.checkpointLocation=file:///C:\Venky\spark_checkpoints\ --master local[4] --class com.gssystems.kafka.KafkaStreamToJSONDownloader target/SparkExamples-1.0-SNAPSHOT.jar 127.0.0.1 temperatures file:///C:\Venky\DP-203\AzureSynapseExperiments\datafiles\temperatures_json
 </pre>
 
 * For some reason running this on spark 3.4.1 causes a weird failure. Needs further research.
