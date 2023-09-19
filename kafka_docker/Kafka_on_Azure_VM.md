@@ -92,6 +92,7 @@ mvn exec:java -Dexec.mainClass="com.gssystems.kafka.WeatherDataStreamingProducer
 
 ## Install kafka on ubuntu VM
 * I was not able to expose the docker-compose version to expose outside the VM, trying to install locally instead.
+* Refer to this https://hevodata.com/blog/how-to-install-kafka-on-ubuntu/
 
 <pre>
 sudo apt-get install zookeeperd
@@ -104,8 +105,44 @@ mkdir ~/kafka && cd ~/kafka
 tar -xvzf ~/Downloads/kafka.tgz --strip 1
 
 nano ~/kafka/config/server.properties
+# Copy the server.properties under the root folder. 
+# Make sure these lines are there
+delete.topic.enable = true
+listeners=PLAINTEXT://:9092
+advertised.listeners=PLAINTEXT://20.119.34.211:9092
+# This will allow it to connect from external servers.
+
 sudo nano /etc/systemd/system/zookeeper.service
+
+#paste this 
+[Unit]
+Requires=network.target remote-fs.target
+After=network.target remote-fs.target
+
+[Service]
+Type=simple
+User=kafka
+ExecStart=/home/kafka/kafka/bin/zookeeper-server-start.sh /home/kafka/kafka/config/zookeeper.properties
+ExecStop=/home/kafka/kafka/bin/zookeeper-server-stop.sh
+Restart=on-abnormal
+
+[Install]
+WantedBy=multi-user.target
+
 sudo nano /etc/systemd/system/kafka.service
+[Unit]
+Requires=zookeeper.service
+After=zookeeper.service
+
+[Service]
+Type=simple
+User=kafka
+ExecStart=/bin/sh -c '/home/kafka/kafka/bin/kafka-server-start.sh /home/kafka/kafka/config/server.properties > /home/kafka/kafka/kafka.log 2>&1'
+ExecStop=/home/kafka/kafka/bin/kafka-server-stop.sh
+Restart=on-abnormal
+
+[Install]
+WantedBy=multi-user.target
 
 sudo systemctl start kafka
 sudo systemctl status kafka
@@ -113,3 +150,7 @@ sudo systemctl status kafka
 sudo systemctl enable zookeeper
 sudo systemctl enable kafka
 </pre>
+
+<img src="../images/remote_kafka_local_connection.png" />
+
+* As we can see we pull data down from local connecting to the KAFKA on the remote server.
