@@ -52,8 +52,21 @@ public class KafkaStreamToDeltaLakeDownloader {
         StructType schema = new StructType(fields);
 
         Dataset<Row> jsonDf = df.select(org.apache.spark.sql.functions.from_json(df.col("value").cast("string"), schema).alias("value"));
-        Dataset<Row> jsonDf1 = jsonDf.withColumn("year", org.apache.spark.sql.functions.substring(jsonDf.col("value.time"),1,4))
-        .withColumn("month", org.apache.spark.sql.functions.substring(jsonDf.col("value.time"),6,2));
+        Dataset<Row> jsonDf1 = jsonDf
+        .withColumn("year", org.apache.spark.sql.functions.substring(jsonDf.col("value.time"),1,4))
+        .withColumn("month", org.apache.spark.sql.functions.substring(jsonDf.col("value.time"),6,2))
+        .withColumn("day", org.apache.spark.sql.functions.substring(jsonDf.col("value.time"),9,2))
+        .withColumn("hour", org.apache.spark.sql.functions.substring(jsonDf.col("value.time"),12,5))
+        .select(
+            "year",
+            "month",
+            "day",
+            "hour",
+            "value.latitude",
+            "value.longitude",
+            "value.time",
+            "value.temperature_2m"
+        );
 
         //Flush every 2 mins
         Trigger tr = Trigger.ProcessingTime(120000);
