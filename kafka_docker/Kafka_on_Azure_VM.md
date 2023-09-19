@@ -82,6 +82,14 @@ mvn exec:java -Dexec.mainClass="com.gssystems.kafka.WeatherDataStreamingProducer
 * Once we have enough messages sitting, we can try to unload that data into a delta lake format.
  <pre>
  spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.0,io.delta:delta-core_2.12:2.2.0 --conf spark.sql.streaming.checkpointLocation=/tmp --master local[4] --class com.gssystems.kafka.KafkaStreamToDeltaLakeDownloader target/SparkExamples-1.0-SNAPSHOT.jar 127.0.0.1 temperatures /home/venkyuser/AzureSynapseExperiments/datafiles/streaming/temperatures_delta
+
+ ## This will download as a parquet file.
+spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.0 --conf spark.sql.streaming.checkpointLocation=/tmp --master local[4] --class com.gssystems.kafka.KafkaStreamToParquetDownloader target/SparkExamples-1.0-SNAPSHOT.jar 127.0.0.1 temperatures /home/venkyuser/AzureSynapseExperiments/datafiles/streaming/temperatures_parquet
+
+## This will download as a json file, for easier debugging.
+
+spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.0 --conf spark.sql.streaming.checkpointLocation=/tmp --master local[4] --class com.gssystems.kafka.KafkaStreamToJSONDownloader target/SparkExamples-1.0-SNAPSHOT.jar 127.0.0.1 temperatures /home/venkyuser/AzureSynapseExperiments/datafiles/streaming/temperatures_json
+
 </pre>
 
 * Note that the delta libraries used and the spark core versions in play are very critical. Any variation in this will cause weird errors that are hard to understand. For instance, if I try to run the same thing with spark 3.4.1 I get a weird parquet method error, while it runs fine with spark 3.3.1. Here is the unloaded file. We can try to unload now via synapse to ADLS and see if that works fine...
