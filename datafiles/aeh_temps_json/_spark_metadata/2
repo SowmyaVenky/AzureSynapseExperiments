@@ -1,0 +1,5 @@
+v1
+{"path":"file:///C:/Venky/DP-203/AzureSynapseExperiments/datafiles/aeh_temps_json/part-00000-991487a8-0c03-486e-8c83-20e32f327f2b-c000.json","size":284307,"isDir":false,"modificationTime":1695245161779,"blockReplication":1,"blockSize":33554432,"action":"add"}
+{"path":"file:///C:/Venky/DP-203/AzureSynapseExperiments/datafiles/aeh_temps_json/part-00001-60b7e953-bb95-4f6e-aaa0-3fc4145d81d4-c000.json","size":282772,"isDir":false,"modificationTime":1695245162187,"blockReplication":1,"blockSize":33554432,"action":"add"}
+{"path":"file:///C:/Venky/DP-203/AzureSynapseExperiments/datafiles/aeh_temps_json/part-00002-eec8b8ee-7f2b-46b2-8b30-f51b40f436f1-c000.json","size":282411,"isDir":false,"modificationTime":1695245161701,"blockReplication":1,"blockSize":33554432,"action":"add"}
+{"path":"file:///C:/Venky/DP-203/AzureSynapseExperiments/datafiles/aeh_temps_json/part-00003-ad88e216-8a74-4a05-b581-ea95fd6c7ab7-c000.json","size":282514,"isDir":false,"modificationTime":1695245161670,"blockReplication":1,"blockSize":33554432,"action":"add"}

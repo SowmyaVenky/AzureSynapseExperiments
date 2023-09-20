@@ -71,7 +71,7 @@ mvn clean package
 spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.0 --master local[4] --class com.gssystems.kafka.WeatherSparkStreaming target/SparkExamples-1.0-SNAPSHOT.jar temperatures
 
 # Sender
-mvn exec:java -Dexec.mainClass="com.gssystems.kafka.WeatherDataStreamingProducer" -Dexec.args="/home/venkyuser/AzureSynapseExperiments/datafiles/streaming/output/part-00000-ed31cf36-6e94-4463-918e-b69689d6f8cf-c000.json /home/venkyuser/AzureSynapseExperiments/datafiles/streaming/location_master/part-00000-0c100159-41cd-4d73-a20c-6f1fd4acc873-c000.json"
+mvn exec:java -Dexec.mainClass="com.gssystems.kafka.WeatherDataStreamingProducer" -Dexec.args="/home/venkyuser/AzureSynapseExperiments/datafiles/streaming/output/part-00000-2fa6257f-a51c-41e6-9572-630bf2a22bfd-c000.json /home/venkyuser/AzureSynapseExperiments/datafiles/streaming/location_master/part-00000-9ce98557-48be-4823-bfb3-a0764b296729-c000.json"
 
 </pre>
 

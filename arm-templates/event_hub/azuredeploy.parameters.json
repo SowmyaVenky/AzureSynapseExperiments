@@ -1,0 +1,42 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "name": {
+            "value": "venkyeh1001"
+        },
+        "location": {
+            "value": "eastus"
+        },
+        "skuName": {
+            "value": "Basic"
+        },
+        "skuTier": {
+            "value": "Basic"
+        },
+        "skuCapacity": {
+            "value": "1"
+        },
+        "isAutoInflateEnabled": {
+            "value": "false"
+        },
+        "maximumThroughputUnits": {
+            "value": "0"
+        },
+        "zoneRedundant": {
+            "value": true
+        },
+        "minimumTlsVersion": {
+            "value": "1.2"
+        },
+        "disableLocalAuth": {
+            "value": false
+        },
+        "publicNetworkAccess": {
+            "value": "Enabled"
+        },
+        "tags": {
+            "value": {}
+        }
+    }
+}

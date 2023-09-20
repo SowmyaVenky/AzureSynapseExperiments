@@ -1,0 +1,64 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01-preview/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "name": {
+            "type": "String"
+        },
+        "location": {
+            "type": "String"
+        },
+        "skuName": {
+            "type": "String"
+        },
+        "skuTier": {
+            "type": "String"
+        },
+        "skuCapacity": {
+            "type": "String"
+        },
+        "isAutoInflateEnabled": {
+            "type": "String"
+        },
+        "maximumThroughputUnits": {
+            "type": "String"
+        },
+        "zoneRedundant": {
+            "type": "Bool"
+        },
+        "minimumTlsVersion": {
+            "type": "String"
+        },
+        "disableLocalAuth": {
+            "type": "Bool"
+        },
+        "publicNetworkAccess": {
+            "type": "String"
+        },
+        "tags": {
+            "type": "Object"
+        }
+    },
+    "resources": [
+        {
+            "type": "Microsoft.EventHub/namespaces",
+            "apiVersion": "2023-01-01-preview",
+            "name": "[parameters('name')]",
+            "location": "[parameters('location')]",
+            "tags": "[parameters('tags')]",
+            "sku": {
+                "name": "[parameters('skuTier')]",
+                "tier": "[parameters('skuTier')]",
+                "capacity": "[parameters('skuCapacity')]"
+            },
+            "properties": {
+                "isAutoInflateEnabled": "[parameters('isAutoInflateEnabled')]",
+                "maximumThroughputUnits": "[parameters('maximumThroughputUnits')]",
+                "zoneRedundant": "[parameters('zoneRedundant')]",
+                "minimumTlsVersion": "[parameters('minimumTlsVersion')]",
+                "disableLocalAuth": "[parameters('disableLocalAuth')]",
+                "publicNetworkAccess": "[parameters('publicNetworkAccess')]"
+            }
+        }
+    ]
+}

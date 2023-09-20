@@ -62,7 +62,7 @@ spark-submit --master local[4] --class com.gssystems.spark.TemperaturesReformatt
 
 ## Note - the JSON file names are created by spark and will change with each run. 
 
-mvn exec:java -Dexec.mainClass="com.gssystems.kafka.WeatherDataStreamingProducer" -Dexec.args="C:\Venky\DP-203\AzureSynapseExperiments\datafiles\streaming\output\part-00000-ed31cf36-6e94-4463-918e-b69689d6f8cf-c000.json C:\Venky\DP-203\AzureSynapseExperiments\datafiles\streaming\location_master\part-00000-0c100159-41cd-4d73-a20c-6f1fd4acc873-c000.json"
+mvn exec:java -Dexec.mainClass="com.gssystems.kafka.WeatherDataStreamingProducer" -Dexec.args="C:\Venky\DP-203\AzureSynapseExperiments\datafiles\streaming\output\part-00000-2fa6257f-a51c-41e6-9572-630bf2a22bfd-c000.json C:\Venky\DP-203\AzureSynapseExperiments\datafiles\streaming\location_master\part-00000-9ce98557-48be-4823-bfb3-a0764b296729-c000.json"
 
 ## Read consumer
 mvn exec:java -Dexec.mainClass="com.gssystems.kafka.WeatherDataStreamReceiver" 
