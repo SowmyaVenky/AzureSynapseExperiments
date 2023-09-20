@@ -75,4 +75,4 @@ spark-submit --packages com.microsoft.azure:azure-eventhubs-spark_2.12:2.3.22  -
 
 * Final image shows the entire dataset downloaded after the producer is done sending the entire 2023 dataset over for all the cities. 
 
-<img src="../images/azeventhub_09.png" />
+<img src="../images/azeventhub_10.png" />
