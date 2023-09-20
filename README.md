@@ -23,3 +23,7 @@ Various fun projects with Azure Synapse Suite
 ## Configure Synapse Spark pools and configure jobs for KAFKA structured streaming.  
 
 *  We will setup the Ubuntu VM inside Azure. We will then setup Kafka and connect to it from within Synapse to stream data and download it to ADLS. Read more about <a href="./kafka_docker/Kafka_From_Synapse.md">this</a>
+
+## Use Azure Event Hub to stream the data from local, and consume via Spark Structured Streaming.
+
+* We will create an Azure Event Hub with STANDARD SKU. Then we will modify the code to produce the temperature messages to the event hub. Then we will run the JSON based downloader and the Streaming analytics from Event Hub. Read more about <a href="./azure-eh/README.md">here</a>
