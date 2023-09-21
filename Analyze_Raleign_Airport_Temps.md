@@ -31,7 +31,11 @@
 
 * Once the parquet files are created in the directory, we can now create an external table to refer to these in the serverless pool. This can act as a logical data warehouse and mininize costs since nothing is provisioned. (<a href="delta_table_create.sql">delta_table_create.sql</a> - Defines the datasource, file format and the external table pointing to the correct location on ADLS).
 
+<img src="./images/rdu_temperatures_09.png" />
+
 * Create a delta lake version of the same data set.
+
+<img src="./images/rdu_temperatures_10.png" />
 
 * Create an external table and query data from serverless pool. (<a href="External_Datasource.sql">External_Datasource.sql</a> - Creates external tables in a database and queries using serverless pools).
 

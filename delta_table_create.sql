@@ -1,3 +1,7 @@
+CREATE DATABASE raleigh_temperatures;
+
+-- Switch to that DB to use 
+
 IF NOT EXISTS (SELECT * FROM sys.external_file_formats WHERE name = 'SynapseParquetFormat') 
 	CREATE EXTERNAL FILE FORMAT [SynapseParquetFormat] 
 	WITH ( FORMAT_TYPE = PARQUET)
@@ -21,7 +25,7 @@ CREATE EXTERNAL TABLE dbo.raleigh_airport_weather_delta (
 	)
 	WITH (
 	LOCATION = 'raleigh_weather_delta/**',
-	DATA_SOURCE = [files_venkydatalake1001_dfs_core_windows_net],
+	DATA_SOURCE = [files_venkydatalake101_dfs_core_windows_net],
 	FILE_FORMAT = [SynapseParquetFormat]
 	)
 GO
