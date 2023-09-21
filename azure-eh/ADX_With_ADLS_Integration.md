@@ -10,7 +10,7 @@
 
 * Once the synapse workspace is spawned and ready to go, let us go to the ADLS linked to the workspace and put in some new directories, and files that we have downloaded from the weather API service. This will be the first set of files we load. 
 
-* We have weather data for the following cities (Spring, Anchorage, Bangalore, London, Paris, Rome) from 2019 to 2023. It is daily hour by hour data. We can pretend that we have multiple orgs and each of these have a data lake stored in a separate storage account because of data localization requirements. Let us add these 3 storage accounts and link them to Synapse ( venkydlusa1001, venkydleu1001, venkydlasia1001). I am keeping all these in East US, but in theory they can be in multiple regions. 
+* We have weather data for the following cities (Spring, Anchorage, Delhi, London, Paris, Rome) from 2019 to 2023. It is daily hour by hour data. We can pretend that we have multiple orgs and each of these have a data lake stored in a separate storage account because of data localization requirements. Let us add these 3 storage accounts and link them to Synapse ( venkydlusa1001, venkydleu1001, venkydlasia1001). I am keeping all these in East US, but in theory they can be in multiple regions. 
 
 <img src="../images/synapse_azeventhub_19.png" />
 
@@ -72,9 +72,90 @@ abfss://datalake@venkhdleu1001.dfs.core.windows.net/bronze/ abfss://datalake@ven
 
 <img src="../images/synapse_azeventhub_35.png" />
 
-<img src="../images/synapse_azeventhub_35.png" />
+<img src="../images/synapse_azeventhub_36.png" />
 
 * Sanity check queries to see what is ingested 
 
-<img src="../images/synapse_azeventhub_35.png" />
+<img src="../images/synapse_azeventhub_37.png" />
+
+* One of the COOLEST FEATURES in ADX is that it can ingest the data from all these 3 data lakes and query them with a union operator! 
+
+<pre>
+# Example of how we can union the data from all the 3 data lakes and query! 
+
+temperatures_asia 
+| union temperatures_eu
+| union temperatures_usa
+| count 
+
+</pre>
+<img src="../images/synapse_azeventhub_38.png" />
+
+* Let us now download the moscow and delhi temperatures down, transform it, and put that in the same folder as what we have and see if ADX can auto ingest it via the trigger to the event grid.
+
+<pre>
+set JAVA_HOME=c:\Venky\jdk-11.0.15.10-hotspot
+set PATH=%PATH%;c:\Venky\spark\bin;c:\Venky\apache-maven-3.8.4\bin
+set SPARK_HOME=c:\Venky\spark
+SET HADOOP_HOME=C:\Venky\DP-203\AzureSynapseExperiments\SparkExamples
+
+cd C:\Venky\DP-203\AzureSynapseExperiments\SparkExamples
+mvn clean package
+
+
+# Delhi 
+mvn exec:java -Dexec.mainClass="com.gssystems.spark.DownloadWeatherDataHistorical" -Dexec.args="28.679079 77.216721 2019-01-01 2019-12-31 2019_Delhi_Temps.json"
+
+mvn exec:java -Dexec.mainClass="com.gssystems.spark.DownloadWeatherDataHistorical" -Dexec.args="28.679079 77.216721 2020-01-01 2020-12-31 2020_Delhi_Temps.json"
+
+mvn exec:java -Dexec.mainClass="com.gssystems.spark.DownloadWeatherDataHistorical" -Dexec.args="28.679079 77.216721 2021-01-01 2021-12-31 2021_Delhi_Temps.json"
+
+mvn exec:java -Dexec.mainClass="com.gssystems.spark.DownloadWeatherDataHistorical" -Dexec.args="28.679079 77.216721 2022-01-01 2022-12-31 2022_Delhi_Temps.json"
+
+mvn exec:java -Dexec.mainClass="com.gssystems.spark.DownloadWeatherDataHistorical" -Dexec.args="28.679079 77.216721 2023-01-01 2023-06-30 2023_Delhi_Temps.json"
+
+#Moscow
+mvn exec:java -Dexec.mainClass="com.gssystems.spark.DownloadWeatherDataHistorical" -Dexec.args="55.751244 37.618423 2019-01-01 2019-12-31 2019_Moscow_Temps.json"
+
+mvn exec:java -Dexec.mainClass="com.gssystems.spark.DownloadWeatherDataHistorical" -Dexec.args="55.751244 37.618423 2020-01-01 2020-12-31 2020_Moscow_Temps.json"
+
+mvn exec:java -Dexec.mainClass="com.gssystems.spark.DownloadWeatherDataHistorical" -Dexec.args="55.751244 37.618423 2021-01-01 2021-12-31 2021_Moscow_Temps.json"
+
+mvn exec:java -Dexec.mainClass="com.gssystems.spark.DownloadWeatherDataHistorical" -Dexec.args="55.751244 37.618423 2022-01-01 2022-12-31 2022_Moscow_Temps.json"
+
+mvn exec:java -Dexec.mainClass="com.gssystems.spark.DownloadWeatherDataHistorical" -Dexec.args="55.751244 37.618423 2023-01-01 2023-06-30 2023_Moscow_Temps.json"
+
+spark-submit --master local[4] --class com.gssystems.spark.TemperaturesReformatter target\SparkExamples-1.0-SNAPSHOT.jar file:///C:/Venky/DP-203/AzureSynapseExperiments/datafiles/asia_temps/ file:///C:/Venky/DP-203/AzureSynapseExperiments/datafiles/asia_temps_formatted/ file:///C:/Venky/DP-203/AzureSynapseExperiments/datafiles/asia_location_master/
+
+</pre>
+
+* After this job stream has run, we will have a parquet file transformed to have the same schema as the other files. We can try to drop this at the same location and see whether ADX picks it up...
+
+<img src="../images/synapse_azeventhub_39.png" />
+
+<img src="../images/synapse_azeventhub_40.png" />
+
+* As we see the data for the new file is loaded into ADLS 
+
+<img src="../images/synapse_azeventhub_41.png" />
+
+* The first time ingest does not setup the required event hubs to detect the creating of new files in ADLS and auto ingest it into the tables. The following steps show that in detail.
+<img src="../images/synapse_azeventhub_42.png" />
+
+<img src="../images/synapse_azeventhub_43.png" />
+
+<img src="../images/synapse_azeventhub_44.png" />
+
+<img src="../images/synapse_azeventhub_45.png" />
+
+* This is the before picture before the automatic ingest happens. We can also see the event grid that is configured got a message when the blob was added manually. 
+
+<img src="../images/synapse_azeventhub_46.png" />
+
+<img src="../images/synapse_azeventhub_46A.png" />
+
+* There is a event grid topic and event grid provisioned to detect files being placed, and ingestion starts.
+
+<img src="../images/synapse_azeventhub_47.png" />
+
 

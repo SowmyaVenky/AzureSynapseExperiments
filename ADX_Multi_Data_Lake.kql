@@ -1,0 +1,15 @@
+# Example of how we can union the data from all the 3 data lakes and query! 
+
+temperatures_asia 
+| union temperatures_eu
+| union temperatures_usa
+| count 
+
+temperatures_asia
+| count 
+
+temperatures_eu
+| count
+
+temperatures_usa
+| count 
