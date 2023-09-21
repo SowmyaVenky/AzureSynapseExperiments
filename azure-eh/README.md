@@ -3,6 +3,8 @@
 * This series of experiments deal with creating an Azure event hub in Azure and integrating with it from both a consumer and producer perspective. Azure Event Hubs give us seamless integrations from other services that can be leveraged to do various types of streaming and batch based analytics
 
 * First we create the required event hub 
+<img src="../images/azeventhub_00.png" />
+
 <img src="../images/azeventhub_01.png" />
 
 * The we setup our developer env and try to produce the same temperature JSON data to the Azure Event Hub. We did the same thing previously with KAFKA running locally as well as inside the Azure VM. 
@@ -76,3 +78,7 @@ spark-submit --packages com.microsoft.azure:azure-eventhubs-spark_2.12:2.3.22  -
 * Final image shows the entire dataset downloaded after the producer is done sending the entire 2023 dataset over for all the cities. 
 
 <img src="../images/azeventhub_10.png" />
+
+* Now we will create the Synapse workspace with all the required elements via the ARM template. Execute 1005-Create-Synapse-workspace.ps1. After this runs, it will create an ADX pool that we can use to analyze data streaming on the event hub.
+
+<img src="../images/synapse_azeventhub_00.png" />

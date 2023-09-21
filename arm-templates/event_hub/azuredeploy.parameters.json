@@ -9,10 +9,10 @@
             "value": "eastus"
         },
         "skuName": {
-            "value": "Basic"
+            "value": "Standard"
         },
         "skuTier": {
-            "value": "Basic"
+            "value": "Standard"
         },
         "skuCapacity": {
             "value": "1"

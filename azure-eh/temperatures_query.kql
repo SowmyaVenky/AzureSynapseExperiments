@@ -1,0 +1,20 @@
+temperatures
+| count 
+
+temperatures
+| take 5
+
+temperatures
+| project Latitude = extract_json("$.latitude", data, typeof(double)), Longitude = extract_json("$.longitude", data, typeof(double)), Year = substring(extract_json("$.time", data, typeof(string)),0,4), Month = substring(extract_json("$.time", data, typeof(string)),5,2), Temperature = extract_json("$.temperature_2m", data, typeof(double))
+| summarize min_temp = min(Temperature), max_temp = max(Temperature) by Latitude, Longitude, Year, Month
+| order by Latitude, Longitude, Year, Month asc 
+
+temperatures
+| project Latitude = extract_json("$.latitude", data, typeof(double)), Longitude = extract_json("$.longitude", data, typeof(double)), Year = substring(extract_json("$.time", data, typeof(string)),0,4), Month = substring(extract_json("$.time", data, typeof(string)),5,2), Temperature = extract_json("$.temperature_2m", data, typeof(double))
+| summarize min_temp = min(Temperature), max_temp = max(Temperature), avg_temp = avg(Temperature) by Latitude, Longitude
+| order by Latitude, Longitude
+
+temperatures
+| project Latitude = extract_json("$.latitude", data, typeof(double))
+| summarize observations = count() by Latitude
+| order by observations

@@ -26,4 +26,8 @@ Various fun projects with Azure Synapse Suite
 
 ## Use Azure Event Hub to stream the data from local, and consume via Spark Structured Streaming.
 
-* We will create an Azure Event Hub with STANDARD SKU. Then we will modify the code to produce the temperature messages to the event hub. Then we will run the JSON based downloader and the Streaming analytics from Event Hub. Read more about <a href="./azure-eh/README.md">here</a>
+* We will create an Azure Event Hub with STANDARD SKU. Then we will modify the code to produce the temperature messages to the event hub. Then we will run the JSON based downloader and the Streaming analytics from Event Hub. Read more about this <a href="./azure-eh/README.md">here</a>
+
+## Synase Azure Data Explorer Pool and Event Hub based integration.
+
+* This experiment will provision an event hub, and connect it to ingest into a data explorer pool. Once the data is streamed into the Azure Event Hub, it will be available for analysis via the Kusto Query Language inside ADX. Read more about this <a href="./azure-eh/Azure_Event_Hub_ADX.md">here</a>
