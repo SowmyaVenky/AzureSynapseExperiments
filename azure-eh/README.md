@@ -1,5 +1,7 @@
 ## Data streaming with Azure Event Hubs. 
 
+<img src="../images/eh_arch_1.png" />
+
 * This series of experiments deal with creating an Azure event hub in Azure and integrating with it from both a consumer and producer perspective. Azure Event Hubs give us seamless integrations from other services that can be leveraged to do various types of streaming and batch based analytics
 
 * First we create the required event hub 
