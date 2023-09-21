@@ -168,4 +168,4 @@ spark-submit --master local[4] --class com.gssystems.spark.TemperaturesReformatt
 
 * Here is the summary from all the 3 lakes after data is ingested and processed in ADX. Imagine having event triggers for datasets landing on these containers and allowing this automated ingest. Very cool feature.
 
-<img src="../images/synapse_azeventhub_49.png" />
+<img src="../images/synapse_azeventhub_50.png" />
