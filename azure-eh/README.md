@@ -80,7 +80,3 @@ spark-submit --packages com.microsoft.azure:azure-eventhubs-spark_2.12:2.3.22  -
 * Final image shows the entire dataset downloaded after the producer is done sending the entire 2023 dataset over for all the cities. 
 
 <img src="../images/azeventhub_10.png" />
-
-* Now we will create the Synapse workspace with all the required elements via the ARM template. Execute 1005-Create-Synapse-workspace.ps1. After this runs, it will create an ADX pool that we can use to analyze data streaming on the event hub.
-
-<img src="../images/synapse_azeventhub_00.png" />

@@ -2,6 +2,11 @@
 
 <img src="../images/eh_arch_2.png" />
 
+
+* Now we will create the Synapse workspace with all the required elements via the ARM template. Execute 1005-Create-Synapse-workspace.ps1. After this runs, it will create an ADX pool that we can use to analyze data streaming on the event hub.
+
+<img src="../images/synapse_azeventhub_00.png" />
+
 * This experiment will setup an Azure Event Hub, and a Synapse Analytics workspace with the Azure Data Explorer pool provisioned. We will connect the Azure data explorer (ADX) pool to ingest data from the azure event hub and once we start the streaming producer to push events to the Azure Data Explorer, we can analyze the data using the KQL (Kusto Query Language)
 * Once we provision the Azure event hub, we can run the Synapse provisioning ARM template 1005-Create-Synapse-workspace.ps1 and it will provision the required ADX pool as shown below.
 
