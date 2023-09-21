@@ -158,4 +158,14 @@ spark-submit --master local[4] --class com.gssystems.spark.TemperaturesReformatt
 
 <img src="../images/synapse_azeventhub_47.png" />
 
+* After the data is ingested, the count changes and includes the data from the new file we put in.
 
+<img src="../images/synapse_azeventhub_48.png" />
+
+* Breaking down by lat/long we can see that the data for Moscow and Delhi are added to the data from Bangalore! 
+
+<img src="../images/synapse_azeventhub_49.png" />
+
+* Here is the summary from all the 3 lakes after data is ingested and processed in ADX. Imagine having event triggers for datasets landing on these containers and allowing this automated ingest. Very cool feature.
+
+<img src="../images/synapse_azeventhub_49.png" />
