@@ -1,0 +1,36 @@
+{
+  "description": "This transforms the data in the EU bronze folder and put into silver folder.",
+  "targetBigDataPool": {
+    "referenceName": "venkysparkpool",
+    "type": "BigDataPoolReference"
+  },
+  "requiredSparkVersion": "3.1",
+  "language": "scala",
+  "jobProperties": {
+    "name": "EU_Temperature_Transform",
+    "file": "abfss://files@venkydatalake1001.dfs.core.windows.net/synapse/workspaces/venkysynapseworksp1001/batchjobs/EU_Temperature_Transform/SparkExamples-1.0-SNAPSHOT.jar",
+    "className": "com.gssystems.spark.TemperaturesReformatter",
+    "args": [
+      "abfss://datalake@venkydlasia1001.dfs.core.windows.net/bronze/",
+      "abfss://datalake@venkydlasia1001.dfs.core.windows.net/silver/temperatures_formatted",
+      "abfss://datalake@venkydlasia1001.dfs.core.windows.net/silver/location_master"
+    ],
+    "jars": [],
+    "pyFiles": [
+      ""
+    ],
+    "files": [],
+    "conf": {
+      "spark.dynamicAllocation.enabled": "false",
+      "spark.dynamicAllocation.minExecutors": "1",
+      "spark.dynamicAllocation.maxExecutors": "2",
+      "spark.autotune.trackingId": "cf37fde3-364c-4c03-a34a-18caacf7ba3f",
+      "spark.synapse.context.sjdname": "EU_Temperature_Transform"
+    },
+    "numExecutors": 2,
+    "executorCores": 4,
+    "executorMemory": "28g",
+    "driverCores": 4,
+    "driverMemory": "28g"
+  }
+}
