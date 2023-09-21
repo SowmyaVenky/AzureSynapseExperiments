@@ -1,5 +1,5 @@
 ## ADLS continuous ingest into ADX demonstration
-<img src="../images/eh_arch_2.png" />
+<img src="../images/eh_arch_3.png" />
 
 
 * Now we will create the Synapse workspace with all the required elements via the ARM template. Execute 1005-Create-Synapse-workspace.ps1. After this runs, it will create an ADX pool that we can use to analyze data present in our data lake via a continous ingest.
