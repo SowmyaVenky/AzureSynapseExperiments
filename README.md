@@ -31,3 +31,7 @@ Various fun projects with Azure Synapse Suite
 ## Synase Azure Data Explorer Pool and Event Hub based integration.
 
 * This experiment will provision an event hub, and connect it to ingest into a data explorer pool. Once the data is streamed into the Azure Event Hub, it will be available for analysis via the Kusto Query Language inside ADX. Read more about this <a href="./azure-eh/Azure_Event_Hub_ADX.md">here</a>
+
+## Synapse Azure Data Explorer Pool and ADLS continuous integration. 
+
+* This experiment will provision an ADX cluster and create storage accounts to simulate a set of datalake that could be region bound and upload raw temperature files. We will do Synapse spark pool based ETL, and setup ADX to ingest the data. Read more about this <a href="./azure-eh/ADX_With_ADLS_Integration.md">here</a>
