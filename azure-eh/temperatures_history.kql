@@ -1,0 +1,10 @@
+temperatures_historical
+| count 
+
+temperatures_historical
+| take 5
+
+temperatures_historical
+| project latitude, Year = substring(['time'],0,4), Month = substring(['time'], 5,2)
+| summarize observations = count() by latitude, Year, Month
+| order by Year desc, Month asc  
