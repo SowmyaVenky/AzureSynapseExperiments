@@ -68,6 +68,9 @@ Job Runtime: 81077 ms
 
 <img src="./images/maven_run_02.png" />
 
+* After adding the KAFKA sink and adjusting the parameters to talk to the event hub, we can see that the messages are getting pushed to the Azure Event Hub as shown below:
 
-Endpoint=sb://venkyeh1001.servicebus.windows.net/;SharedAccessKeyName=venky-eh-sas;SharedAccessKey=NomtSaUnXt11invciDsYWwws0gs9FtvZn+AEhKjcv5o=;EntityPath=temperatures
+<img src="./images/flink_eh_sink.png" />
+
+
 
