@@ -15,7 +15,7 @@ $resourceGroupName = (Get-AzResourceGroup).ResourceGroupName
 
 #################################01 - Create ADF ########################
 # Use ARM template to deploy resources
-Write-Host "Creating Azure Event Grid. This may take some time..."
+Write-Host "Creating Azure Event Hub. This may take some time..."
 
 New-AzResourceGroupDeployment -ResourceGroupName $resourceGroupName `
   -TemplateFile "arm-templates/event_hub/azuredeploy.json" `

@@ -46,3 +46,28 @@ Job Runtime: 81077 ms
 
 * We can visit the URL http://localhost:8081/ and see the status of the job.
 <img src="./images/flink_run.png" />
+
+## Connecting the flink processor to Azure Event Hubs via the Flink Kafka Connector.
+
+* Create the required Azure event hub using the powershell script and the ARM template.
+<pre>
+.\1002-Create-Azure-Event-Hub.ps1
+</pre>
+
+<img src="./images/event_hub_created.png" />
+
+* We have to create a SAS signature for the event hub to enable clients to talk to the hub and produce/consume messages. Then we can copy the required endpoint connection string to enable Flink to talk to the event hub.
+
+<img src="./images/sas_01.png" />
+
+<img src="./images/sas_02.png" />
+
+* Submitting the maven job will pull the data from the weather API, and downloads it into the directory.
+
+<img src="./images/maven_run_01.png" />
+
+<img src="./images/maven_run_02.png" />
+
+
+Endpoint=sb://venkyeh1001.servicebus.windows.net/;SharedAccessKeyName=venky-eh-sas;SharedAccessKey=NomtSaUnXt11invciDsYWwws0gs9FtvZn+AEhKjcv5o=;EntityPath=temperatures
+
