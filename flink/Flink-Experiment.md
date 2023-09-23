@@ -76,3 +76,4 @@ Job Runtime: 81077 ms
 
 mvn exec:java -Dexec.mainClass="com.gssystems.flink.TemperatureStreamAggregatorFS" -Dexec.args="--input file:///C:/Venky/DP-203/AzureSynapseExperiments/datafiles/downloaded_temps_flink/"
 
+<img src="./images/flink_agg_from_fs.png" />

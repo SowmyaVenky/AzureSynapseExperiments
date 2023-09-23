@@ -2,6 +2,8 @@ package com.gssystems.flink;
 
 import java.io.Serializable;
 import java.util.Objects;
+
+import org.apache.flink.api.java.tuple.Tuple2;
 class TemperatureAggregateBean implements Serializable{
 	/**
 	 * 
@@ -13,6 +15,7 @@ class TemperatureAggregateBean implements Serializable{
 	private String month;
 	private double minTemp;
 	private double maxTemp;
+	private double count;
 
 	public double getLat() {
 		return lat;
@@ -64,9 +67,16 @@ class TemperatureAggregateBean implements Serializable{
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(lat, lng, maxTemp, minTemp, month, year);
+		return Objects.hash(lat, lng, maxTemp, minTemp, month, year, count);
 	}
 
+	/** This is how the reducer will get the key from the tuple */
+	
+	public static String getKey(Tuple2<String,TemperatureAggregateBean> x) {
+		TemperatureAggregateBean abean = x.f1;
+		return abean.getLat() + ":" + abean.getLng() + ":" + abean.getYear() + ":" + abean.getMonth();
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -80,12 +90,21 @@ class TemperatureAggregateBean implements Serializable{
 				&& Double.doubleToLongBits(lng) == Double.doubleToLongBits(other.lng)
 				&& Double.doubleToLongBits(maxTemp) == Double.doubleToLongBits(other.maxTemp)
 				&& Double.doubleToLongBits(minTemp) == Double.doubleToLongBits(other.minTemp)
+				&& Double.doubleToLongBits(count) == Double.doubleToLongBits(other.count)
 				&& Objects.equals(month, other.month) && Objects.equals(year, other.year);
 	}
 
 	@Override
 	public String toString() {
-		return "TemperatureAggregateBean [minTemp=" + minTemp + ", maxTemp=" + maxTemp + "]";
+		return "TemperatureAggregateBean [minTemp=" + minTemp + ", maxTemp=" + maxTemp + ", count=" + count + "]";
+	}
+
+	public double getCount() {
+		return count;
+	}
+
+	public void setCount(double count) {
+		this.count = count;
 	}
 	
 	

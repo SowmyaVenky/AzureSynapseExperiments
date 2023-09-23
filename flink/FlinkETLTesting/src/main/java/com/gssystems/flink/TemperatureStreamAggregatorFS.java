@@ -53,16 +53,18 @@ public class TemperatureStreamAggregatorFS {
 				double minT2 = val2.getMinTemp();
 
 				redBean.setMinTemp(Math.min(minT1, minT2));
+				redBean.setCount(val1.getCount() + val2.getCount());
 
 				String key = value1.f0;
 				return new Tuple2<String, TemperatureAggregateBean>(key, redBean);
 			}
 		};
 
-		SingleOutputStreamOperator<Tuple2<String, TemperatureAggregateBean>> minsByLatLng = aggregated.keyBy(0)
+		SingleOutputStreamOperator<Tuple2<String, TemperatureAggregateBean>> minsByLatLng = aggregated.keyBy(TemperatureAggregateBean::getKey)
 				.reduce(reduceFn);
 		System.out.println("Printing minimum temperatures...");
 		minsByLatLng.print();
+		
 
 		env.execute("Temperature Aggregator");
 	}

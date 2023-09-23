@@ -34,6 +34,7 @@ public class TemperaturesAggregator implements MapFunction<String, Tuple2<String
 		aBean.setMinTemp(temperature);
 		aBean.setYear(year);
 		aBean.setMonth(month);
+		aBean.setCount(1);
 
 		Tuple2<String, TemperatureAggregateBean> toRet = new Tuple2<String, TemperatureAggregateBean>(b.toString(),
 				aBean);
