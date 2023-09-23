@@ -1,4 +1,6 @@
 ## Demonstrate Batch and Stream processing with Flink.
+* Flink based streaming architecture
+<img src="./images/flink_arch.png" />
 
 * Testing the same ETLs we have done in SPARK before with Flink and integrate it with various services on Azure to prove out viability. For a first step, configure flink locally using docker compose. 
 
