@@ -53,7 +53,7 @@ class TemperatureDownloaderAndFormatter implements FlatMapFunction<String, Strin
 		// We need to parse it to get arrays...
 		Gson gs = new Gson();
 		TemperatureDownloadInputBean inBean = gs.fromJson(
-			value, TemperatureDownloadInputBean.class);
+				value, TemperatureDownloadInputBean.class);
 
 		Double lat = inBean.getLat();
 		Double lng = inBean.getLng();
@@ -71,7 +71,7 @@ class TemperatureDownloaderAndFormatter implements FlatMapFunction<String, Strin
 		MessageFormat fmt = new MessageFormat(WEATHER_API);
 		String apiURL = fmt.format(subs);
 		System.out.println("Calling url " + apiURL);
-		
+
 		String response = null;
 		try {
 			response = stream(new URL(apiURL));
@@ -99,7 +99,7 @@ class TemperatureDownloaderAndFormatter implements FlatMapFunction<String, Strin
 		}
 	}
 
-	private  String stream(URL url) throws IOException {
+	private String stream(URL url) throws IOException {
 		try (InputStream input = url.openStream()) {
 			InputStreamReader isr = new InputStreamReader(input);
 			BufferedReader reader = new BufferedReader(isr);
@@ -113,7 +113,7 @@ class TemperatureDownloaderAndFormatter implements FlatMapFunction<String, Strin
 	}
 }
 
-public class DataStreamJob {
+public class FlinkTemperatureProcessor {
 	public static void main(String[] args) throws Exception {
 		// get environment context
 		StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
