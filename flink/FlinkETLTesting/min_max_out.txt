@@ -1,0 +1,193 @@
+[INFO] Scanning for projects...
+[WARNING] The POM for org.eclipse.m2e:lifecycle-mapping:jar:1.0.0 is missing, no dependency information available
+[WARNING] Failed to retrieve plugin descriptor for org.eclipse.m2e:lifecycle-mapping:1.0.0: Plugin org.eclipse.m2e:lifecycle-mapping:1.0.0 or one of its dependencies could not be resolved: org.eclipse.m2e:lifecycle-mapping:jar:1.0.0 was not found in https://repo.maven.apache.org/maven2 during a previous attempt. This failure was cached in the local repository and resolution is not reattempted until the update interval of central has elapsed or updates are forced
+[INFO] 
+[INFO] ----------------< com.gssystems.flink:FlinkETLTesting >-----------------
+[INFO] Building Flink Quickstart Job 1.0-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[WARNING] The POM for org.eclipse.m2e:lifecycle-mapping:jar:1.0.0 is missing, no dependency information available
+[WARNING] Failed to retrieve plugin descriptor for org.eclipse.m2e:lifecycle-mapping:1.0.0: Plugin org.eclipse.m2e:lifecycle-mapping:1.0.0 or one of its dependencies could not be resolved: org.eclipse.m2e:lifecycle-mapping:jar:1.0.0 was not found in https://repo.maven.apache.org/maven2 during a previous attempt. This failure was cached in the local repository and resolution is not reattempted until the update interval of central has elapsed or updates are forced
+[INFO] 
+[INFO] --- exec-maven-plugin:3.1.0:java (default-cli) @ FlinkETLTesting ---
+Printing minimum temperatures...
+[WARNING] 
+org.apache.flink.runtime.client.JobExecutionException: Job execution failed.
+    at org.apache.flink.runtime.jobmaster.JobResult.toJobExecutionResult (JobResult.java:144)
+    at org.apache.flink.runtime.minicluster.MiniClusterJobClient.lambda$getJobExecutionResult$3 (MiniClusterJobClient.java:141)
+    at java.util.concurrent.CompletableFuture$UniApply.tryFire (CompletableFuture.java:642)
+    at java.util.concurrent.CompletableFuture.postComplete (CompletableFuture.java:506)
+    at java.util.concurrent.CompletableFuture.complete (CompletableFuture.java:2073)
+    at org.apache.flink.runtime.rpc.akka.AkkaInvocationHandler.lambda$invokeRpc$1 (AkkaInvocationHandler.java:267)
+    at java.util.concurrent.CompletableFuture.uniWhenComplete (CompletableFuture.java:859)
+    at java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire (CompletableFuture.java:837)
+    at java.util.concurrent.CompletableFuture.postComplete (CompletableFuture.java:506)
+    at java.util.concurrent.CompletableFuture.complete (CompletableFuture.java:2073)
+    at org.apache.flink.util.concurrent.FutureUtils.doForward (FutureUtils.java:1300)
+    at org.apache.flink.runtime.concurrent.akka.ClassLoadingUtils.lambda$null$1 (ClassLoadingUtils.java:93)
+    at org.apache.flink.runtime.concurrent.akka.ClassLoadingUtils.runWithContextClassLoader (ClassLoadingUtils.java:68)
+    at org.apache.flink.runtime.concurrent.akka.ClassLoadingUtils.lambda$guardCompletionWithContextClassLoader$2 (ClassLoadingUtils.java:92)
+    at java.util.concurrent.CompletableFuture.uniWhenComplete (CompletableFuture.java:859)
+    at java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire (CompletableFuture.java:837)
+    at java.util.concurrent.CompletableFuture.postComplete (CompletableFuture.java:506)
+    at java.util.concurrent.CompletableFuture.complete (CompletableFuture.java:2073)
+    at org.apache.flink.runtime.concurrent.akka.AkkaFutureUtils$1.onComplete (AkkaFutureUtils.java:47)
+    at akka.dispatch.OnComplete.internal (Future.scala:300)
+    at akka.dispatch.OnComplete.internal (Future.scala:297)
+    at akka.dispatch.japi$CallbackBridge.apply (Future.scala:224)
+    at akka.dispatch.japi$CallbackBridge.apply (Future.scala:221)
+    at scala.concurrent.impl.CallbackRunnable.run (Promise.scala:64)
+    at org.apache.flink.runtime.concurrent.akka.AkkaFutureUtils$DirectExecutionContext.execute (AkkaFutureUtils.java:65)
+    at scala.concurrent.impl.CallbackRunnable.executeWithValue (Promise.scala:72)
+    at scala.concurrent.impl.Promise$DefaultPromise.$anonfun$tryComplete$1 (Promise.scala:288)
+    at scala.concurrent.impl.Promise$DefaultPromise.$anonfun$tryComplete$1$adapted (Promise.scala:288)
+    at scala.concurrent.impl.Promise$DefaultPromise.tryComplete (Promise.scala:288)
+    at akka.pattern.PromiseActorRef.$bang (AskSupport.scala:622)
+    at akka.pattern.PipeToSupport$PipeableFuture$$anonfun$pipeTo$1.applyOrElse (PipeToSupport.scala:24)
+    at akka.pattern.PipeToSupport$PipeableFuture$$anonfun$pipeTo$1.applyOrElse (PipeToSupport.scala:23)
+    at scala.concurrent.Future.$anonfun$andThen$1 (Future.scala:536)
+    at scala.concurrent.impl.Promise.liftedTree1$1 (Promise.scala:33)
+    at scala.concurrent.impl.Promise.$anonfun$transform$1 (Promise.scala:33)
+    at scala.concurrent.impl.CallbackRunnable.run (Promise.scala:64)
+    at akka.dispatch.BatchingExecutor$AbstractBatch.processBatch (BatchingExecutor.scala:63)
+    at akka.dispatch.BatchingExecutor$BlockableBatch.$anonfun$run$1 (BatchingExecutor.scala:100)
+    at scala.runtime.java8.JFunction0$mcV$sp.apply (JFunction0$mcV$sp.java:23)
+    at scala.concurrent.BlockContext$.withBlockContext (BlockContext.scala:85)
+    at akka.dispatch.BatchingExecutor$BlockableBatch.run (BatchingExecutor.scala:100)
+    at akka.dispatch.TaskInvocation.run (AbstractDispatcher.scala:49)
+    at akka.dispatch.ForkJoinExecutorConfigurator$AkkaForkJoinTask.exec (ForkJoinExecutorConfigurator.scala:48)
+    at java.util.concurrent.ForkJoinTask.doExec (ForkJoinTask.java:290)
+    at java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec (ForkJoinPool.java:1020)
+    at java.util.concurrent.ForkJoinPool.scan (ForkJoinPool.java:1656)
+    at java.util.concurrent.ForkJoinPool.runWorker (ForkJoinPool.java:1594)
+    at java.util.concurrent.ForkJoinWorkerThread.run (ForkJoinWorkerThread.java:183)
+Caused by: org.apache.flink.runtime.JobException: Recovery is suppressed by NoRestartBackoffTimeStrategy
+    at org.apache.flink.runtime.executiongraph.failover.flip1.ExecutionFailureHandler.handleFailure (ExecutionFailureHandler.java:139)
+    at org.apache.flink.runtime.executiongraph.failover.flip1.ExecutionFailureHandler.getFailureHandlingResult (ExecutionFailureHandler.java:83)
+    at org.apache.flink.runtime.scheduler.DefaultScheduler.recordTaskFailure (DefaultScheduler.java:258)
+    at org.apache.flink.runtime.scheduler.DefaultScheduler.handleTaskFailure (DefaultScheduler.java:249)
+    at org.apache.flink.runtime.scheduler.DefaultScheduler.onTaskFailed (DefaultScheduler.java:242)
+    at org.apache.flink.runtime.scheduler.SchedulerBase.onTaskExecutionStateUpdate (SchedulerBase.java:748)
+    at org.apache.flink.runtime.scheduler.SchedulerBase.updateTaskExecutionState (SchedulerBase.java:725)
+    at org.apache.flink.runtime.scheduler.SchedulerNG.updateTaskExecutionState (SchedulerNG.java:80)
+    at org.apache.flink.runtime.jobmaster.JobMaster.updateTaskExecutionState (JobMaster.java:479)
+    at jdk.internal.reflect.NativeMethodAccessorImpl.invoke0 (Native Method)
+    at jdk.internal.reflect.NativeMethodAccessorImpl.invoke (NativeMethodAccessorImpl.java:62)
+    at jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke (DelegatingMethodAccessorImpl.java:43)
+    at java.lang.reflect.Method.invoke (Method.java:566)
+    at org.apache.flink.runtime.rpc.akka.AkkaRpcActor.lambda$handleRpcInvocation$1 (AkkaRpcActor.java:309)
+    at org.apache.flink.runtime.concurrent.akka.ClassLoadingUtils.runWithContextClassLoader (ClassLoadingUtils.java:83)
+    at org.apache.flink.runtime.rpc.akka.AkkaRpcActor.handleRpcInvocation (AkkaRpcActor.java:307)
+    at org.apache.flink.runtime.rpc.akka.AkkaRpcActor.handleRpcMessage (AkkaRpcActor.java:222)
+    at org.apache.flink.runtime.rpc.akka.FencedAkkaRpcActor.handleRpcMessage (FencedAkkaRpcActor.java:84)
+    at org.apache.flink.runtime.rpc.akka.AkkaRpcActor.handleMessage (AkkaRpcActor.java:168)
+    at akka.japi.pf.UnitCaseStatement.apply (CaseStatements.scala:24)
+    at akka.japi.pf.UnitCaseStatement.apply (CaseStatements.scala:20)
+    at scala.PartialFunction.applyOrElse (PartialFunction.scala:127)
+    at scala.PartialFunction.applyOrElse$ (PartialFunction.scala:126)
+    at akka.japi.pf.UnitCaseStatement.applyOrElse (CaseStatements.scala:20)
+    at scala.PartialFunction$OrElse.applyOrElse (PartialFunction.scala:175)
+    at scala.PartialFunction$OrElse.applyOrElse (PartialFunction.scala:176)
+    at scala.PartialFunction$OrElse.applyOrElse (PartialFunction.scala:176)
+    at akka.actor.Actor.aroundReceive (Actor.scala:537)
+    at akka.actor.Actor.aroundReceive$ (Actor.scala:535)
+    at akka.actor.AbstractActor.aroundReceive (AbstractActor.scala:220)
+    at akka.actor.ActorCell.receiveMessage (ActorCell.scala:579)
+    at akka.actor.ActorCell.invoke (ActorCell.scala:547)
+    at akka.dispatch.Mailbox.processMailbox (Mailbox.scala:270)
+    at akka.dispatch.Mailbox.run (Mailbox.scala:231)
+    at akka.dispatch.Mailbox.exec (Mailbox.scala:243)
+    at java.util.concurrent.ForkJoinTask.doExec (ForkJoinTask.java:290)
+    at java.util.concurrent.ForkJoinPool$WorkQueue.topLevelExec (ForkJoinPool.java:1020)
+    at java.util.concurrent.ForkJoinPool.scan (ForkJoinPool.java:1656)
+    at java.util.concurrent.ForkJoinPool.runWorker (ForkJoinPool.java:1594)
+    at java.util.concurrent.ForkJoinWorkerThread.run (ForkJoinWorkerThread.java:183)
+Caused by: java.lang.StringIndexOutOfBoundsException: begin 5, end 2, length 16
+    at java.lang.String.checkBoundsBeginEnd (String.java:3319)
+    at java.lang.String.substring (String.java:1874)
+    at com.gssystems.flink.TemperaturesAggregator.map (TemperaturesAggregator.java:18)
+    at com.gssystems.flink.TemperaturesAggregator.map (TemperaturesAggregator.java:8)
+    at org.apache.flink.streaming.api.operators.StreamMap.processElement (StreamMap.java:38)
+    at org.apache.flink.streaming.runtime.tasks.CopyingChainingOutput.pushToOperator (CopyingChainingOutput.java:75)
+    at org.apache.flink.streaming.runtime.tasks.CopyingChainingOutput.collect (CopyingChainingOutput.java:50)
+    at org.apache.flink.streaming.runtime.tasks.CopyingChainingOutput.collect (CopyingChainingOutput.java:29)
+    at org.apache.flink.streaming.runtime.tasks.SourceOperatorStreamTask$AsyncDataOutputToOutput.emitRecord (SourceOperatorStreamTask.java:309)
+    at org.apache.flink.streaming.api.operators.source.NoOpTimestampsAndWatermarks$TimestampsOnlyOutput.collect (NoOpTimestampsAndWatermarks.java:98)
+    at org.apache.flink.streaming.api.operators.source.NoOpTimestampsAndWatermarks$TimestampsOnlyOutput.collect (NoOpTimestampsAndWatermarks.java:92)
+    at org.apache.flink.connector.file.src.impl.FileSourceRecordEmitter.emitRecord (FileSourceRecordEmitter.java:45)
+    at org.apache.flink.connector.file.src.impl.FileSourceRecordEmitter.emitRecord (FileSourceRecordEmitter.java:35)
+    at org.apache.flink.connector.base.source.reader.SourceReaderBase.pollNext (SourceReaderBase.java:144)
+    at org.apache.flink.streaming.api.operators.SourceOperator.emitNext (SourceOperator.java:417)
+    at org.apache.flink.streaming.runtime.io.StreamTaskSourceInput.emitNext (StreamTaskSourceInput.java:68)
+    at org.apache.flink.streaming.runtime.io.StreamOneInputProcessor.processInput (StreamOneInputProcessor.java:65)
+    at org.apache.flink.streaming.runtime.tasks.StreamTask.processInput (StreamTask.java:550)
+    at org.apache.flink.streaming.runtime.tasks.mailbox.MailboxProcessor.runMailboxLoop (MailboxProcessor.java:231)
+    at org.apache.flink.streaming.runtime.tasks.StreamTask.runMailboxLoop (StreamTask.java:839)
+    at org.apache.flink.streaming.runtime.tasks.StreamTask.invoke (StreamTask.java:788)
+    at org.apache.flink.runtime.taskmanager.Task.runWithSystemExitMonitoring (Task.java:952)
+    at org.apache.flink.runtime.taskmanager.Task.restoreAndInvoke (Task.java:931)
+    at org.apache.flink.runtime.taskmanager.Task.doRun (Task.java:745)
+    at org.apache.flink.runtime.taskmanager.Task.run (Task.java:562)
+    at java.lang.Thread.run (Thread.java:829)
+[WARNING] thread Thread[FlinkCompletableFutureDelayScheduler-thread-1,5,com.gssystems.flink.TemperatureStreamAggregatorFS] was interrupted but is still alive after waiting at least 15000msecs
+[WARNING] thread Thread[FlinkCompletableFutureDelayScheduler-thread-1,5,com.gssystems.flink.TemperatureStreamAggregatorFS] will linger despite being asked to die via interruption
+[WARNING] NOTE: 1 thread(s) did not finish despite being asked to via interruption. This is not a problem with exec:java, it is a problem with the running code. Although not serious, it should be remedied.
+[WARNING] Couldn't destroy threadgroup org.codehaus.mojo.exec.ExecJavaMojo$IsolatedThreadGroup[name=com.gssystems.flink.TemperatureStreamAggregatorFS,maxpri=10]
+java.lang.IllegalThreadStateException
+    at java.lang.ThreadGroup.destroy (ThreadGroup.java:776)
+    at org.codehaus.mojo.exec.ExecJavaMojo.execute (ExecJavaMojo.java:319)
+    at org.apache.maven.plugin.DefaultBuildPluginManager.executeMojo (DefaultBuildPluginManager.java:137)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute2 (MojoExecutor.java:370)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.doExecute (MojoExecutor.java:351)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:215)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:171)
+    at org.apache.maven.lifecycle.internal.MojoExecutor.execute (MojoExecutor.java:163)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:117)
+    at org.apache.maven.lifecycle.internal.LifecycleModuleBuilder.buildProject (LifecycleModuleBuilder.java:81)
+    at org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder.build (SingleThreadedBuilder.java:56)
+    at org.apache.maven.lifecycle.internal.LifecycleStarter.execute (LifecycleStarter.java:128)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:294)
+    at org.apache.maven.DefaultMaven.doExecute (DefaultMaven.java:192)
+    at org.apache.maven.DefaultMaven.execute (DefaultMaven.java:105)
+    at org.apache.maven.cli.MavenCli.execute (MavenCli.java:960)
+    at org.apache.maven.cli.MavenCli.doMain (MavenCli.java:293)
+    at org.apache.maven.cli.MavenCli.main (MavenCli.java:196)
+    at jdk.internal.reflect.NativeMethodAccessorImpl.invoke0 (Native Method)
+    at jdk.internal.reflect.NativeMethodAccessorImpl.invoke (NativeMethodAccessorImpl.java:62)
+    at jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke (DelegatingMethodAccessorImpl.java:43)
+    at java.lang.reflect.Method.invoke (Method.java:566)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced (Launcher.java:282)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launch (Launcher.java:225)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode (Launcher.java:406)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.main (Launcher.java:347)
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  21.008 s
+[INFO] Finished at: 2023-09-23T15:07:05-05:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.codehaus.mojo:exec-maven-plugin:3.1.0:java (default-cli) on project FlinkETLTesting: An exception occurred while executing the Java class. Job execution failed.: Recovery is suppressed by NoRestartBackoffTimeStrategy: begin 5, end 2, length 16 -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException
+[WARNING] 
+java.lang.NoClassDefFoundError: org/apache/logging/log4j/message/ReusableParameterizedMessage
+    at org.apache.logging.log4j.message.ReusableMessageFactory.getParameterized (ReusableMessageFactory.java:54)
+    at org.apache.logging.log4j.message.ReusableMessageFactory.newMessage (ReusableMessageFactory.java:119)
+    at org.apache.logging.log4j.spi.AbstractLogger.logMessage (AbstractLogger.java:2039)
+    at org.apache.logging.log4j.spi.AbstractLogger.logIfEnabled (AbstractLogger.java:1907)
+    at org.apache.logging.slf4j.Log4jLogger.error (Log4jLogger.java:309)
+    at org.apache.flink.util.ShutdownHookUtil.lambda$addShutdownHook$0 (ShutdownHookUtil.java:41)
+    at java.lang.Thread.run (Thread.java:829)
+Caused by: java.lang.ClassNotFoundException: org.apache.logging.log4j.message.ReusableParameterizedMessage
+    at org.codehaus.mojo.exec.URLClassLoaderBuilder$ExecJavaClassLoader.loadClass (URLClassLoaderBuilder.java:198)
+    at java.lang.ClassLoader.loadClass (ClassLoader.java:522)
+    at org.apache.logging.log4j.message.ReusableMessageFactory.getParameterized (ReusableMessageFactory.java:54)
+    at org.apache.logging.log4j.message.ReusableMessageFactory.newMessage (ReusableMessageFactory.java:119)
+    at org.apache.logging.log4j.spi.AbstractLogger.logMessage (AbstractLogger.java:2039)
+    at org.apache.logging.log4j.spi.AbstractLogger.logIfEnabled (AbstractLogger.java:1907)
+    at org.apache.logging.slf4j.Log4jLogger.error (Log4jLogger.java:309)
+    at org.apache.flink.util.ShutdownHookUtil.lambda$addShutdownHook$0 (ShutdownHookUtil.java:41)
+    at java.lang.Thread.run (Thread.java:829)
