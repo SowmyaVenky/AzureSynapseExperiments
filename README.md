@@ -35,3 +35,6 @@ Various fun projects with Azure Synapse Suite
 ## Synapse Azure Data Explorer Pool and ADLS continuous integration. 
 
 * This experiment will provision an ADX cluster and create storage accounts to simulate a set of datalake that could be region bound and upload raw temperature files. We will do Synapse spark pool based ETL, and setup ADX to ingest the data. Read more about this <a href="./azure-eh/ADX_With_ADLS_Integration.md">here</a>
+
+## Flink processing testing. 
+* This experiment will show how to use Flink to process the weather data and reformat it. Flink can call the API and pull date based on the date ranges for all the cities. Read more about this <a href="./flink/Flink-Experiment.md">here</a>
