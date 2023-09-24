@@ -30,12 +30,8 @@ public class AggregatedTemperaturesTableAPI {
 				   Row.of(1, "ABC"),
 				   Row.of(2L, "ABCDE")
 		);
-
-		// register the Table object as a view and query it
-		tableEnv.createTemporaryView("InputTable", inputTable);
-		Table resultTable = tableEnv.sqlQuery("SELECT f0, f1 FROM InputTable");
-		resultTable.print();
-		env.execute("Venky Table Test -- 1 ");
+		
+		inputTable.execute().print();
 	}
 
 }
