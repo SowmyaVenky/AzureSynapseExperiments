@@ -46,6 +46,7 @@ public class AggregatedTemperaturesTableAPI {
 		Table table1 = tableEnv.fromDataStream(pojoStream);
 		System.out.println("Printing the table from stream...");
 		table1.execute().print();
+		table1.printSchema();
 		
 		Table inputTable = tableEnv.fromValues(
 				DataTypes.ROW(
