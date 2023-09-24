@@ -21,14 +21,14 @@ public class AggregatedTemperaturesTableAPI {
 		env.setRuntimeMode(RuntimeExecutionMode.BATCH);
 
 		StreamTableEnvironment tableEnv = StreamTableEnvironment.create(env);
-		// create a DataStream
-		DataStream<String> dataStream = env.fromElements("Alice", "Bob", "John");
+		Table inputTable = tableEnv.fromValues(
+				   Row.of(1, "ABC"),
+				   Row.of(2L, "ABCDE")
+		);
 
-		// interpret the insert-only DataStream as a Table
-		Table inputTable = tableEnv.fromDataStream(dataStream);
 		// register the Table object as a view and query it
 		tableEnv.createTemporaryView("InputTable", inputTable);
-		Table resultTable = tableEnv.sqlQuery("SELECT UPPER(f0) FROM InputTable");
+		Table resultTable = tableEnv.sqlQuery("SELECT f0, f1 FROM InputTable");
 
 		// interpret the insert-only Table as a DataStream again
 		DataStream<Row> resultStream = tableEnv.toDataStream(resultTable);
