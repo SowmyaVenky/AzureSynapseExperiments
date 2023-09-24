@@ -12,12 +12,18 @@ import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 
 public class FlinkTemperatureProcessor {
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws Exception {		
 		// get environment context
 		StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 		ParameterTool params = ParameterTool.fromArgs(args);
 		env.getConfig().setGlobalJobParameters(params);
 		env.setRuntimeMode(RuntimeExecutionMode.BATCH);
+
+
+		if( params == null || params.toMap().size() != 4 ) {
+			System.out.println("Need to pass 2 parameters <<inputfile>> <<outputfolder>>");
+			System.exit(-1);
+		}
 
 		final FileSink<String> sink = FileSink.forRowFormat(
 				new Path(params.get("output")),

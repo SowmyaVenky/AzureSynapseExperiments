@@ -15,7 +15,7 @@ public class TemperaturesAggregator implements MapFunction<String, Tuple2<String
 		double lng = bean.getLongitude();
 		String time = bean.getTime();
 		String year = time.substring(0, 4);
-		String month = time.substring(5, 8);
+		String month = time.substring(5, 7);
 		double temperature = bean.getTemperature_2m();
 
 		StringBuffer b = new StringBuffer();

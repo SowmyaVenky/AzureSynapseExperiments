@@ -75,7 +75,15 @@ Job Runtime: 81077 ms
 * We will now stream the data that we had sunk into the file system and stream it back into an aggregator. The aggregator will take the grouping parmeters we need, and create a map in the traditional map-reduce kind. Then we can calculate the max, min temperatures for each grouping condition and display it to the console.
 
 <pre>
-mvn exec:java -Dexec.mainClass="com.gssystems.flink.TemperatureStreamAggregatorFS" -Dexec.args="--input file:///C:/Venky/DP-203/AzureSynapseExperiments/datafiles/downloaded_temps_flink/"
+mvn exec:java -Dexec.mainClass="com.gssystems.flink.TemperatureStreamAggregatorFS" -Dexec.args="--input file:///C:/Venky/DP-203/AzureSynapseExperiments/datafiles/downloaded_temps_flink/ --output file:///C:/Venky/DP-203/AzureSynapseExperiments/datafiles/aggregated_temps_flink/"
 </pre>
 
 <img src="./images/flink_agg_from_fs.png" />
+
+## Experimenting with the Table API to see whether that makes life easier.
+
+<pre>
+docker exec -it flink_jobmanager_1 flink run /home/FlinkETLTesting/target/FlinkETLTesting-1.0-SNAPSHOT.jar --input /home/aggregated_temps_flink
+
+mvn exec:java -Dexec.mainClass="com.gssystems.flink.AggregatedTemperaturesTableAPI" -Dexec.args="--input file:///C:/Venky/DP-203/AzureSynapseExperiments/datafiles/downloaded_temps_flink/"
+</pre>
