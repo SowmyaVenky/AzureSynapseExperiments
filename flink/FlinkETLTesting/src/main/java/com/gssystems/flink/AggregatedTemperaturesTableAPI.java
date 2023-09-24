@@ -20,16 +20,17 @@ public class AggregatedTemperaturesTableAPI {
 		ParameterTool params = ParameterTool.fromArgs(args);
 		env.getConfig().setGlobalJobParameters(params);
 		env.setRuntimeMode(RuntimeExecutionMode.BATCH);
-
+		StreamTableEnvironment tableEnv = StreamTableEnvironment.create(env);
+		
 		// Build input stream
 		final FileSource<String> source = FileSource
 				.forRecordStreamFormat(new TextLineInputFormat(), new Path(params.get("input"))).build();
 
 		final DataStream<String> stream = env.fromSource(source, WatermarkStrategy.noWatermarks(), "file-source");
-
-		stream.print();
+		Table table1 = tableEnv.fromDataStream(stream);
+		System.out.println("Printing the table from stream...");
+		table1.execute().print();
 		
-		StreamTableEnvironment tableEnv = StreamTableEnvironment.create(env);
 		Table inputTable = tableEnv.fromValues(
 				DataTypes.ROW(
 				        DataTypes.FIELD("id", DataTypes.DECIMAL(10, 2)),
@@ -39,6 +40,7 @@ public class AggregatedTemperaturesTableAPI {
 				   Row.of(2L, "ABCDE")
 		);
 		
+		System.out.println("Printing the table from hardcoded...");
 		inputTable.execute().print();
 	}
 
