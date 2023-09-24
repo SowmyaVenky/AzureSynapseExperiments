@@ -21,6 +21,14 @@ public class AggregatedTemperaturesTableAPI {
 		env.getConfig().setGlobalJobParameters(params);
 		env.setRuntimeMode(RuntimeExecutionMode.BATCH);
 
+		// Build input stream
+		final FileSource<String> source = FileSource
+				.forRecordStreamFormat(new TextLineInputFormat(), new Path(params.get("input"))).build();
+
+		final DataStream<String> stream = env.fromSource(source, WatermarkStrategy.noWatermarks(), "file-source");
+
+		stream.print();
+		
 		StreamTableEnvironment tableEnv = StreamTableEnvironment.create(env);
 		Table inputTable = tableEnv.fromValues(
 				DataTypes.ROW(
