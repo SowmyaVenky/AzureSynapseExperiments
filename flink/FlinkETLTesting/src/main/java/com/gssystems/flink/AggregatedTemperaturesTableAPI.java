@@ -8,6 +8,7 @@ import org.apache.flink.connector.file.src.reader.TextLineInputFormat;
 import org.apache.flink.core.fs.Path;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.apache.flink.table.api.DataTypes;
 import org.apache.flink.table.api.Table;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 import org.apache.flink.types.Row;
@@ -22,6 +23,10 @@ public class AggregatedTemperaturesTableAPI {
 
 		StreamTableEnvironment tableEnv = StreamTableEnvironment.create(env);
 		Table inputTable = tableEnv.fromValues(
+				DataTypes.ROW(
+				        DataTypes.FIELD("id", DataTypes.DECIMAL(10, 2)),
+				        DataTypes.FIELD("name", DataTypes.STRING())
+				    ),
 				   Row.of(1, "ABC"),
 				   Row.of(2L, "ABCDE")
 		);
@@ -29,12 +34,7 @@ public class AggregatedTemperaturesTableAPI {
 		// register the Table object as a view and query it
 		tableEnv.createTemporaryView("InputTable", inputTable);
 		Table resultTable = tableEnv.sqlQuery("SELECT f0, f1 FROM InputTable");
-
-		// interpret the insert-only Table as a DataStream again
-		DataStream<Row> resultStream = tableEnv.toDataStream(resultTable);
-
-		// add a printing sink and execute in DataStream API
-		resultStream.print();
+		resultTable.print();
 		env.execute("Venky Table Test -- 1 ");
 	}
 
