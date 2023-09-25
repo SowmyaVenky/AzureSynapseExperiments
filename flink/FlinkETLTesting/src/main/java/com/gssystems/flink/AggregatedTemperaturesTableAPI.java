@@ -71,7 +71,7 @@ public class AggregatedTemperaturesTableAPI {
 		Table table1 = tableEnv.fromDataStream(stream);
 		System.out.println("Printing the table from stream...");
 		Expression selExpr = new SqlCallExpression(
-				"JSON_QUERY(f0, '$.latitude'), JSON_QUERY(f0, '$.longitude')"
+				"JSON_QUERY(f0, '$.latitude')"
 		);
 		table1.select(selExpr).execute().print();
 		table1.printSchema();
