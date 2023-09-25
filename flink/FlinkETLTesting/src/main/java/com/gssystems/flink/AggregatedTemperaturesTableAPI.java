@@ -13,6 +13,8 @@ import org.apache.flink.table.api.DataTypes;
 import org.apache.flink.table.api.Schema;
 import org.apache.flink.table.api.Table;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
+import org.apache.flink.table.expressions.Expression;
+import org.apache.flink.table.expressions.SqlCallExpression;
 import org.apache.flink.types.Row;
 import org.apache.flink.util.CloseableIterator;
 
@@ -68,7 +70,8 @@ public class AggregatedTemperaturesTableAPI {
 
 		Table table1 = tableEnv.fromDataStream(stream);
 		System.out.println("Printing the table from stream...");
-		table1.execute().print();
+		Expression selExpr = new SqlCallExpression("SELECT UPPER(f0)");
+		table1.select(selExpr).execute().print();
 		table1.printSchema();
 
 		Table inputTable = tableEnv.fromValues(DataTypes.ROW(DataTypes.FIELD("id", DataTypes.DECIMAL(10, 2)),
