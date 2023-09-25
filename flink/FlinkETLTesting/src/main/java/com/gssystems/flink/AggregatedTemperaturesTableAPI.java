@@ -24,7 +24,7 @@ public class AggregatedTemperaturesTableAPI {
 		ParameterTool params = ParameterTool.fromArgs(args);
 		env.getConfig().setGlobalJobParameters(params);
 		env.setRuntimeMode(RuntimeExecutionMode.BATCH);
-		
+
 		// Build input stream
 		final FileSource<String> source = FileSource
 				.forRecordStreamFormat(new TextLineInputFormat(), new Path(params.get("input"))).build();
@@ -56,7 +56,7 @@ public class AggregatedTemperaturesTableAPI {
 		
 		pojoStream.print();
 
-		/*
+		
 		StreamTableEnvironment tableEnv = StreamTableEnvironment.create(env);
 
 		Table table1 = tableEnv.fromDataStream(stream);
@@ -69,7 +69,7 @@ public class AggregatedTemperaturesTableAPI {
 
 		System.out.println("Printing the table from hardcoded...");
 		inputTable.execute().print();
-		*/
+		
 		env.execute();
 	}
 
