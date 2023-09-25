@@ -91,13 +91,8 @@ public class AggregatedTemperaturesTableAPI {
 		Expression selExpr7 = new SqlCallExpression(
 				"JSON_VALUE(f0, '$.maxTemp')"
 		);
-		table1.select(selExpr1).as("latitude")
-		.select(selExpr1).as("longitude")
-		.select(selExpr1).as("year")
-		.select(selExpr1).as("month")
-		.select(selExpr1).as("count")
-		.select(selExpr1).as("min_temp")
-		.select(selExpr1).as("max_temp")		
+		table1.select(selExpr1,selExpr2, selExpr3, selExpr4, selExpr5, selExpr6, selExpr7 )
+		.as("longitude","year","month","count","min_temp","max_temp")		
 		.execute().print();
 		table1.printSchema();
 
