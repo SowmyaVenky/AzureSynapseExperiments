@@ -70,10 +70,35 @@ public class AggregatedTemperaturesTableAPI {
 
 		Table table1 = tableEnv.fromDataStream(stream);
 		System.out.println("Printing the table from stream...");
-		Expression selExpr = new SqlCallExpression(
+		Expression selExpr1 = new SqlCallExpression(
+				"JSON_VALUE(f0, '$.lat')"
+		);
+		Expression selExpr2 = new SqlCallExpression(
+				"JSON_VALUE(f0, '$.lng')"
+		);
+		Expression selExpr3 = new SqlCallExpression(
+				"JSON_VALUE(f0, '$.year')"
+		);
+		Expression selExpr4 = new SqlCallExpression(
+				"JSON_VALUE(f0, '$.month')"
+		);
+		Expression selExpr5 = new SqlCallExpression(
+				"JSON_VALUE(f0, '$.count')"
+		);
+		Expression selExpr6 = new SqlCallExpression(
 				"JSON_VALUE(f0, '$.minTemp')"
 		);
-		table1.select(selExpr).execute().print();
+		Expression selExpr7 = new SqlCallExpression(
+				"JSON_VALUE(f0, '$.maxTemp')"
+		);
+		table1.select(selExpr1).as("latitude")
+		.select(selExpr1).as("longitude")
+		.select(selExpr1).as("year")
+		.select(selExpr1).as("month")
+		.select(selExpr1).as("count")
+		.select(selExpr1).as("min_temp")
+		.select(selExpr1).as("max_temp")		
+		.execute().print();
 		table1.printSchema();
 
 		Table inputTable = tableEnv.fromValues(DataTypes.ROW(DataTypes.FIELD("id", DataTypes.DECIMAL(10, 2)),
