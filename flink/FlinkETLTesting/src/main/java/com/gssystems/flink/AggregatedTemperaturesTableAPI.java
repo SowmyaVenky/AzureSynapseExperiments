@@ -70,7 +70,7 @@ public class AggregatedTemperaturesTableAPI {
 
 		Table table1 = tableEnv.fromDataStream(stream);
 		System.out.println("Printing the table from stream...");
-		Expression selExpr = new SqlCallExpression("SELECT UPPER(f0)");
+		Expression selExpr = new SqlCallExpression("UPPER(f0)");
 		table1.select(selExpr).execute().print();
 		table1.printSchema();
 
