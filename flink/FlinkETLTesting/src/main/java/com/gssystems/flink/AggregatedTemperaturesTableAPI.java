@@ -66,7 +66,7 @@ public class AggregatedTemperaturesTableAPI {
 		
 		StreamTableEnvironment tableEnv = StreamTableEnvironment.create(env);
 
-		Table table1 = tableEnv.fromDataStream(stream);
+		Table table1 = tableEnv.fromDataStream(pojoStream);
 		System.out.println("Printing the table from stream...");
 		table1.execute().print();
 		table1.printSchema();
@@ -76,8 +76,6 @@ public class AggregatedTemperaturesTableAPI {
 
 		System.out.println("Printing the table from hardcoded...");
 		inputTable.execute().print();
-		
-		env.execute();
 	}
 
 }
