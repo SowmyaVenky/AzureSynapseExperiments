@@ -56,7 +56,7 @@ public class AggregatedTemperaturesTableAPI {
 				.column("MaxTemp", DataTypes.DOUBLE())
 				.build();
 
-		Table table1 = tableEnv.fromDataStream(pojoStream, tableSchema);
+		Table table1 = tableEnv.fromDataStream(pojoStream);
 		System.out.println("Printing the table from stream...");
 		table1.execute().print();
 		table1.printSchema();
