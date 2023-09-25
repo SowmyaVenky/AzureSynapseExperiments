@@ -68,6 +68,7 @@ public class AggregatedTemperaturesTableAPI {
 
 		System.out.println("Printing the table from hardcoded...");
 		inputTable.execute().print();
+		env.execute();
 	}
 
 }
