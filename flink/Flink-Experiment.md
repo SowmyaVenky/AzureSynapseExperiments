@@ -82,8 +82,29 @@ mvn exec:java -Dexec.mainClass="com.gssystems.flink.TemperatureStreamAggregatorF
 
 ## Experimenting with the Table API to see whether that makes life easier.
 
+* The idea of this experiment is to take the JSON data that was produced with regular flink map-reduce kind of code, and use the Table API construct to parse this JSON into a flink Table. Once that is in the table, we can do various analytics on the fly without having to worry about complex map and reduce functions we have used in the past to aggregate data. 
+
+* Note that when we run the maven build, a shaded jar is generated. This shaded jar has a particular class that is designated as the main-class in the manifest. When we try to do this experiment make sure the pom.xml is modified to specify the correct main class. 
+
+* Note also that we can't run the table API with a maven exec command like how we used to run the other programs containing flink java code. There are various classes that are needed to be in the classpath and it is just easier to run the program directly via docker that has a flink cluster running.
+
 <pre>
 docker exec -it flink_jobmanager_1 flink run /home/FlinkETLTesting/target/FlinkETLTesting-1.0-SNAPSHOT.jar --input /home/aggregated_temps_flink
-
-mvn exec:java -Dexec.mainClass="com.gssystems.flink.AggregatedTemperaturesTableAPI" -Dexec.args="--input file:///C:/Venky/DP-203/AzureSynapseExperiments/datafiles/downloaded_temps_flink/"
 </pre>
+
+<img src="./images/flink_json_parsed1.png" />
+
+<img src="./images/flink_json_parsed.png" />
+
+* We can execute queries on top of the parsed data as shown below.
+
+<pre>
+// Now run aggregations on that table
+System.out.println("Generating aggregations on top of parsed table...");
+
+jsonParsedTable.groupBy(Expressions.$("year"), Expressions.$("month"))
+        .select(Expressions.$("year"), Expressions.$("month"), Expressions.$("min_temp").min().as("minimum"),
+                Expressions.$("max_temp").max().as("maximum"))
+        .execute().print();
+</pre>
+<img src="./images/post_parse_agg.png" />

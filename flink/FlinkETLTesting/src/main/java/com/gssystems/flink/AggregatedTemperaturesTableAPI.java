@@ -9,11 +9,13 @@ import org.apache.flink.core.fs.Path;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.DataTypes;
+import org.apache.flink.table.api.Expressions;
 import org.apache.flink.table.api.Table;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 import org.apache.flink.table.expressions.Expression;
 import org.apache.flink.table.expressions.SqlCallExpression;
 import org.apache.flink.types.Row;
+import static org.apache.flink.table.api.Expressions.*;
 
 /**
  * This program will take the aggregated JSONs we produced before, and use Table
@@ -36,7 +38,7 @@ public class AggregatedTemperaturesTableAPI {
 		StreamTableEnvironment tableEnv = StreamTableEnvironment.create(env);
 
 		Table table1 = tableEnv.fromDataStream(stream);
-		System.out.println("Printing the table from stream...");
+
 		Expression selExpr1 = new SqlCallExpression("JSON_VALUE(f0, '$.lat')");
 		Expression selExpr2 = new SqlCallExpression("JSON_VALUE(f0, '$.lng')");
 		Expression selExpr3 = new SqlCallExpression("JSON_VALUE(f0, '$.year')");
@@ -44,15 +46,20 @@ public class AggregatedTemperaturesTableAPI {
 		Expression selExpr5 = new SqlCallExpression("JSON_VALUE(f0, '$.count')");
 		Expression selExpr6 = new SqlCallExpression("JSON_VALUE(f0, '$.minTemp')");
 		Expression selExpr7 = new SqlCallExpression("JSON_VALUE(f0, '$.maxTemp')");
-		table1.select(selExpr1, selExpr2, selExpr3, selExpr4, selExpr5, selExpr6, selExpr7)
-				.as("longitude", "year", "month", "count", "min_temp", "max_temp").execute().print();
-		table1.printSchema();
 
-		Table inputTable = tableEnv.fromValues(DataTypes.ROW(DataTypes.FIELD("id", DataTypes.DECIMAL(10, 2)),
-				DataTypes.FIELD("name", DataTypes.STRING())), Row.of(1, "ABC"), Row.of(2L, "ABCDE"));
+		System.out.println("Printing the table after reformatting...");
 
-		System.out.println("Printing the table from hardcoded...");
-		inputTable.execute().print();
+		Table jsonParsedTable = table1.select(selExpr1, selExpr2, selExpr3, selExpr4, selExpr5, selExpr6, selExpr7)
+				.as("latitude", "longitude", "year", "month", "count", "min_temp", "max_temp");
+		jsonParsedTable.execute().print();
+		jsonParsedTable.printSchema();
+
+		// Now run aggregations on that table
+		System.out.println("Generating aggregations on top of parsed table...");
+
+		jsonParsedTable.groupBy(Expressions.$("year"), Expressions.$("month"))
+				.select(Expressions.$("year"), Expressions.$("month"), Expressions.$("min_temp").min().as("minimum"),
+						Expressions.$("max_temp").max().as("maximum"))
+				.execute().print();
 	}
-
 }
