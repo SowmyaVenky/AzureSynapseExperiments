@@ -14,7 +14,6 @@ import org.apache.flink.table.api.Schema;
 import org.apache.flink.table.api.Table;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 import org.apache.flink.types.Row;
-import org.apache.flink.types.RowKind;
 
 import com.google.gson.Gson;
 
@@ -25,8 +24,7 @@ public class AggregatedTemperaturesTableAPI {
 		ParameterTool params = ParameterTool.fromArgs(args);
 		env.getConfig().setGlobalJobParameters(params);
 		env.setRuntimeMode(RuntimeExecutionMode.BATCH);
-		StreamTableEnvironment tableEnv = StreamTableEnvironment.create(env);
-
+		
 		// Build input stream
 		final FileSource<String> source = FileSource
 				.forRecordStreamFormat(new TextLineInputFormat(), new Path(params.get("input"))).build();
@@ -58,6 +56,9 @@ public class AggregatedTemperaturesTableAPI {
 		
 		pojoStream.printToErr();
 
+		/*
+		StreamTableEnvironment tableEnv = StreamTableEnvironment.create(env);
+
 		Table table1 = tableEnv.fromDataStream(stream);
 		System.out.println("Printing the table from stream...");
 		table1.execute().print();
@@ -68,6 +69,7 @@ public class AggregatedTemperaturesTableAPI {
 
 		System.out.println("Printing the table from hardcoded...");
 		inputTable.execute().print();
+		*/
 		env.execute();
 	}
 
