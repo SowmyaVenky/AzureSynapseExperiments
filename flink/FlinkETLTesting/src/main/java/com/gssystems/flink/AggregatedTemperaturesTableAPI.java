@@ -41,7 +41,8 @@ public class AggregatedTemperaturesTableAPI {
 			}
 		};
 		//Let us convert the JSON Stream into a stream of java objects.
-		final DataStream<TemperatureAggregateBean> pojoStream = stream.map(x1 );
+		final DataStream<TemperatureAggregateBean> pojoStream = stream.map(x1);
+		pojoStream.print();
 		
 		Table table1 = tableEnv.fromDataStream(pojoStream);
 		System.out.println("Printing the table from stream...");
