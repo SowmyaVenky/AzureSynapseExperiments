@@ -10,54 +10,60 @@ import org.apache.flink.core.fs.Path;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.DataTypes;
+import org.apache.flink.table.api.Schema;
 import org.apache.flink.table.api.Table;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 import org.apache.flink.types.Row;
+import org.apache.flink.types.RowKind;
 
 import com.google.gson.Gson;
 
 public class AggregatedTemperaturesTableAPI {
-	
+
 	public static void main(String[] args) throws Exception {
 		StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 		ParameterTool params = ParameterTool.fromArgs(args);
 		env.getConfig().setGlobalJobParameters(params);
 		env.setRuntimeMode(RuntimeExecutionMode.BATCH);
 		StreamTableEnvironment tableEnv = StreamTableEnvironment.create(env);
-		
+
 		// Build input stream
 		final FileSource<String> source = FileSource
 				.forRecordStreamFormat(new TextLineInputFormat(), new Path(params.get("input"))).build();
 		final DataStream<String> stream = env.fromSource(source, WatermarkStrategy.noWatermarks(), "file-source");
-		
-		MapFunction<String, TemperatureAggregateBean> x1 = new MapFunction<String, TemperatureAggregateBean>() {
+
+		MapFunction<String, Row> x1 = new MapFunction<String, Row>() {
 			private static final long serialVersionUID = -1385202325062265709L;
 
 			@Override
-			public TemperatureAggregateBean map(String value) throws Exception {
+			public Row map(String value) throws Exception {
 				Gson gs = new Gson();
 				TemperatureAggregateBean aBean = gs.fromJson(value, TemperatureAggregateBean.class);
-				return aBean;
+				Row aRow = Row.of(aBean.getLat(), aBean.getLng(), aBean.getYear(), aBean.getMonth(), aBean.getCount(),
+						aBean.getMinTemp(), aBean.getMaxTemp());
+				return aRow;
 			}
 		};
-		//Let us convert the JSON Stream into a stream of java objects.
-		final DataStream<TemperatureAggregateBean> pojoStream = stream.map(x1);
-		pojoStream.print();
-		
-		Table table1 = tableEnv.fromDataStream(pojoStream);
+		// Let us convert the JSON Stream into a stream of Row objects.
+		final DataStream<Row> pojoStream = stream.map(x1);
+		Schema tableSchema = Schema.newBuilder()
+				.column("latitude", DataTypes.DOUBLE())
+				.column("longitude", DataTypes.DOUBLE())
+				.column("year", DataTypes.INT())
+				.column("month", DataTypes.INT())
+				.column("count", DataTypes.DOUBLE())
+				.column("MinTemp", DataTypes.DOUBLE())
+				.column("MaxTemp", DataTypes.DOUBLE())
+				.build();
+
+		Table table1 = tableEnv.fromDataStream(pojoStream, tableSchema);
 		System.out.println("Printing the table from stream...");
 		table1.execute().print();
 		table1.printSchema();
-		
-		Table inputTable = tableEnv.fromValues(
-				DataTypes.ROW(
-				        DataTypes.FIELD("id", DataTypes.DECIMAL(10, 2)),
-				        DataTypes.FIELD("name", DataTypes.STRING())
-				    ),
-				   Row.of(1, "ABC"),
-				   Row.of(2L, "ABCDE")
-		);
-		
+
+		Table inputTable = tableEnv.fromValues(DataTypes.ROW(DataTypes.FIELD("id", DataTypes.DECIMAL(10, 2)),
+				DataTypes.FIELD("name", DataTypes.STRING())), Row.of(1, "ABC"), Row.of(2L, "ABCDE"));
+
 		System.out.println("Printing the table from hardcoded...");
 		inputTable.execute().print();
 	}
