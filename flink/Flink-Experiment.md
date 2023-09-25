@@ -108,3 +108,36 @@ jsonParsedTable.groupBy(Expressions.$("year"), Expressions.$("month"))
         .execute().print();
 </pre>
 <img src="./images/post_parse_agg.png" />
+
+* We can create a table as required directly pointing to the path. We are now using the flink-json library to avoid having to parse any JSON! 
+<pre>
+		// Now let us see whether we can use DDL to declare tables pointing to the file
+		// system path. This uses the flink-json library. This makes it so much like how we do it on Hive etc.
+		tableEnv.createTemporaryTable("source",
+				TableDescriptor.forConnector("filesystem")
+						.schema(Schema.newBuilder().column("lat", DataTypes.DOUBLE())
+								.column("lng", DataTypes.DOUBLE())
+								.column("year", DataTypes.INT())
+								.column("month", DataTypes.INT())
+								.column("count", DataTypes.DOUBLE())
+								.column("minTemp", DataTypes.DOUBLE())
+								.column("maxTemp", DataTypes.DOUBLE())								
+								.build())
+						.option("path", params.get("input")).format("json").build());
+
+		Table definedTable = tableEnv.from("source");
+		definedTable.execute().print();
+</pre>
+
+* We can use the table env and directly query the data. 
+
+<pre>
+System.out.println("Executing direct query from tableEnv...");
+		//To issue SQL based queries directly on the tables, we need to go to the tableEnv not table. 
+		TableResult tableResult2 = tableEnv.sqlQuery("SELECT lat, lng, min(minTemp) as lowest, max(maxTemp) as highest"
+				+ " FROM source group by lat, lng").execute();
+		tableResult2.print();
+		System.out.println("Table created...");
+</pre>
+
+<img src="./images/tableenv_direct_query.png" />
