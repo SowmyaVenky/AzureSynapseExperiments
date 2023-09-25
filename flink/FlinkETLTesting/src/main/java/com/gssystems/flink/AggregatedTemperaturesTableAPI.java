@@ -14,6 +14,7 @@ import org.apache.flink.table.api.Schema;
 import org.apache.flink.table.api.Table;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 import org.apache.flink.types.Row;
+import org.apache.flink.util.CloseableIterator;
 
 import com.google.gson.Gson;
 
@@ -42,8 +43,10 @@ public class AggregatedTemperaturesTableAPI {
 				return aRow;
 			}
 		};
+		
 		// Let us convert the JSON Stream into a stream of Row objects.
 		final DataStream<Row> pojoStream = stream.map(x1);
+		
 		Schema tableSchema = Schema.newBuilder()
 				.column("latitude", DataTypes.DOUBLE())
 				.column("longitude", DataTypes.DOUBLE())
@@ -54,7 +57,11 @@ public class AggregatedTemperaturesTableAPI {
 				.column("MaxTemp", DataTypes.DOUBLE())
 				.build();
 		
-		pojoStream.print();
+		CloseableIterator<Row> iter = pojoStream.executeAndCollect();
+		while(iter.hasNext()) {
+			Row nextRow = iter.next();
+			System.out.println(nextRow);
+		}
 
 		
 		StreamTableEnvironment tableEnv = StreamTableEnvironment.create(env);
