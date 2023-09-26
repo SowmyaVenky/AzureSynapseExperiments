@@ -179,3 +179,5 @@ org.apache.flink.client.program.ProgramInvocationException: The main method caus
 </pre>
 
 * The results of the streaming aggregate query are listed in this file. As we can see in the op column, the initial value of the min, max were computed and everytime a change was detected in the stream, the min and max values are updated. Please refer to <a href="table_query_output_kafka.txt">this run output</a>
+
+* If you see the data on the last line of each table, it is clear that the same min and max were computed in streaming mode as the data came. This is the biggest selling point for Flink. It can treat streaming and batch data sources with almost no change in the code.

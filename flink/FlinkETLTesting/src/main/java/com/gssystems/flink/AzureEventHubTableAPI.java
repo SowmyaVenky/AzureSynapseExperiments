@@ -31,7 +31,9 @@ public class AzureEventHubTableAPI {
 
 		TableResult result2 = tableEnv
 				.executeSql("Select latitude, longitude, max(temperature_2m) as maxim, min(temperature_2m) as minim "
-						+ " from temperatures group by latitude, longitude");
+						+ " from temperatures "
+						+ " where latitude = 13.0 and longitude = 77.600006 "
+						+ " group by latitude, longitude");
 		result2.print();
 
 		// Now we will create another table to point directly to the kafka topic we
@@ -50,7 +52,9 @@ public class AzureEventHubTableAPI {
 		
 		TableResult result4 = tableEnv
 				.executeSql("Select latitude, longitude, max(temperature_2m) as maxim, min(temperature_2m) as minim "
-						+ " from temperatures_kafka group by latitude, longitude");
+						+ " from temperatures_kafka "
+						+ " where latitude = 13.0 and longitude = 77.600006 "
+						+ " group by latitude, longitude");
 		result4.print();
 
 	}
