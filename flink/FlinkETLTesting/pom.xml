@@ -172,7 +172,7 @@
 								<transformer
 									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 									<mainClass>
-										com.gssystems.flink.AggregatedTemperaturesTableAPI</mainClass>
+										com.gssystems.flink.AzureEventHubTableAPI</mainClass>
 								</transformer>
 							</transformers>
 						</configuration>

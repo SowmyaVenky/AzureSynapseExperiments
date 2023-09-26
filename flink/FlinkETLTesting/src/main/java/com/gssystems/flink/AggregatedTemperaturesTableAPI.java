@@ -17,8 +17,6 @@ import org.apache.flink.table.api.TableResult;
 import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 import org.apache.flink.table.expressions.Expression;
 import org.apache.flink.table.expressions.SqlCallExpression;
-import org.apache.flink.types.Row;
-import static org.apache.flink.table.api.Expressions.*;
 
 /**
  * This program will take the aggregated JSONs we produced before, and use Table

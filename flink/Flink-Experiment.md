@@ -132,7 +132,7 @@ jsonParsedTable.groupBy(Expressions.$("year"), Expressions.$("month"))
 * We can use the table env and directly query the data. 
 
 <pre>
-System.out.println("Executing direct query from tableEnv...");
+        System.out.println("Executing direct query from tableEnv...");
 		//To issue SQL based queries directly on the tables, we need to go to the tableEnv not table. 
 		TableResult tableResult2 = tableEnv.sqlQuery("SELECT lat, lng, min(minTemp) as lowest, max(maxTemp) as highest"
 				+ " FROM source group by lat, lng").execute();
@@ -141,3 +141,41 @@ System.out.println("Executing direct query from tableEnv...");
 </pre>
 
 <img src="./images/tableenv_direct_query.png" />
+
+* We can try to query directly from a kafka topic mapping it as a sql table that contains json records.
+
+* Edit the docker-compose file to include kafka components inside the same network. Now we have flink and kafka running under docker as shown below.
+
+<img src="./images/kafka_and_flink.png" />
+
+* Open a new cmd promt and start the kafka producer like how we did before.
+<pre>
+cd C:\Venky\DP-203\AzureSynapseExperiments\SparkExamples
+mvn clean package 
+
+mvn exec:java -Dexec.mainClass="com.gssystems.kafka.WeatherDataStreamingProducer" -Dexec.args="C:\Venky\DP-203\AzureSynapseExperiments\datafiles\streaming\output\part-00000-dd3eed31-5521-456d-9fcd-3d66c266f6fc-c000.json C:\Venky\DP-203\AzureSynapseExperiments\datafiles\streaming\location_master\part-00000-a3a34469-0ef8-496f-be3f-826ef3d55233-c000.json"
+</pre>
+
+<img src="./images/kafka_producer_record_push.png" />
+
+* I have tested the flink table pointing to the filesystem files first to ensure we do not have any problems. We will then define a new table to point to the kafka layer and see whether we get the same results from both the tables. 
+
+<pre>
+docker exec -it flink_jobmanager_1 flink run /home/FlinkETLTesting/target/FlinkETLTesting-1.0-SNAPSHOT.jar --input /home/temperatures_raw_json/
+</pre>
+
+<img src="./images/kafka_has_data.png" />
+
+* Note that we can't set the streaming type to BATCH and execute it against the kafka topic. If we do that we will get this error!
+
+<pre>
+CREATE TABLE temperatures_kafka ( latitude double, longitude double, `time` string, temperature_2m double ) with ( 'connector' =  'kafka', 'format' = 'json', 'topic' = 'temperatures',  'properties.bootstrap.servers' = 'kafka:9092',  'properties.group.id' = 'flink-consumer')
+OK
+
+------------------------------------------------------------
+ The program finished with the following exception:
+
+org.apache.flink.client.program.ProgramInvocationException: The main method caused an error: Querying an unbounded table 'default_catalog.default_database.temperatures_kafka' in batch mode is not allowed. The table source is unbounded.
+</pre>
+
+* The results of the streaming aggregate query are listed in this file. As we can see in the op column, the initial value of the min, max were computed and everytime a change was detected in the stream, the min and max values are updated. Please refer to <a href="table_query_output_kafka.txt">this run output</a>
