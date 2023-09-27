@@ -29,10 +29,8 @@
 
 <img src="./images/asa_008.png" />
 
-<img src="./images/asa_010.png" />
-
 * Creating container to land streaming data.
-<img src="./images/asa_008.png" />
+<img src="./images/asa_010.png" />
 
 * Next we will do a maven build and start the producer to push messages to the event hub. 
 
