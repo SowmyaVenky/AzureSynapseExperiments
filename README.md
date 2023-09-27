@@ -38,3 +38,6 @@ Various fun projects with Azure Synapse Suite
 
 ## Flink processing testing. 
 * This experiment will show how to use Flink to process the weather data and reformat it. Flink can call the API and pull date based on the date ranges for all the cities. Read more about this <a href="./flink/Flink-Experiment.md">here</a>
+
+## Azure Streaming Analytics testing.
+* These experiments will use most of the same datasets we have been using and try to experiment and realize various use-cases with the Azure Streaming Analytics (ASA) product and try integrations with other services. Read more about this <a href="./asa/Readme.md">here</a>
