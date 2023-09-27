@@ -53,11 +53,9 @@ mvn exec:java -Dexec.mainClass="com.gssystems.azeventhub.TemperaturesProducer" -
 
 * The traffic pattern is shown below and shows that messages are coming to the event hub from the local computer.
 
-<img src="./images/asa_010.png" />
+<img src="./images/asa_012.png" />
 
 * Hit the start job and we can see that the icon changes to Stop job on the top of the screen. 
-
-<img src="./images/asa_012.png" />
 
 <img src="./images/asa_013.png" />
 
