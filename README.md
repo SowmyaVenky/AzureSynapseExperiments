@@ -38,3 +38,6 @@ Various fun projects with Azure Synapse Suite
 
 ## Flink processing testing. 
 * This experiment will show how to use Flink to process the weather data and reformat it. Flink can call the API and pull date based on the date ranges for all the cities. We explore the regular Flink Java API and code a regular map-reduce kind of application while comparing its similarties with a Spark program. Then we use the simplified Table API that can make various sources look like a regular SQL table, and interact with it with SQL queries. Kafka topics, regular file systems can be exposed as tables with this technique. Read more about this <a href="./flink/Flink-Experiment.md">here</a>
+
+## Azure Streaming Analytics testing.
+* Azure streaming analytics is a product that can make writing streaming analytics jobs a breeze. No need to know how to code with Flink/Spark etc. and a no-code editor does most of the code generation. Read more about testing it <a href="./ASA/README.md">here</a>
