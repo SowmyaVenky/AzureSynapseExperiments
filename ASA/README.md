@@ -46,3 +46,25 @@ mvn clean package
 ## Producer to send messages 
 mvn exec:java -Dexec.mainClass="com.gssystems.azeventhub.TemperaturesProducer" -Dexec.args="C:\Venky\DP-203\AzureSynapseExperiments\datafiles\streaming\output\part-00000-2fa6257f-a51c-41e6-9572-630bf2a22bfd-c000.json C:\Venky\DP-203\AzureSynapseExperiments\datafiles\streaming\location_master\part-00000-9ce98557-48be-4823-bfb3-a0764b296729-c000.json"
 </pre>
+
+* Once the data gets streamed into the event hub, the Azure Streaming Analytics job scans the data to get an idea of the schema of the events. We can see that in the bottom section of the screen where it shows us a preview. 
+
+<img src="./images/asa_011.png" />
+
+* The traffic pattern is shown below and shows that messages are coming to the event hub from the local computer.
+
+<img src="./images/asa_010.png" />
+
+* Hit the start job and we can see that the icon changes to Stop job on the top of the screen. 
+
+<img src="./images/asa_012.png" />
+
+<img src="./images/asa_013.png" />
+
+* The output format was set to JSON and we did not put any path patterns in the screen for the output files configuration. As we can see the files are now popped in the root of the container and are real plain text JSON files
+
+<img src="./images/asa_014.png" />
+
+* Once we change the output format to parquet, and set the path pattern to write files to the streaming_files directory, we can see that the output format is parquet and the directory is as shown.
+
+<img src="./images/asa_015.png" />
