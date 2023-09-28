@@ -66,3 +66,37 @@ mvn exec:java -Dexec.mainClass="com.gssystems.azeventhub.TemperaturesProducer" -
 * Once we change the output format to parquet, and set the path pattern to write files to the streaming_files directory, we can see that the output format is parquet and the directory is as shown.
 
 <img src="./images/asa_015.png" />
+
+## Trying out multiple paths of ingest from the same event hub stream
+
+* Now we can experiment with seeing how we can leverage the same event stream coming over the event hub, and push the data to multiple destinations in ADLS in different formats, and possibly different aggregations done on it. Demontrates the power of ASA and the fast developer experience.
+
+* Create multiple folders in ADLS to target various streams.
+
+<img src="./images/asa_016.png" />
+
+* Upload the locations_master file we had generated via spark to a new folder in the data lake. This could be used to connect with the stream and do a join. 
+
+<img src="./images/asa_017.png" />
+
+* Create a SAS and update the connection string in the Constants.java like before. Start producer (see commands before). Multiple queries are written in the same ASA job to target to different destinations (outputs)
+
+<img src="./images/asa_018.png" />
+
+* We can upload 25 records from what we are planning to stream to test this job even before we flood it with messages 
+
+<img src="./images/asa_019.png" />
+
+<img src="./images/asa_020.png" />
+
+* As we can see we have been able to apply the substring transform on the time variable and split the data to YYYY, MM and DD and TT
+
+<img src="./images/asa_020.png" />
+
+* Job running, and producing output on the ADLS as configured. 
+
+<img src="./images/asa_021.png" />
+
+<img src="./images/asa_022.png" />
+
+<img src="./images/asa_023.png" />

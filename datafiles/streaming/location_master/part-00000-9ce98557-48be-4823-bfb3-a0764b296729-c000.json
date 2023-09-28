@@ -1,6 +1,6 @@
-{"elevation":910.0,"latitude":13.0,"longitude":77.600006}
-{"elevation":55.0,"latitude":30.200005,"longitude":-95.5}
-{"elevation":58.0,"latitude":41.90001,"longitude":12.5}
-{"elevation":38.0,"latitude":61.199997,"longitude":-149.9}
-{"elevation":47.0,"latitude":48.90001,"longitude":2.300003}
-{"elevation":9.0,"latitude":51.5,"longitude":-0.099990845}
+{"elevation":910.0,"latitude":13.0,"longitude":77.600006, "city": "Bangalore, India"}
+{"elevation":55.0,"latitude":30.200005,"longitude":-95.5, "city": "Spring, TX, USA"}
+{"elevation":58.0,"latitude":41.90001,"longitude":12.5, "city": "Rome, Italy"}
+{"elevation":38.0,"latitude":61.199997,"longitude":-149.9, "city": "Anchorage, AK, USA"}
+{"elevation":47.0,"latitude":48.90001,"longitude":2.300003, "city": "Paris, France"}
+{"elevation":9.0,"latitude":51.5,"longitude":-0.099990845, "city": "London, England"}
