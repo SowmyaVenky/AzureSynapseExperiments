@@ -1,0 +1,26 @@
+-- This is auto-generated code
+SELECT
+    TOP 100 *
+FROM
+    OPENROWSET(
+        BULK 'https://venkydatalake1002.dfs.core.windows.net/datalake/streaming-delta/',
+        FORMAT = 'DELTA'
+    ) AS [result]
+ORDER BY latitude, longitude, time, temperature_2m
+
+SELECT
+     count(*)
+FROM
+    OPENROWSET(
+        BULK 'https://venkydatalake1002.dfs.core.windows.net/datalake/streaming-delta/',
+        FORMAT = 'DELTA'
+    ) AS [result]
+
+SELECT
+     count(*)
+FROM
+    OPENROWSET(
+        BULK 'https://venkydatalake1002.dfs.core.windows.net/datalake/streaming-parquet/',
+        FORMAT = 'PARQUET'
+    ) AS [result]
+

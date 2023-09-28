@@ -100,3 +100,31 @@ mvn exec:java -Dexec.mainClass="com.gssystems.azeventhub.TemperaturesProducer" -
 <img src="./images/asa_022.png" />
 
 <img src="./images/asa_023.png" />
+
+* We can create a simple Synapse enviorment with just serverless pools to look at the data that has landed in ADLS via this ASA streaming job and make some observations. 
+
+<img src="./images/asa_024.png" />
+
+* As we can see Synapse is able to see all these folders that were created as part of the ASA process. We can use the serverless pool to query each type of download.
+
+<img src="./images/asa_025.png" />
+
+* Counting records reveals that the counts match! Also there are NO DUPS as we can see from the order by clause given on the select.
+
+<img src="./images/asa_026.png" />
+
+<img src="./images/asa_027.png" />
+
+<img src="./images/asa_028.png" />
+
+* Now let us fire the same exact records into the job and see how it handles them in both parquet and delta formats. There are no key definitions or anything, so there is no way it would be able to do a merge operation on the delta tables.
+
+* Here are the 2 jobs shown in the metrics of ASA 
+
+<img src="./images/asa_029.png" />
+
+* As expected the parquet stream shows that we have duplicate records and the records have exactly doubled from previous query.
+
+<img src="./images/asa_030.png" />
+
+<img src="./images/asa_031.png" />

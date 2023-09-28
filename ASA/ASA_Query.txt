@@ -1,0 +1,8 @@
+SELECT * INTO [out-parquet] FROM [temperatures] 
+SELECT * INTO [out-delta] FROM [temperatures]
+SELECT latitude, longitude, substring(time,1,4) as yyyy, 
+        substring(time,6,2) as mm, 
+        substring(time,9,2) as dd, 
+        substring(time,12,5) as tt, 
+        temperature_2m
+INTO [out-aggregated] FROM [temperatures]
