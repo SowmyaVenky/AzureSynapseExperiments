@@ -1,5 +1,7 @@
 package com.gssystems.delta;
 
+import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 
 import io.delta.tables.DeltaTable;
@@ -18,7 +20,11 @@ public class TemperaturesDeltaReader {
         spark.sparkContext().setLogLevel("ERROR");
 
         DeltaTable table1 = DeltaTable.forPath(spark, temperaturesDeltaDir);
-        table1.df().filter("latitude = 61.199997 " + 
+        Dataset<Row> theDataSet = table1.df();
+
+        System.out.println("Total number of rows in the delta table..." + theDataSet.count());
+        
+        theDataSet.filter("latitude = 61.199997 " + 
         " and longitude = -149.9 " +
         " and time in ('2019-01-01T00:00', " + 
         " '2019-01-01T01:00', '2019-01-01T02:00', " +
