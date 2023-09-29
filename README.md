@@ -41,3 +41,6 @@ Various fun projects with Azure Synapse Suite
 
 ## Azure Streaming Analytics testing.
 * Azure streaming analytics is a product that can make writing streaming analytics jobs a breeze. No need to know how to code with Flink/Spark etc. and a no-code editor does most of the code generation. Read more about testing it <a href="./ASA/README.md">here</a>
+
+## Delta table experiments 
+* The following section experiments with the merging of rows into the Delta table format. Read more <a href="./SparkExamples/deltalake/README.md">here</a>
