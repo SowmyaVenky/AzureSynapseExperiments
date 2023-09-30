@@ -145,3 +145,45 @@ mvn exec:java -Dexec.mainClass="com.gssystems.kafka.WeatherDataStreamingProducer
 <img src="./images/delta_008.png" />
 
 * As we can see the data inserts and updates went well.
+* We will load the delta directory into ADLS and query it using synapse serverless pool to get aggregates.
+<pre>
+-- This is auto-generated code
+SELECT
+    latitude, 
+    longitude, 
+    SUBSTRING(time,1,4) as YYYY,
+    count(*) as num_records
+FROM
+    OPENROWSET(
+        BULK 'https://venkydatalake1002.dfs.core.windows.net/files/spring_tx_temps_delta/',
+        FORMAT = 'DELTA'
+    ) AS [result]
+GROUP BY
+latitude,
+longitude,
+SUBSTRING(time,1,4)
+order by latitude, longitude, YYYY
+</pre>
+
+* As we can see, the 10 fake 2009 records we created are in the file.
+<img src="./images/delta_009.png" />
+
+<pre>
+-- This is auto-generated code
+SELECT
+    SUBSTRING(time,1,4) as YYYY,
+    count(*) as num_records
+FROM
+    OPENROWSET(
+        BULK 'https://venkydatalake1002.dfs.core.windows.net/files/spring_tx_temps_delta/',
+        FORMAT = 'DELTA'
+    ) AS [result]
+GROUP BY
+SUBSTRING(time,1,4)
+order by YYYY
+<pre>
+
+<img src="./images/delta_010.png" />
+
+
+
