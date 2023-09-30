@@ -94,7 +94,7 @@ Waiting for 3 min for messages, aborting...
 
 * Let us compare the dataset after the merge has happened. 
 <pre>
-spark-submit --master local[4] --packages io.delta:delta-core_2.12:2.2.0 --conf "spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension" --conf "spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog" --class com.gssystems.delta.TemperaturesDeltaReader target\SparkExamples-1.0-SNAPSHOT.jar file:///C:/Venky/DP-203/AzureSynapseExperiments/datafiles/spring_tx_temps_delta/
+spark-submit --master local[4] --packages io.delta:delta-core_2.12:2.2.0 --conf "spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension" --conf "spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog" --class com.gssystems.delta.TemperaturesDeltaReader target\SparkExamples-1.0-SNAPSHOT.jar file:///C:/Venky/spring_tx_temps_delta/
 
 </pre>
 
@@ -113,5 +113,15 @@ Total number of rows in the delta table...210384
 | 48.90001|    2.300003|35064|
 +---------+------------+-----+
 
-Total number of rows in the delta table...234035
+Total number of rows in the delta table...236448
++---------+------------+-----+
+| latitude|   longitude|count|
++---------+------------+-----+
+|61.199997|      -149.9|39408|
+|     51.5|-0.099990845|39408|
+| 41.90001|        12.5|39408|
+|     13.0|   77.600006|39408|
+|30.200005|       -95.5|39408|
+| 48.90001|    2.300003|39408|
++---------+------------+-----+
 </pre>
