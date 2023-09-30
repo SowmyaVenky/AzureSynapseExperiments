@@ -6,6 +6,7 @@ create table temperatures (
     temperature_2m float
 ) ;
 
+select latitude, longitude, substring(time, 1, 4) as YYYY, count(*) from temperatures group by latitude, longitude, YYYY;
 
 ## For sql server
 drop table temperatures;

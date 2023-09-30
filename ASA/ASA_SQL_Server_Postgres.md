@@ -55,3 +55,21 @@ mvn exec:java -Dexec.mainClass="com.gssystems.azeventhub.TemperaturesProducer" -
 * As the producer sends events, the ASA job draws the events from the event hub and sinks it to the target. 
 
 <img src="./images/asa_041.png" />
+
+* The output query shows that the data is in the postgres table as expected.
+
+<img src="./images/asa_042.png" />
+
+* Aggregating in postgres
+<pre>
+postgres=> select latitude, longitude, substring(time, 1, 4) as YYYY, count(*) from temperatures group by latitude, longitude, YYYY;
+ latitude  |  longitude   | yyyy | count 
+-----------+--------------+------+-------
+        13 |    77.600006 | 2023 |  1343
+ 61.199997 |       -149.9 | 2023 |  4344
+  48.90001 |     2.300003 | 2023 |  4344
+  41.90001 |         12.5 | 2023 |  4344
+ 30.200005 |        -95.5 | 2023 |  3342
+      51.5 | -0.099990845 | 2023 |  4344
+</pre>
+
