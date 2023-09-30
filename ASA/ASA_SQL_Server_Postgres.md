@@ -1,6 +1,6 @@
-## Azure Streaming Analytics and SQL Server integration
+## Azure Streaming Analytics with SQL Server & Postgres integration
 
-* We will consume the same payload via the Azure Event Hub, and push the data to a SQL Server instance. This will be a typical use-case in the microservices domain where transactions come to the RESI API layer, and might be needed to be pushed to other destinations. 
+* We will consume the same payload via the Azure Event Hub, and push the data to a SQL Server instance/ Postgres. This will be a typical use-case in the microservices domain where events could be emitted from one domain and consumed in another. 
 
 * Deployed a SQL Server VM to test the integration.
 <img src="./images/asa_032.png" />
@@ -19,7 +19,7 @@
 
 <img src="./images/asa_035.png" />
 
-* PROBLEM - ASA does not like the self signed certificate that comes with SQLServer hosted on the VM. I do not have power to create an Azure SQL DB. That is the reason we can't do this test. Refer to https://learn.microsoft.com/en-us/azure/stream-analytics/sql-database-output
+* <b> PROBLEM - ASA does not like the self signed certificate that comes with SQLServer hosted on the VM. I do not have power to create an Azure SQL DB. That is the reason we can't do this test. Refer to https://learn.microsoft.com/en-us/azure/stream-analytics/sql-database-output </b>
 
 <img src="./images/asa_036.png" />
 
