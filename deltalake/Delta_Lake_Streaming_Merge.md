@@ -15,12 +15,14 @@ SET HADOOP_HOME=C:\Venky\DP-203\AzureSynapseExperiments\SparkExamples
 cd C:\Venky\DP-203\AzureSynapseExperiments\SparkExamples
 mvn clean package 
 
-spark-submit --master local[4] --packages io.delta:delta-core_2.12:2.2.0 --conf "spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension" --conf "spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog" --class com.gssystems.delta.TemperaturesDeltaProcessing target\SparkExamples-1.0-SNAPSHOT.jar file:///C:/Venky/DP-203/AzureSynapseExperiments/datafiles/spring_tx_temps_formatted/ file:///C:/Venky/DP-203/AzureSynapseExperiments/datafiles/spring_tx_temps_delta/
+## Note output folder, it is outside of the git path to prevent wasteful files in repo
+
+spark-submit --master local[4] --packages io.delta:delta-core_2.12:2.2.0 --conf "spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension" --conf "spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog" --class com.gssystems.delta.TemperaturesDeltaProcessing target\SparkExamples-1.0-SNAPSHOT.jar file:///C:/Venky/DP-203/AzureSynapseExperiments/datafiles/spring_tx_temps_formatted/ file:///C:/Venky/spring_tx_temps_delta/
 </pre>
 
 * Note the count of records present in the base delta file
 <pre>
-spark-submit --master local[4] --packages io.delta:delta-core_2.12:2.2.0 --conf "spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension" --conf "spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog" --class com.gssystems.delta.TemperaturesDeltaReader target\SparkExamples-1.0-SNAPSHOT.jar file:///C:/Venky/DP-203/AzureSynapseExperiments/datafiles/spring_tx_temps_delta/
+spark-submit --master local[4] --packages io.delta:delta-core_2.12:2.2.0 --conf "spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension" --conf "spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog" --class com.gssystems.delta.TemperaturesDeltaReader target\SparkExamples-1.0-SNAPSHOT.jar file:///C:/Venky/spring_tx_temps_delta/
 
 Total number of rows in the delta table...210384
 +---------+------------+-----+
@@ -54,8 +56,9 @@ mvn exec:java -Dexec.mainClass="com.gssystems.kafka.WeatherDataStreamingProducer
 
 * CHANGE PUBLIC IP OF machine if running from local to azure, else 127.0.0.1 
 <pre>
-spark-submit --packages io.delta:delta-core_2.12:2.2.0,org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.0 --conf "spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension" --conf "spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog" --master local[4] --class com.gssystems.delta.TemperaturesStreamingMerge target/SparkExamples-1.0-SNAPSHOT.jar file:///C:/Venky/DP-203/AzureSynapseExperiments/datafiles/spring_tx_temps_delta/ 127.0.0.1 temperatures
+spark-submit --packages io.delta:delta-core_2.12:2.2.0,org.apache.spark:spark-sql-kafka-0-10_2.12:3.0.0 --conf "spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension" --conf "spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog" --master local[4] --class com.gssystems.delta.TemperaturesStreamingMerge target/SparkExamples-1.0-SNAPSHOT.jar file:///C:/Venky/spring_tx_temps_delta/ 127.0.0.1 temperatures
 
+## Output from program when there are no messages in KAFKA.
 Reading the delta table from disk...
 Reading the messsages from KAFKA topic 127.0.0.1:9092
 Raw schema from kafka read...
@@ -73,13 +76,21 @@ Schema after conversion from value to json dataset...
 root
  |-- latitude: double (nullable = true)
  |-- longitude: double (nullable = true)
- |-- time: date (nullable = true)
+ |-- time: string (nullable = true)
  |-- temperature_2m: double (nullable = true)
 
-Merging the data to the main table...
-Done.
-
+Total number of rows :0
+Waiting for 1 minute to see if messages come...
+Total number of rows :0
+Waiting for 1 minute to see if messages come...
+Waiting for 3 min for messages, aborting...
 </pre>
+
+* As the program runs, we can see that the kafka offsets are moving, and the records that are processing are read and merged. 
+
+<img src="./images/delta_004.png" />
+
+<img src="./images/delta_005.png" />
 
 * Let us compare the dataset after the merge has happened. 
 <pre>
