@@ -128,9 +128,3 @@ mvn exec:java -Dexec.mainClass="com.gssystems.azeventhub.TemperaturesProducer" -
 <img src="./images/asa_030.png" />
 
 <img src="./images/asa_031.png" />
-
-## Testing the ASA capabilities to sink to a relational database. 
-
-* As we saw before, it is clear that Azure Streaming Analytics only supports an append mode. There are a lot of use-cases where a streaming update to the data is required in a data-lake / database for operational type use-cases. The question is can we use a database as a staging area?
-
-
