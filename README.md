@@ -42,6 +42,8 @@ Various fun projects with Azure Synapse Suite
 ## Azure Streaming Analytics testing.
 * Azure streaming analytics is a product that can make writing streaming analytics jobs a breeze. No need to know how to code with Flink/Spark etc. and a no-code editor does most of the code generation. Read more about testing it <a href="./ASA/README.md">here</a>
 
+* ASA can stream the data from the event hub directly to a SQL Server or Postgres DB. This might be useful in some situations where we want to push domain based events via the event hub that need to be consumed in the destination database for other uses. Read more about this <a href="./ASA/ASA_SQL_Server_Postgres.md">here</a>
+
 ## Delta table experiments 
 * The following section experiments with the merging of rows into the Delta table format. Read more <a href="./deltalake/README.md">here</a>
 * This experiment deals with dealing with a delta lake format table and processing the merges coming from a Kafka topic. Spark reads the Kafka topic in batch mode (using read vs readStream) and adjusts offsets as reads progress creating in essence a micro-batching kind of application. Each batch is merged with the delta lake to keep the data current. Read more <a href="./deltalake/Delta_Lake_Streaming_Merge.md">here</a>
