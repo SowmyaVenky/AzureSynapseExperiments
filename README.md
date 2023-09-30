@@ -43,5 +43,5 @@ Various fun projects with Azure Synapse Suite
 * Azure streaming analytics is a product that can make writing streaming analytics jobs a breeze. No need to know how to code with Flink/Spark etc. and a no-code editor does most of the code generation. Read more about testing it <a href="./ASA/README.md">here</a>
 
 ## Delta table experiments 
-* The following section experiments with the merging of rows into the Delta table format. Read more <a href="./SparkExamples/deltalake/README.md">here</a>
-* This experiment deals with dealing with a delta lake format table and processing the merges coming from an Azure Event Hub. Read more <a href="./SparkExamples/deltalake/Delta_Lake_Streaming_Merge.md">here</a>
+* The following section experiments with the merging of rows into the Delta table format. Read more <a href="./deltalake/README.md">here</a>
+* This experiment deals with dealing with a delta lake format table and processing the merges coming from a Kafka topic. Spark reads the Kafka topic in batch mode (using read vs readStream) and adjusts offsets as reads progress creating in essence a micro-batching kind of application. Each batch is merged with the delta lake to keep the data current. Read more <a href="./deltalake/Delta_Lake_Streaming_Merge.md">here</a>

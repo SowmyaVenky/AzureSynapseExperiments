@@ -1,6 +1,8 @@
 ## Delta Lake Streaming Merge Experiment
 
-* Assume we have a data lake that stores the data in the delta format. Let us assume that we get events on an event hub that need to be used to merge with the delta lake. This would in essence create a near real-time data lake that can be queried to get the latest datasets as opposed to waiting for an end of day batch cycle. 
+* Assume we have a data lake that stores the data in the delta format. Let us assume that we get events on an event hub / Kafka that need to be used to merge with the delta lake. This would in essence create a near real-time data lake that can be queried to get the latest datasets as opposed to waiting for an end of day batch cycle. Spark reads the Kafka topic in batch mode (using read vs readStream) and adjusts offsets as reads progress creating in essence a micro-batching kind of application. Each batch is merged with the delta lake to keep the data current.
+
+<img src="./images/delta_000.png" />
 
 * Let us start with the base parquet files like before and create a base delta table. Delete the C:\Venky\DP-203\AzureSynapseExperiments\datafiles\spring_tx_temps_delta folder before we start.
 
@@ -21,6 +23,16 @@ spark-submit --master local[4] --packages io.delta:delta-core_2.12:2.2.0 --conf 
 spark-submit --master local[4] --packages io.delta:delta-core_2.12:2.2.0 --conf "spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension" --conf "spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog" --class com.gssystems.delta.TemperaturesDeltaReader target\SparkExamples-1.0-SNAPSHOT.jar file:///C:/Venky/DP-203/AzureSynapseExperiments/datafiles/spring_tx_temps_delta/
 
 Total number of rows in the delta table...210384
++---------+------------+-----+
+| latitude|   longitude|count|
++---------+------------+-----+
+|61.199997|      -149.9|35064|
+|     51.5|-0.099990845|35064|
+| 41.90001|        12.5|35064|
+|     13.0|   77.600006|35064|
+|30.200005|       -95.5|35064|
+| 48.90001|    2.300003|35064|
++---------+------------+-----+
 
 </pre>
 
@@ -38,7 +50,7 @@ mvn clean package
 mvn exec:java -Dexec.mainClass="com.gssystems.kafka.WeatherDataStreamingProducer" -Dexec.args="C:\Venky\DP-203\AzureSynapseExperiments\datafiles\streaming\output\part-00000-dd3eed31-5521-456d-9fcd-3d66c266f6fc-c000.json C:\Venky\DP-203\AzureSynapseExperiments\datafiles\streaming\location_master\part-00000-a3a34469-0ef8-496f-be3f-826ef3d55233-c000.json"
 </pre>
 
-* This starts the producer and it streams messages to KAFKA. Now we start the consumer that pulls messages from KAFKA and merges that into the delta table we have. I was not able to get the readStream() function to work and get a dataframe that I could use to merge the contents. Instead I used used the read() to start the dataset in a batch mode, get the messages till that point and then merge with the delta table. More research is needed on how to make this work with a streaming ingest. Maybe the way to do it is to download the stream into a set of parquet files and periodically do a merge?
+* This starts the producer and it streams messages to KAFKA. Now we start the consumer that pulls messages from KAFKA and merges that into the delta table we have. Note the use of read() vs readStream() function to get a dataframe that I could use to merge the contents. Instead I used used the read() to start the dataset in a batch mode, get the messages till that point and then merge with the delta table. More research is needed on how to make this work with a streaming ingest. Maybe the way to do it is to download the stream into a set of parquet files and periodically do a merge?
 
 * CHANGE PUBLIC IP OF machine if running from local to azure, else 127.0.0.1 
 <pre>
