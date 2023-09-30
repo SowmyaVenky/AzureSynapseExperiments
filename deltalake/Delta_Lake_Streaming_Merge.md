@@ -132,7 +132,7 @@ Total number of rows in the delta table...236448
 * One of the problems I faced when performing merges was this error
 <img src="./images/delta_007.png" />
 
-* I had marked one of the fields as a data field. When the JSON parses and converts the string to datetime, the way it converts from pass to pass could change and we will end up with this error. When I changed the data type from date to string, the consistency of the conversion was maintained and that causes the merge error to go away. One take away could be to model the tables with string types and convert them to dates on consumtion. 
+* I had marked one of the fields as a date field. When the JSON parses and converts the string to datetime, the way it converts from pass to pass could change and we will end up with this error. When I changed the data type from date to string, the consistency of the conversion was maintained and that causes the merge error to go away. One take away could be to model the tables with string types and convert them to dates on consumtion. 
 
 * Now we will use the file we used to perform the merge, and emit the events to kafka to perform the merge. This has both update and insert scenarios as opposed to just inserts we had in the previous push. I will push the same kafka payload once more to make sure we do not have issues with a big update payload.
 
