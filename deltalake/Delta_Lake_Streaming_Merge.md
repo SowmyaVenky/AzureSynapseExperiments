@@ -129,3 +129,19 @@ Total number of rows in the delta table...236448
 * The parquet files created as the merges happened are shown below:
 <img src="./images/delta_006.png" />
 
+* One of the problems I faced when performing merges was this error
+<img src="./images/delta_007.png" />
+
+* I had marked one of the fields as a data field. When the JSON parses and converts the string to datetime, the way it converts from pass to pass could change and we will end up with this error. When I changed the data type from date to string, the consistency of the conversion was maintained and that causes the merge error to go away. One take away could be to model the tables with string types and convert them to dates on consumtion. 
+
+* Now we will use the file we used to perform the merge, and emit the events to kafka to perform the merge. This has both update and insert scenarios as opposed to just inserts we had in the previous push. I will push the same kafka payload once more to make sure we do not have issues with a big update payload.
+
+<pre>
+## This even has 2009 data that is faked out...
+
+mvn exec:java -Dexec.mainClass="com.gssystems.kafka.WeatherDataStreamingProducer" -Dexec.args="C:\Venky\AzureSynapseExperiments\datafiles\delta_table_update_payload\part-00000-b7c18d2b-ddf5-4d7f-ad3f-eef9465d410c-c000.json  C:\Venky\DP-203\AzureSynapseExperiments\datafiles\streaming\location_master\part-00000-a3a34469-0ef8-496f-be3f-826ef3d55233-c000.json"
+</pre>
+
+<img src="./images/delta_008.png" />
+
+* As we can see the data inserts and updates went well.
