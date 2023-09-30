@@ -125,3 +125,7 @@ Total number of rows in the delta table...236448
 | 48.90001|    2.300003|39408|
 +---------+------------+-----+
 </pre>
+
+* The parquet files created as the merges happened are shown below:
+<img src="./images/delta_006.png" />
+
