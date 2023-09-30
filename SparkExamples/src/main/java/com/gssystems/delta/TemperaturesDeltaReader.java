@@ -24,6 +24,8 @@ public class TemperaturesDeltaReader {
 
         System.out.println("Total number of rows in the delta table..." + theDataSet.count());
         
+        theDataSet.groupBy("latitude", "longitude").count().show();
+
         theDataSet.filter("latitude = 61.199997 " + 
         " and longitude = -149.9 " +
         " and time in ('2019-01-01T00:00', " + 

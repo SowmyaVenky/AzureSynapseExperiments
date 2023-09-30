@@ -5,6 +5,14 @@
 * Let us start with the base parquet files like before and create a base delta table. Delete the C:\Venky\DP-203\AzureSynapseExperiments\datafiles\spring_tx_temps_delta folder before we start.
 
 <pre>
+set JAVA_HOME=c:\Venky\jdk-11.0.15.10-hotspot
+set PATH=%PATH%;c:\Venky\spark\bin;c:\Venky\apache-maven-3.8.4\bin
+set SPARK_HOME=c:\Venky\spark
+SET HADOOP_HOME=C:\Venky\DP-203\AzureSynapseExperiments\SparkExamples
+
+cd C:\Venky\DP-203\AzureSynapseExperiments\SparkExamples
+mvn clean package 
+
 spark-submit --master local[4] --packages io.delta:delta-core_2.12:2.2.0 --conf "spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension" --conf "spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog" --class com.gssystems.delta.TemperaturesDeltaProcessing target\SparkExamples-1.0-SNAPSHOT.jar file:///C:/Venky/DP-203/AzureSynapseExperiments/datafiles/spring_tx_temps_formatted/ file:///C:/Venky/DP-203/AzureSynapseExperiments/datafiles/spring_tx_temps_delta/
 </pre>
 
@@ -71,5 +79,16 @@ spark-submit --master local[4] --packages io.delta:delta-core_2.12:2.2.0 --conf 
 
 <pre>
 Total number of rows in the delta table...210384
++---------+------------+-----+
+| latitude|   longitude|count|
++---------+------------+-----+
+|61.199997|      -149.9|35064|
+|     51.5|-0.099990845|35064|
+| 41.90001|        12.5|35064|
+|     13.0|   77.600006|35064|
+|30.200005|       -95.5|35064|
+| 48.90001|    2.300003|35064|
++---------+------------+-----+
+
 Total number of rows in the delta table...234035
 </pre>
