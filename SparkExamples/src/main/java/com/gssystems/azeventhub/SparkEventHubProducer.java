@@ -1,21 +1,9 @@
 package com.gssystems.azeventhub;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import org.apache.spark.api.java.function.FlatMapFunction;
-import org.apache.spark.api.java.function.MapPartitionsFunction;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Encoders;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
-import org.apache.spark.sql.catalyst.encoders.ExpressionEncoder;
-import org.apache.spark.sql.catalyst.encoders.RowEncoder;
-import org.apache.spark.sql.types.StructType;
-
-import scala.Function1;
-import scala.runtime.BoxedUnit;
 
 public class SparkEventHubProducer {
     public static void main(String[] args) throws Exception {
@@ -39,6 +27,9 @@ public class SparkEventHubProducer {
         outDS.printSchema();
         System.out.println(outDS.count());
         outDS.show(10, false);
+
+        //Shut down 
+        mapFn.shutdown();
 
         spark.close();
     }
