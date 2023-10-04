@@ -59,3 +59,6 @@ GROUP BY  latitude, longitude, year, TumblingWindow(day, 7);
 * That query did not produce any outputs because the date is way older than 7 days. The simple pass through query works and it downloads the files as expected.
 
 <img src="./images/asa_windows_005.png" />
+
+* The event hub metrics shows that the messages are firing.
+<img src="./images/asa_windows_006.png" />

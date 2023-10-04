@@ -24,3 +24,29 @@ FROM
         FORMAT = 'PARQUET'
     ) AS [result]
 
+### Dedicated pool, consume from the ASA stream 
+
+CREATE TABLE [dbo].[temperatures]
+(
+    latitude FLOAT,
+    longitude FLOAT,
+    [time] VARCHAR,
+    [year] VARCHAR,
+    [month] VARCHAR,
+    [day] VARCHAR,
+    [hour] VARCHAR,
+    temperature_wm FLOAT,
+    recorded_time DATETIME
+)
+WITH
+(
+    DISTRIBUTION = HASH (latitude),
+    CLUSTERED COLUMNSTORE INDEX
+)
+GO
+
+ASA query 
+
+SELECT latitude, longitude, [time], [year], [month], [day], [hour], temperature_wm, recorded_time
+INTO venkydp1001 FROM temperatures
+TIMESTAMP by recorded_time
