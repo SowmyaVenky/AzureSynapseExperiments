@@ -71,6 +71,21 @@ GROUP BY  latitude, longitude, year, TumblingWindow(day, 7);
 
 <img src="./images/asa_windows_008.png" />
 
+* Trying out the aggregation query with the tumbling window of day 1 - Added an output to the ASA job to capture the aggregates, and also created a new folder in the storage account as shown below.
+
+<img src="./images/asa_windows_009.png" />
+
+<img src="./images/asa_windows_010.png" />
+
+* For some reason, the tumbling window did not get any outputs after the query execution. Need to research and debug this more. This is the query used.
+
+<pre>
+SELECT latitude, longitude, [year], 
+max(temperature_c) as maxc, max(temperature_f) as maxf,
+min(temperature_c) as minc, min(temperature_f) as minf
+INTO [streaming-data-agg] FROM ReaderQuery
+group by latitude, longitude, [year], TumblingWindow(day, 2)
+</pre>
 
 
 

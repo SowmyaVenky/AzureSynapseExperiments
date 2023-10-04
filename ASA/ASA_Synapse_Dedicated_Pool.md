@@ -84,5 +84,10 @@ INTO venkydp1001 FROM ReaderQuery
 
 <img src="./images/asa_synapse_010.png" />
 
+* Re-running the streaming job again with the time parameter reset to early in the morning will trigger a reprocessing of all the events. The data however is just APPENDED TO THE END OF THE EXISTING TABLE. A merge operation will not happen. This is shown in the doubling of the count in the table after the reprocessing is complete.
+
+<img src="./images/asa_synapse_011.png" />
+
+
 
 

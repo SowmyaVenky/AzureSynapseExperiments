@@ -56,20 +56,17 @@ WITH ReaderQuery AS (
 		temperatures TIMESTAMP BY generated_time
 )
 
-SELECT * INTO [streaming-data] FROM ReaderQuery
+SELECT latitude, longitude, [year], 
+max(temperature_c) as maxc, max(temperature_f) as maxf,
+min(temperature_c) as minc, min(temperature_f) as minf
+INTO [streaming-data-agg] FROM ReaderQuery
+group by latitude, longitude, [year], TumblingWindow(day, 2)
 
 SELECT latitude, longitude, [year], [month], [day], [hour], temperature_c, temperature_f
-INTO venkydp1001 FROM ReaderQuery
+INTO [streaming-data] FROM ReaderQuery
 
-SELECT 
-	[year],
-	COUNT(*) AS [Count] 
-INTO AlertOutput 
-FROM ReaderQuery
-GROUP BY
-	[year],
-	TumblingWindow(second, 10)
-HAVING [Count] >= 3
+SELECT latitude, longitude, [year], [month], [day], [hour], temperature_c, temperature_f
+INTO [venkydp1001] FROM ReaderQuery
 
 SELECT  [latitude] ,[longitude], [year], [month] ,count(*) as hoursabove100
  FROM [dbo].[temperatures_asa]
