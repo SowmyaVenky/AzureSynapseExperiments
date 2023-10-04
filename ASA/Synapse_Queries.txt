@@ -26,27 +26,48 @@ FROM
 
 ### Dedicated pool, consume from the ASA stream 
 
-CREATE TABLE [dbo].[temperatures]
-(
-    latitude FLOAT,
-    longitude FLOAT,
-    [time] VARCHAR,
-    [year] VARCHAR,
-    [month] VARCHAR,
-    [day] VARCHAR,
-    [hour] VARCHAR,
-    temperature_wm FLOAT,
-    recorded_time DATETIME
-)
+DROP Table  [dbo].[temperatures_asa]
+GO
+CREATE TABLE [dbo].temperatures_asa
+	(
+	 [latitude] float,
+	 [longitude] float,
+	 [year] nvarchar(4000),
+	 [month] nvarchar(4000),
+	 [day] nvarchar(4000),
+	 [hour] nvarchar(4000),
+	 [temperature_c] float,
+	 [temperature_f] float
+	)
 WITH
-(
-    DISTRIBUTION = HASH (latitude),
-    CLUSTERED COLUMNSTORE INDEX
-)
+	(
+	DISTRIBUTION = ROUND_ROBIN,
+	 CLUSTERED COLUMNSTORE INDEX
+	 -- HEAP
+	)
 GO
 
 ASA query 
 
-SELECT latitude, longitude, [time], [year], [month], [day], [hour], temperature_wm, recorded_time
-INTO venkydp1001 FROM temperatures
-TIMESTAMP by recorded_time
+WITH ReaderQuery AS (
+	SELECT
+		*
+	FROM
+		temperatures TIMESTAMP BY generated_time
+)
+
+SELECT * INTO [streaming-data] FROM ReaderQuery
+
+SELECT latitude, longitude, [year], [month], [day], [hour], temperature_c, temperature_f
+INTO venkydp1001 FROM ReaderQuery
+
+SELECT 
+	[year],
+	COUNT(*) AS [Count] 
+INTO AlertOutput 
+FROM ReaderQuery
+GROUP BY
+	[year],
+	TumblingWindow(second, 10)
+HAVING [Count] >= 3
+
