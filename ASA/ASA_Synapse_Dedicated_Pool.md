@@ -68,6 +68,12 @@ INTO venkydp1001 FROM ReaderQuery
 
 <img src="./images/asa_synapse_006.png" />
 
+* The two tables created from the bulk load and via the ASA streaming are shown here. 
 
+<img src="./images/asa_synapse_007.png" />
+
+* Aggregation of the data to calculate the min and max temps in both c and f are shown below. As we can see the first time we execute the query on the dedicated pool, it took about 17 sec.
+
+<img src="./images/asa_synapse_008.png" />
 
 
