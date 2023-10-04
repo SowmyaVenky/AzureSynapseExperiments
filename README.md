@@ -46,6 +46,8 @@ Various fun projects with Azure Synapse Suite
 
 * ASA can benefit by having a timestamp column that can be used with the TIMESTAMP BY clause and applied to window functions. This section will take the base parquet files we had, add a date column to it, and push that data to Azure Event Hub using a Spark program. Once that data reaches the event hub, it is consumed by ASA and pushed to blob storage. Read more about this <a href="./ASA/ASA_Window_Functions.md">here</a>
 
+* ASA can take the data from the Azure Event Hubs, and push that data directly over to a table INSIDE A Synapse DEDICATED POOL. Read more about the process <a href="./ASA/ASA_Synapse_Dedicated_Pool.md">here</a>
+
 ## Delta table experiments 
 * The following section experiments with the merging of rows into the Delta table format. Read more <a href="./deltalake/README.md">here</a>
 

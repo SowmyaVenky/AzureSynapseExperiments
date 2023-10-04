@@ -62,3 +62,15 @@ GROUP BY  latitude, longitude, year, TumblingWindow(day, 7);
 
 * The event hub metrics shows that the messages are firing.
 <img src="./images/asa_windows_006.png" />
+
+* The code is modified to add in another timestamp to point to current time so that we can use that column for timestamp by queries. There is a temperature conversion from C to F as we stream the data and push it to the Azure Event Hub. 
+
+<img src="./images/asa_windows_007.png" />
+
+* The spark based pusher reads the data in parquet format, and pushes that over to AEH. It has more batch based debugging. 
+
+<img src="./images/asa_windows_008.png" />
+
+
+
+
