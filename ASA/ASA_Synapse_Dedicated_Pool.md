@@ -76,4 +76,13 @@ INTO venkydp1001 FROM ReaderQuery
 
 <img src="./images/asa_synapse_008.png" />
 
+* We can calculate the number of hours per month where the temperature is > 100 F
+
+<img src="./images/asa_synapse_009.png" />
+
+* We can also calculate the number of hours per month less than 32 F
+
+<img src="./images/asa_synapse_010.png" />
+
+
 

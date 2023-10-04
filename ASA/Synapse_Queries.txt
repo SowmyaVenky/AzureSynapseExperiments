@@ -71,3 +71,14 @@ GROUP BY
 	TumblingWindow(second, 10)
 HAVING [Count] >= 3
 
+SELECT  [latitude] ,[longitude], [year], [month] ,count(*) as hoursabove100
+ FROM [dbo].[temperatures_asa]
+ where [year] = 2022
+ GROUP BY [latitude], [longitude], [year], [month]
+ having max(temperature_f) > 100
+
+ SELECT  [latitude] ,[longitude], [year], [month] ,count(*) as hoursbelowzero
+ FROM [dbo].[temperatures_asa]
+ where [year] = 2022
+ GROUP BY [latitude], [longitude], [year], [month]
+ having max(temperature_f) < 32
