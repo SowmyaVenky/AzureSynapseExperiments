@@ -87,5 +87,11 @@ INTO [streaming-data-agg] FROM ReaderQuery
 group by latitude, longitude, [year], TumblingWindow(day, 2)
 </pre>
 
+* When I run the test query inside the ASA window, I do get some sample output for the aggregated query. It almost looks like I need to start the streaming job once more to accumulate NEW events and the tumbling windows will take effect. Still no luck...
+
+<img src="./images/asa_windows_011.png" />
+
+
+
 
 
