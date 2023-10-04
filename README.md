@@ -44,6 +44,8 @@ Various fun projects with Azure Synapse Suite
 
 * ASA can stream the data from the event hub directly to a SQL Server or Postgres DB. This might be useful in some situations where we want to push domain based events via the event hub that need to be consumed in the destination database for other uses. Read more about this <a href="./ASA/ASA_SQL_Server_Postgres.md">here</a>
 
+* ASA can benefit by having a timestamp column that can be used with the TIMESTAMP BY clause and applied to window functions. This section will take the base parquet files we had, add a date column to it, and push that data to Azure Event Hub using a Spark program. Once that data reaches the event hub, it is consumed by ASA and pushed to blob storage. Read more about this <a href="./ASA/ASA_Window_Functions.md">here</a>
+
 ## Delta table experiments 
 * The following section experiments with the merging of rows into the Delta table format. Read more <a href="./deltalake/README.md">here</a>
 
