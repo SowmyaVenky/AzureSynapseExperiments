@@ -7,6 +7,7 @@ import org.apache.spark.sql.SparkSession;
 
 public class AirQualityIndexProcessor {
     private static final boolean WRITE_FILE_OUTPUTS = true;
+    private static final int MAX_CITIES_TO_PROCESS = 100;
 
     public static void main(String[] args) {
 
@@ -34,7 +35,7 @@ public class AirQualityIndexProcessor {
         String endDate = args[3];
 
         TemperaturesDownloaderAndFormatter x1 = new TemperaturesDownloaderAndFormatter(startDate, endDate);
-        Dataset<String> temperaturesDS = tempsDF.flatMap(x1, Encoders.STRING());
+        Dataset<String> temperaturesDS = tempsDF.limit(MAX_CITIES_TO_PROCESS).flatMap(x1, Encoders.STRING());
         System.out.println(temperaturesDS.count());
         temperaturesDS.printSchema(0);
 
