@@ -1,5 +1,7 @@
 ## Azure Synapse Dedicated Pool Experiments.
 
+<img src="./images/multi-zone.png" />
+
 * The idea of these experiments is to use prepare the data and explore the features of the Azure Synapse dedicated pool. For the dedicated pool to make sense, we will need some good amount of data and a good amount of relationships between them so that we can do joins and try out different distribution strategies. 
 
 * We got a list of cities with lat and lng information, and we will download the weather for multiple years and join that data to see what insights we can derive.
