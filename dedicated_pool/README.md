@@ -109,6 +109,8 @@ ORDER BY [yyyy]
 
 * As we can see there are some rounding things happening in the synapse table. All the 5M rows were merged into the delta table. 
 
+<img src="./images/img_021.png" />
+
 
 
 
