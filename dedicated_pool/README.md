@@ -103,7 +103,7 @@ ORDER BY [yyyy]
 
 * We can go through and see how we can use a notebook to define a warehouse, create a managed delta table, and merge the data from the external tables created by noting the location of the files in ADLS. See the step by step executions <a href="./Create_and_Merge_Delta_Table_ManagedTable.ipynb">here</a>
 
-* We can also define the delta lake inside the spark pool to point to the location we had created the table from the serverless pool and push the data to the location. We can check the step-by-step execution <a href="./create_delta_table_and_merge.sql">here</a>
+* We can also define the delta lake inside the spark pool to point to the location we had created the table from the serverless pool and push the data to the location. We can check the step-by-step execution <a href="./Merge_Into_Delta_Table_External.ipynb">here</a>
 
 <img src="./images/img_020.png" />
 
