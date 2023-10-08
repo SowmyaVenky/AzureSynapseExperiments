@@ -1,0 +1,9 @@
+$filesystemName = "datalake"
+$dirname = "temperatures/"
+$dirname1 = "airquality/"
+$StorageAccountName = "venkydatalake1001"
+$StorageAccountKey = "muvp+bnRWw3URruzy3sGBhditLvnrbGGInnZcuDNYFSuAheuMxMHw+wC7B2sYhlXraWJ+pvWgQET+ASt9cH0jA=="
+
+$ctx = New-AzStorageContext -StorageAccountName $StorageAccountName -StorageAccountKey $StorageAccountKey
+Get-AzDataLakeGen2ChildItem -Context $ctx -FileSystem $filesystemName -Path $dirname -OutputUserPrincipalName -Recurse
+Get-AzDataLakeGen2ChildItem -Context $ctx -FileSystem $filesystemName -Path $dirname1 -OutputUserPrincipalName

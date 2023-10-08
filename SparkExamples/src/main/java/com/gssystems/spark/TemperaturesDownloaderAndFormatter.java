@@ -11,10 +11,11 @@ import java.util.List;
 
 import org.apache.spark.api.java.function.FlatMapFunction;
 import org.apache.spark.sql.Row;
+import org.apache.spark.sql.RowFactory;
 
 import com.google.gson.Gson;
 
-public class TemperaturesDownloaderAndFormatter implements FlatMapFunction<Row, String> {
+public class TemperaturesDownloaderAndFormatter implements FlatMapFunction<Row, Row> {
     private static final long serialVersionUID = 1L;
 
     public static String WEATHER_API = "https://archive-api.open-meteo.com/v1/era5?latitude={0}&longitude={1}&start_date={2}&end_date={3}&hourly=temperature_2m";
@@ -28,8 +29,8 @@ public class TemperaturesDownloaderAndFormatter implements FlatMapFunction<Row, 
     }
 
     @Override
-    public Iterator<String> call(Row t) throws Exception {
-        ArrayList<String> toRet = new ArrayList<String>();
+    public Iterator<Row> call(Row t) throws Exception {
+        ArrayList<Row> toRet = new ArrayList<Row>();
         // Get the lat and lng from the input row.
         String lat = t.getAs("lat");
         String lng = t.getAs("lng");
@@ -66,8 +67,13 @@ public class TemperaturesDownloaderAndFormatter implements FlatMapFunction<Row, 
                         outBean.setTime(times.get(x));
                         outBean.setTemperature_2m(temperatures.get(x));
 
-                        String outJson = gs.toJson(outBean);
-                        toRet.add(outJson);
+                        Object[] fields = new Object[4];
+                        fields[0] = outBean.getLatitude();
+                        fields[1] = outBean.getLongitude();
+                        fields[2]= outBean.getTime();
+                        fields[3] = outBean.getTemperature_2m();
+
+                        toRet.add(RowFactory.create(fields));
                     }
                 }
             } catch (Exception ex) {

@@ -4,6 +4,10 @@ import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Encoders;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
+import org.apache.spark.sql.catalyst.encoders.ExpressionEncoder;
+import org.apache.spark.sql.catalyst.encoders.RowEncoder;
+import org.apache.spark.sql.types.DataTypes;
+import org.apache.spark.sql.types.StructType;
 
 public class AirQualityIndexProcessor {
     private static final boolean WRITE_FILE_OUTPUTS = true;
@@ -34,12 +38,21 @@ public class AirQualityIndexProcessor {
         String startDate = args[2];
         String endDate = args[3];
 
+        StructType structType = new StructType();
+        structType = structType.add("latitude", DataTypes.DoubleType, false);
+        structType = structType.add("longitude", DataTypes.DoubleType, false);
+        structType = structType.add("time", DataTypes.StringType, false);
+        structType = structType.add("temperature_2m", DataTypes.DoubleType, false);
+
+        ExpressionEncoder<Row> rowEnc = RowEncoder.apply(structType);
+
         TemperaturesDownloaderAndFormatter x1 = new TemperaturesDownloaderAndFormatter(startDate, endDate);
-        Dataset<String> temperaturesDS = tempsDF.limit(MAX_CITIES_TO_PROCESS).flatMap(x1, Encoders.STRING());
+        Dataset<Row> temperaturesDS = tempsDF.limit(MAX_CITIES_TO_PROCESS).flatMap(x1,
+                rowEnc);
         System.out.println(temperaturesDS.count());
         temperaturesDS.printSchema(0);
 
-        if( WRITE_FILE_OUTPUTS) {
+        if (WRITE_FILE_OUTPUTS) {
             temperaturesDS.write().parquet(args[1]);
         }
         spark.close();
