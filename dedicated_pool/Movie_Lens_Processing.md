@@ -32,4 +32,6 @@ spark-submit --master local[4] --packages com.github.javafaker:javafaker:1.0.2 -
 
 * This will read the movie metadata file that is in JSON format (complicated nested arrays), and shreds the data to a more relational friendly format. There are various entities at play here and the processing will take care of the shredding process. As we can see there are parquet files created with specific schemas that will resemble a normalized data model in a relational database.
 
-* We will also generate a lot of fake users with the IDs that gave the ratings from the de-duped ratings file so that it can be used to test various dynamic data masking inside Synapse.
+* We will also generate a lot of fake users with the IDs that gave the ratings from the de-duped ratings file so that it can be used to test various dynamic data masking inside Synapse. This process took a pretty long time to run on my computer. 
+
+<img src="./movies/movies_002.png" />
