@@ -4,6 +4,8 @@ Various fun projects with Azure Synapse Suite
 ## Multi Layer Data Lake  
 * This experiment demonstrates an end-to-end use-case of a data lake / data warehouse. Various layers get data from sources, land it, and process it in both batch and real-time based pipelines and demonstrate the use of both dedicated and serverless Synapse pools to satisfy a variety of use-cases. Read more about this <a href="./dedicated_pool/README.md">here</a>
 
+* This experiment will take a movielens dataset from Kaggle and shred the data to fit into a relational model using Spark. After that the data is imported into ADLS, and analyzed using Synapse serverless and dedicated pools. Read more about this <a href="./dedicated_pool/Movie_Lens_Processing.md">here</a>
+
 ## Analyze JSON data that shows temperatures at Raleigh airport.
 * A simple use-case that shows how to take a parquet file from ADLS and expose it as an external table inside Synapse Serverless. Then we use Synapse spark pool to take this parquet file and convert it into a delta format. Please see steps <a href="./Analyze_Raleign_Airport_Temps.md">here</a>
 
