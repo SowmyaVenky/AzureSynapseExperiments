@@ -35,3 +35,23 @@ spark-submit --master local[4] --packages com.github.javafaker:javafaker:1.0.2 -
 * We will also generate a lot of fake users with the IDs that gave the ratings from the de-duped ratings file so that it can be used to test various dynamic data masking inside Synapse. This process took a pretty long time to run on my computer. 
 
 <img src="./movies/movies_002.png" />
+
+* We can upload all the files to ADLS using Azure storage explorer. This allows us to just copy entire directories without having to do much. If we do not want to install this, we can do the azcopy command and copy all the folders to ADLS.
+
+<img src="./movies/movies_003.png" />
+
+* We can see the data from inside the linked ADLS account in Synapse. 
+
+<img src="./movies/movies_004.png" />
+
+* We can start creating tables inside the dedicated pool we have and bulk load the datasets to create a data warehouse kind of setup inside the dedicated pool. We can create a pipeline after defining the required stored procs.
+
+<img src="./movies/movies_005.png" />
+
+<img src="./movies/movies_006.png" />
+
+<img src="./movies/movies_007.png" />
+
+
+
+
