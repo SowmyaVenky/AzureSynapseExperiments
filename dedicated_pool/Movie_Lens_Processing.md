@@ -145,3 +145,7 @@ GO
 * Note that the notebook is set to overwrite the parquet files, and once that step is done, it will fire the mass load of all the 17 tables via the bulk load stored procs. 
 
 <img src="./movies/movies_015.png" />
+
+* As we can see the dependency works as expected. The notebook task starts first, and later the bulk loads.
+
+<img src="./movies/movies_016.png" />
