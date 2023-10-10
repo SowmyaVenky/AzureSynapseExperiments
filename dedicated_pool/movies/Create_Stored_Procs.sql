@@ -151,3 +151,88 @@ WITH
 )
 END
 GO
+
+CREATE PROC bulk_load_movies
+AS
+BEGIN
+COPY INTO dbo.movies
+(movie_id 1, is_adult 2, budget 3, homepage 4, imdb_id 5, video 6, poster_path 7, original_language 8, original_title 9, overview 10, title 11, popularity 12, release_date 13, revenue 14, runtime 15, status 16, tagline 17, vote_count 18, vote_average 19)
+FROM 'https://venkydatalake1001.dfs.core.windows.net/files/bronze/movielens/movies'
+WITH
+(
+	FILE_TYPE = 'PARQUET'
+	,MAXERRORS = 0
+)
+END
+GO
+
+
+CREATE PROC bulk_load_production_company
+AS
+BEGIN
+COPY INTO dbo.production_company
+(production_company_id 1, production_company_name 2)
+FROM 'https://venkydatalake1001.dfs.core.windows.net/files/bronze/movielens/production_company'
+WITH
+(
+	FILE_TYPE = 'PARQUET'
+	,MAXERRORS = 0
+)
+END
+GO
+
+CREATE PROC bulk_load_production_country
+AS
+BEGIN
+COPY INTO dbo.production_country
+(production_country_id 1, production_country_name 2)
+FROM 'https://venkydatalake1001.dfs.core.windows.net/files/bronze/movielens/production_country'
+WITH
+(
+	FILE_TYPE = 'PARQUET'
+	,MAXERRORS = 0
+)
+END
+GO
+
+CREATE PROC bulk_load_spoken_language
+AS
+BEGIN
+COPY INTO dbo.spoken_language
+(spoken_language_id 1, spoken_language_name 2)
+FROM 'https://venkydatalake1001.dfs.core.windows.net/files/bronze/movielens/spoken_language'
+WITH
+(
+	FILE_TYPE = 'PARQUET'
+	,MAXERRORS = 0
+)
+END
+GO
+
+CREATE PROC bulk_load_genre
+AS
+BEGIN
+COPY INTO dbo.genre
+(genre_id 1, genre_name 2)
+FROM 'https://venkydatalake1001.dfs.core.windows.net/files/bronze/movielens/genre_parq'
+WITH
+(
+	FILE_TYPE = 'PARQUET'
+	,MAXERRORS = 0
+)
+END
+GO
+
+CREATE PROC bulk_load_movie_genre
+AS
+BEGIN
+COPY INTO dbo.movie_genre
+(genre_id 1, movie_id 2)
+FROM 'https://venkydatalake1001.dfs.core.windows.net/files/bronze/movielens/movie_genre_parq'
+WITH
+(
+	FILE_TYPE = 'PARQUET'
+	,MAXERRORS = 0
+)
+END
+GO

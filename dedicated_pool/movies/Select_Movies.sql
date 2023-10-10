@@ -20,6 +20,19 @@ EXECUTE [dbo].[bulk_load_ratings]
 GO
 EXECUTE [dbo].[bulk_load_users]
 GO
+EXECUTE [dbo].[bulk_load_movies]
+GO
+EXECUTE [dbo].[bulk_load_production_company]
+GO
+EXECUTE [dbo].[bulk_load_production_country]
+GO
+EXECUTE [dbo].[bulk_load_spoken_language]
+GO
+EXECUTE [dbo].[bulk_load_genre]
+GO
+EXECUTE [dbo].[bulk_load_movie_genre]
+GO
+
 
 SELECT 'cast', count(*)  FROM dbo.cast
 UNION 
@@ -42,3 +55,15 @@ UNION
 SELECT 'ratings', count(*) FROM [dbo].[ratings]
 UNION
 SELECT 'users', count(*) FROM [dbo].[users]
+UNION
+SELECT 'movies', count(*) FROM [dbo].[movies]
+UNION
+SELECT 'production_company', count(*) from dbo.production_company
+UNION
+SELECT 'production_country', count(*) from dbo.production_country
+UNION
+SELECT 'spoken_language', count(*) from dbo.spoken_language
+UNION
+SELECT 'genre', count(*) from dbo.genre
+UNION
+SELECT 'movie_genre', count(*) from dbo.movie_genre

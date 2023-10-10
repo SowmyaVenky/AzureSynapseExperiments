@@ -52,11 +52,56 @@ spark-submit --master local[4] --packages com.github.javafaker:javafaker:1.0.2 -
 
 <img src="./movies/movies_007.png" />
 
-* We need to make sure that the managed identity being used for running the pipeline has proper priviledges to run stored procedures inside the synapse dedicated pool. Otherwise we are going to see errors saying that the stored procedure was not able be loaded. 
+* We need to make sure that the managed identity being used for running the pipeline has proper priviledges to run stored procedures inside the synapse dedicated pool. Otherwise we are going to see errors saying that the stored procedure was not able be loaded. I think the reason behind this is that the files are being referenced via https and that means that the containers need to be publically accessible. I am taking this short cut for now, otherwise we need to create a database credential to point to the SAS of the container and then use that. 
 
 * I ran the stored procedures manually in SQL and counted the data in each of the tables. There were some tables that did not work when I tried to generate the SQL script because it was not able to detect the schema. I had to create them manually. 
 
 <img src="./movies/movies_008.png" />
+
+* The two files genre and movie_genre are created as JSON files with each row being a row in the table. Synapse can't parse this type of JSON because it considers it as invalid JSON format. That is the reason I have a small notebook that can actually convert the JSON to Parquet and we can bulk load the parquet files similar to the other ones. The notebook is <a href="./movies/JSON_TO_PARQUET.ipynb">here</a>
+
+
+<img src="./movies/movies_009.png" />
+
+* Once the parquet files are created they can be seen in Synapse. The row counts for all the 17 tables are shown.
+
+<pre>
+SELECT 'cast', count(*)  FROM dbo.cast
+UNION 
+SELECT 'movie_production_country', count(*)  FROM dbo.movie_production_country
+UNION
+SELECT 'movie_production_company', count(*)  FROM dbo.movie_production_company
+UNION
+SELECT 'movie_keywords', count(*)  FROM dbo.movie_keywords
+UNION
+SELECT 'movie_collection', count(*)  FROM dbo.movie_collection
+UNION
+SELECT 'keywords', count(*)  FROM dbo.keywords
+UNION
+SELECT 'crew', count(*)  FROM dbo.crew
+UNION
+SELECT 'collections', count(*)  FROM dbo.collections
+UNION
+SELECT 'spoken_lang', count(*)  FROM dbo.movie_spoken_lang
+UNION
+SELECT 'ratings', count(*) FROM [dbo].[ratings]
+UNION
+SELECT 'users', count(*) FROM [dbo].[users]
+UNION
+SELECT 'movies', count(*) FROM [dbo].[movies]
+UNION
+SELECT 'production_company', count(*) from dbo.production_company
+UNION
+SELECT 'production_country', count(*) from dbo.production_country
+UNION
+SELECT 'spoken_language', count(*) from dbo.spoken_language
+UNION
+SELECT 'genre', count(*) from dbo.genre
+UNION
+SELECT 'movie_genre', count(*) from dbo.movie_genre
+</pre>
+
+<img src="./movies/movies_010.png" />
 
 
 
