@@ -52,6 +52,14 @@ spark-submit --master local[4] --packages com.github.javafaker:javafaker:1.0.2 -
 
 <img src="./movies/movies_007.png" />
 
+* We need to make sure that the managed identity being used for running the pipeline has proper priviledges to run stored procedures inside the synapse dedicated pool. Otherwise we are going to see errors saying that the stored procedure was not able be loaded. 
+
+* I ran the stored procedures manually in SQL and counted the data in each of the tables. There were some tables that did not work when I tried to generate the SQL script because it was not able to detect the schema. I had to create them manually. 
+
+<img src="./movies/movies_008.png" />
+
+
+
 
 
 
