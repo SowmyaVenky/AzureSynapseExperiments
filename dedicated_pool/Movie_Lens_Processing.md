@@ -138,3 +138,10 @@ GO
 
 <img src="./movies/movies_013.png" />
 
+* We can add spark notebooks or even spark job definitions into the pipeline. This is very useful when we are trying to mix and match the technlogies we want to use for certain tasks in the entire ETL process. SQL based tasks can be done with stored procs, while intensive JSON processing etc. can be done via spark notebooks, or via an externally written, and tested jar as we have done before. 
+
+<img src="./movies/movies_014.png" />
+
+* Note that the notebook is set to overwrite the parquet files, and once that step is done, it will fire the mass load of all the 17 tables via the bulk load stored procs. 
+
+<img src="./movies/movies_015.png" />
