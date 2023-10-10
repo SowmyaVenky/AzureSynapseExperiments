@@ -134,3 +134,7 @@ GO
 
 <img src="./movies/movies_012.png" />
 
+* The pipeline we created can be exported as a template and that will download a zip file. In the next session, we can go to the integrate tab on the left panel, and import from template to get the pipeline installed and run for a second time. 
+
+<img src="./movies/movies_013.png" />
+
