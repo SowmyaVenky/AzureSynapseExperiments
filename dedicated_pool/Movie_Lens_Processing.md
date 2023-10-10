@@ -103,8 +103,34 @@ SELECT 'movie_genre', count(*) from dbo.movie_genre
 
 <img src="./movies/movies_010.png" />
 
+## Important Observation when using Stored Procs via Pipeline.
 
+* I had to struggle with this a little bit to get it to work. When the UI generates the stored procedures required for the bulk load, it refers to the parquet files via https and uses dfs.core. Even if I set the access level of the container to public, it does not find the parquet files and throws an error. The moment I switched the path to .blob.core, it was able to find the parquet files and successfully execute the stored proc. This is still not secure, but demonstrates how stored procs can be called internally. 
 
+* One of the patterns that MSFT recommends is to call all the stored procs inside one mega stored proc and that way we do not have to keep messing with the pipelines. 
 
+* Here is the code for one stored proc to perform the bulk load. See that the .blob.core is used, not .dfs.core. That will make it fail even if public access is granted to the container. 
+<pre>
 
+AS
+BEGIN
+COPY INTO [dbo].[ratings]
+(user_id 1, movie_id 2, rating 3)
+FROM 'https://venkydatalake1001.blob.core.windows.net/files/bronze/movielens/ratings'
+WITH
+(
+	FILE_TYPE = 'PARQUET'
+	,MAXERRORS = 0
+)
+END
+GO
+</pre>
+
+* As we can see the stored procedures can be added to the pipeline and in our case, there are no success criteria definined for each step. Since there is no connection between the steps, it will run as many tasks as it can in parallel, and that is evidenced in the success check marks appearing in parallel. 
+
+* It took barely 59 sec to load all the 17 tables from the parquet files to the dedicated pool. Note that most of the tables are setup with a round-robin distribution that is perfect for the fastest load possible. If we were to change to hash based distributions, things can get a little slower. The biggest table has 26M rows, so it is not bad performance wise.
+
+<img src="./movies/movies_011.png" />
+
+<img src="./movies/movies_012.png" />
 
