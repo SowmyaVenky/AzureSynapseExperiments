@@ -164,3 +164,7 @@ GO
 <img src="./ddm/ddm_020.png" />
 
 <img src="./ddm/ddm_021.png" />
+
+* We can actually change the masking pattern on the columns as needed, and that will allow us to control how the masked data looks like.
+
+<img src="./ddm/ddm_022.png" />

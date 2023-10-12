@@ -23,6 +23,12 @@ ALTER TABLE dbo.users
 ALTER COLUMN creditCard ADD MASKED WITH (FUNCTION = 'partial(2,"xxxx",0)');
 
 ALTER TABLE dbo.users
-ALTER COLUMN accountNumber ADD MASKED WITH (FUNCTION = 'partial(2,"xxxx",0)');
+ALTER COLUMN accountNumber ADD MASKED WITH (FUNCTION = 'default()');
+
+ALTER TABLE dbo.users
+ALTER COLUMN emailAddr ADD MASKED WITH (FUNCTION = 'email()');
+
+ALTER TABLE dbo.users
+ALTER COLUMN zip ADD MASKED WITH (FUNCTION = 'random(10000,99999)');
 
 REVERT;
