@@ -10,7 +10,9 @@ set PATH=%PATH%;c:\Venky\spark\bin;c:\Venky\apache-maven-3.8.6\bin
 set SPARK_HOME=c:\Venky\spark
 SET HADOOP_HOME=C:\Venky\AzureSynapseExperiments\SparkExamples
 
-cd C:\Venky\AzureSynapseExperiments\SparkExamples
+## NOTE DIRECTORY - NEEDED TO create new project because other jars won't compile with JDK 1.8 
+
+cd C:\Venky\AzureSynapseExperiments\MovieLensJDK18
 mvn clean package
 
 # Process the main movies and ratings files. 
