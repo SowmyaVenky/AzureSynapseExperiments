@@ -157,7 +157,7 @@ GO
 
 <img src="./ddm/ddm_019.png" />
 
-* Follow the script under the file <a href="Create_DDM_Rules.sql">Create_DDM_Rules.sql</a>
+* Follow the script under the file <a href="./ddm/Create_DDM_Rules.sql">Create_DDM_Rules.sql</a>
 
 * As we can see this applies a bunch of masking rules to the columns on that table. Once we apply the masking rules and query the table as the regular user we can see the columns are masked. As soon as we execute REVERT, and do the same select we see the data is unmasked as we are an admin user! 
 
