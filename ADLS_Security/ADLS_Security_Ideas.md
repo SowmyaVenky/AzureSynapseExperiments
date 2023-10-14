@@ -2,7 +2,7 @@
 
 * This page details out various options we can use to organize the data in a data lake and secure it in many ways using Azure's RBAC, ABAC and ACL. 
 
-* The highest grain of access control available for us is the Role based access control (RBAC). We can create custom role names and add different permissions to it. Once that role is created, we can apply that role to the resource we want to control. 
+* The highest grain of access control available for us is the Role based access control (RBAC). There are various in-built roles available in Azure and when we look at the scope of the ADLS permissions, we have two important built-in roles. Storage Blob Data Contributor (Read / Write), Storage Blob Data Reader (Read only access), and Storage blob Data Owner (Read, Write, ACL ops etc.) We can assign this role to a group we define (that represents a group of users), and scope it to the level of either a storage account or a specific container. 
 
 <img src="./images/adls_sec_001.png" />
 
