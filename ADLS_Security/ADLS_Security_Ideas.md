@@ -13,4 +13,4 @@
     * Full flexibility on where the data for the SOR can be placed. Like for instance a particular SOR might need to keep its data in the EU region. If that is the case, we need to make sure we have a storage account created at that region. 
     * Complete isolation on the roles created and managed. The SOR owner can create and maintain the groups/users needed. 
 
-<img src="./images/adls_sec_001.png" />
+<img src="./images/adls_sec_002.png" />
