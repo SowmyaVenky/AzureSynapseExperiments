@@ -37,6 +37,8 @@
 
 * This approach results in way lesser roles to be used. There is a read and write role needed for each SOR and that can be assigned at the container level hosting the data for the SOR. Users can however get complete access to all the folder structures under the SOR's container with this approach. This may or may not be acceptable depending on the type of data contained in the SOR. For instance, this is not an issue if every user accessing the system can see the entire dataset. This may not work in scenarios where we need to segment the data by users (for instance only access to certain folders that have PII/PCI).
 
+## Practical Example on portal
+
 * Note we have created a new storage account for each SOR
 <img src="./images/rbac_000.png" />
 
@@ -63,7 +65,82 @@
 
 <img src="./images/data-lake-storage-permissions-example.png" />
 
-* There is a nice table given in this link https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-access-control-model It shows exactly how the ACLs can be configured and how they work when roles are present and not present. In essence, when a person does not have a role assigned to them, the ACLs get evaluated, and all the directories hosting the file need to have a X permission to allow listing, and the final file that needs to be read/written needs to have the correct bit R, W etc. enabled. The table shows is very nicely. 
+* There is a nice table given in this link https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-access-control-model 
+
+* It shows exactly how the ACLs can be configured and how they work when roles are present and not present. In essence, when a person does not have a role assigned to them, the ACLs get evaluated, and all the directories hosting the file need to have a X permission to allow listing, and the final file that needs to be read/written needs to have the correct bit R, W etc. enabled. The table shows is very nicely. 
+
+* Various scenarios where ABAC can be used are documented here. https://learn.microsoft.com/en-us/azure/storage/blobs/storage-auth-abac-examples?tabs=portal-visual-editor#example-read-write-or-delete-blobs-in-named-containers
+
+* Here is a good webpage that shows us how ABAC conditions really work. https://learn.microsoft.com/en-us/azure/role-based-access-control/conditions-format
+
+* So with this knowledge, we can propose a way to assign permissions to people based on a container name and path of the files inside the container. Let us assume that we have container for SOR as before. But now, we will create paths like /pii, /pci and /plain and put the files that have the PII, PCI and regular datasets under these main folders. If the files are organized this way we can assign an ABAC rule to allow a person become a blob reader or contributor when the container name is exactly the SOR name, and the paths are exactly /pii, /pci and /plain. 
+
+* The rules are shown below:
+
+* For a user that has complete access to the hogan cis data (both pii, pci and plain), the container name is used in the condition. 
+
+* HOGAN_CIS_READ_ALL
+
+<pre>
+(
+ (
+  !(ActionMatches{'Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read'} AND NOT SubOperationMatches{'Blob.List'})
+  AND
+  !(ActionMatches{'Microsoft.Storage/storageAccounts/blobServices/containers/blobs/runAsSuperUser/action'})
+ )
+ OR 
+ (
+  @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:name] StringEquals 'hogancis'
+  AND
+  @Resource[Microsoft.Storage/storageAccounts/blobServices/containers/blobs:path] StringLike 'pii/*'
+ )
+)
+</pre>
 
 
+* HOGAN_CIS_READ_PII
+<pre>
+(
+ (
+  !(ActionMatches{'Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read'} AND NOT SubOperationMatches{'Blob.List'})
+  AND
+  !(ActionMatches{'Microsoft.Storage/storageAccounts/blobServices/containers/blobs/runAsSuperUser/action'})
+ )
+ OR 
+ (
+  @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:name] StringEquals 'hogancis'
+  AND
+    ( 
+    @Resource[Microsoft.Storage/storageAccounts/blobServices/containers/blobs:path] StringLike 'pii/*'
+    ) 
+    OR 
+    ( 
+    @Resource[Microsoft.Storage/storageAccounts/blobServices/containers/blobs:path] StringLike 'plain/*'
+    )
+ )
+)
+</pre>
 
+* HOGAN_CIS_READ_PCI
+
+<pre>
+(
+ (
+  !(ActionMatches{'Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read'} AND NOT SubOperationMatches{'Blob.List'})
+  AND
+  !(ActionMatches{'Microsoft.Storage/storageAccounts/blobServices/containers/blobs/runAsSuperUser/action'})
+ )
+ OR 
+ (
+  @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:name] StringEquals 'hogancis'
+  AND
+    ( 
+    @Resource[Microsoft.Storage/storageAccounts/blobServices/containers/blobs:path] StringLike 'pci/*'
+    ) 
+    OR 
+    ( 
+    @Resource[Microsoft.Storage/storageAccounts/blobServices/containers/blobs:path] StringLike 'plain/*'
+    )
+ )
+)
+</pre>
