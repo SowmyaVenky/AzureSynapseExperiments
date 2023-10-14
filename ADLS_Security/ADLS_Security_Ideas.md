@@ -60,7 +60,7 @@
 
 * So with this knowledge, we can propose a way to assign permissions to people based on a container name and path of the files inside the container. Let us assume that we have container for SOR as before. But now, we will create paths like /pii, /pci and /plain and put the files that have the PII, PCI and regular datasets under these main folders. If the files are organized this way we can assign an ABAC rule to allow a person become a blob reader or contributor when the container name is exactly the SOR name, and the paths are exactly /pii, /pci and /plain. 
 
-<img src="./images/rbac_007.png" />
+<img src="./images/adls_sec_007.png" />
 
 * For a user that has complete access to the hogan cis data (both pii, pci and plain), the container name is used in the condition. 
 
