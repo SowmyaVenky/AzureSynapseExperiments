@@ -58,14 +58,28 @@
 
 * Next we can look at how we can use ABAC in addition to the RBAC to make it easier to control access to datasets based on the conditions. Only when the conditions are met, the person will get the access, else the access is denied. This is a great feature to use when we have complex AND, OR and NOT conditions to apply as part of the decisioning process.
 
-* So with this knowledge, we can propose a way to assign permissions to people based on a <ins> container name and path of the files inside the container. </ins> Let us assume that we have container for SOR as before. But now, we will create paths like /pii, /pci and /plain and put the files that have the PII, PCI and regular datasets under these main folders. If the files are organized this way we can assign an ABAC rule to allow a person become a blob reader or contributor when the container name is exactly the SOR name, and the paths are exactly /pii, /pci and /plain. 
+* So with this knowledge, we can propose a way to assign permissions to people based on a container name and path of the files inside the container. Let us assume that we have container for SOR as before. But now, we will create paths like /pii, /pci and /plain and put the files that have the PII, PCI and regular datasets under these main folders. If the files are organized this way we can assign an ABAC rule to allow a person become a blob reader or contributor when the container name is exactly the SOR name, and the paths are exactly /pii, /pci and /plain. 
 
-* The rules are shown below:
+<img src="./images/rbac_007.png" />
 
 * For a user that has complete access to the hogan cis data (both pii, pci and plain), the container name is used in the condition. 
 
-* HOGAN_CIS_READ_ALL
+* CIS_READ_ALL
+<pre>
+(
+ (
+  !(ActionMatches{'Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read'} AND NOT SubOperationMatches{'Blob.List'})
+  AND
+  !(ActionMatches{'Microsoft.Storage/storageAccounts/blobServices/containers/blobs/runAsSuperUser/action'})
+ )
+ OR 
+ (
+  @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:name] StringEquals 'hogancis'
+ )
+)
+</pre>
 
+* CIS_PLAIN_READ_ALL
 <pre>
 (
  (
@@ -77,13 +91,13 @@
  (
   @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:name] StringEquals 'hogancis'
   AND
-  @Resource[Microsoft.Storage/storageAccounts/blobServices/containers/blobs:path] StringLike 'pii/*'
+  @Resource[Microsoft.Storage/storageAccounts/blobServices/containers/blobs:path] StringLike 'plain/*'
  )
 )
 </pre>
 
 
-* HOGAN_CIS_READ_PII
+* CIS_PII_READ_ALL
 <pre>
 (
  (
@@ -106,7 +120,7 @@
 )
 </pre>
 
-* HOGAN_CIS_READ_PCI
+* CIS_PCI_READ_ALL
 
 <pre>
 (
