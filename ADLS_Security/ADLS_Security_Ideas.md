@@ -2,11 +2,13 @@
 
 * This page details out various options we can use to organize the data in a data lake and secure it in many ways using Azure's RBAC, ABAC and ACL. 
 
-* The highest grain of access control available for us is the Role based access control. We can create custom role names and add different permissions to it. Once that role is created, we can apply that role to the resource we want to control. 
+* The highest grain of access control available for us is the Role based access control (RBAC). We can create custom role names and add different permissions to it. Once that role is created, we can apply that role to the resource we want to control. 
 
 <img src="./images/adls_sec_001.png" />
 
-### Storage account for each SOR
+* <b> NOTE USER A, B and C are examples. Roles should be assigned to groups and it makes it easier to add and remove users to the group. This is the best practice. This document uses users to make the concept easier to visualize. </b>
+
+##  RBAC CASE 1 - Storage account for each SOR
 
 * The idea here is to create a separate storage account for each SOR we are trying to bring into the data lake. This might seem like an overkill at a first glance. This might be the only way to get things like:
     * Separate encryption key for each SOR. 
@@ -23,7 +25,7 @@
 
 * The obvious advantage with this approach is that the access control can be very granular in nature and we can give the users exactly what containers they need access to. The obvious disadvantage with this approach is that there is going to be an explosion of roles.If we have 5000 containers, then we will need one role for each of these containers and maintaining that would be a big nightmare. 
 
-### One storage account for the entire data lake and containers for each SOR
+## RBAC CASE 2 - One storage account for the entire data lake and containers for each SOR
 
 * In this approach, a single storage account can be provisioned for the entire data lake storage. Each container can represent a unique SOR and folders under the container can host each dataset. The things to be aware of with this approach is that there are defined throughput rates for each storage account and if the traffic is very intense we might experience bottlenecks. Also the maximum storage we can have per storage account is around 5 PB. If we are dealing with more than this data size, then we might still follow this approach, but split the data across multiple storage accounts and some kind of documentation to tell us which SOR is on which storage account. 
 
@@ -34,5 +36,20 @@
 <img src="./images/adls_sec_005.png" />
 
 * This approach results in way lesser roles to be used. There is a read and write role needed for each SOR and that can be assigned at the container level hosting the data for the SOR. Users can however get complete access to all the folder structures under the SOR's container with this approach. This may or may not be acceptable depending on the type of data contained in the SOR. For instance, this is not an issue if every user accessing the system can see the entire dataset. This may not work in scenarios where we need to segment the data by users (for instance only access to certain folders that have PII/PCI).
+
+## ABAC with RBAC Case 1 
+
+* Next we can look at how we can use ABAC in addition to the RBAC to make it easier to control access to datasets based on the conditions. Only when the conditions are met, the person will get the access, else the access is denied. This is a great feature to use when we have complex AND, OR and NOT conditions to apply as part of the decisioning process.
+
+<img src="./images/data-lake-storage-permissions-flow.png" />
+
+* Tags play a very big role in the conditions piece of the puzzle. The roles are applied based on the presence of certain tags and this can get pretty powerful. 
+
+* It is important to realize that the RBAC and ABAC are evaluated BEFORE THE ACLs are evaluated. Therefore, even if ACLs block access to a specific role, they may be granted access if the RBAC or ABAC allows that. 
+
+<img src="./images/data-lake-storage-permissions-example.png" />
+
+* There is a nice table given in this link https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-access-control-model It shows exactly how the ACLs can be configured and how they work when roles are present and not present. In essence, when a person does not have a role assigned to them, the ACLs get evaluated, and all the directories hosting the file need to have a X permission to allow listing, and the final file that needs to be read/written needs to have the correct bit R, W etc. enabled. The table shows is very nicely. 
+
 
 
