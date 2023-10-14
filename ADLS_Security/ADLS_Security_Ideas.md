@@ -33,3 +33,6 @@
 
 <img src="./images/adls_sec_005.png" />
 
+* This approach results in way lesser roles to be used. There is a read and write role needed for each SOR and that can be assigned at the container level hosting the data for the SOR. Users can however get complete access to all the folder structures under the SOR's container with this approach. This may or may not be acceptable depending on the type of data contained in the SOR. For instance, this is not an issue if every user accessing the system can see the entire dataset. This may not work in scenarios where we need to segment the data by users (for instance only access to certain folders that have PII/PCI).
+
+
