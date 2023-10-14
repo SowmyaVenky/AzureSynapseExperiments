@@ -37,6 +37,20 @@
 
 * This approach results in way lesser roles to be used. There is a read and write role needed for each SOR and that can be assigned at the container level hosting the data for the SOR. Users can however get complete access to all the folder structures under the SOR's container with this approach. This may or may not be acceptable depending on the type of data contained in the SOR. For instance, this is not an issue if every user accessing the system can see the entire dataset. This may not work in scenarios where we need to segment the data by users (for instance only access to certain folders that have PII/PCI).
 
+* Note we have created a new storage account for each SOR
+<img src="./images/rbac_000.png" />
+
+* Under hogan storage account, we have 3 datasets. Each dataset can have multiple folders for say date. 
+
+<img src="./images/rbac_001.png" />
+
+* Dataset1 has no tags, Dataset2 has PII=true, and Dataset3 has PII=true and PCI=true
+
+<img src="./images/rbac_002.png" />
+
+<img src="./images/rbac_003.png" />
+
+
 ## ABAC with RBAC Case 1 
 
 * Next we can look at how we can use ABAC in addition to the RBAC to make it easier to control access to datasets based on the conditions. Only when the conditions are met, the person will get the access, else the access is denied. This is a great feature to use when we have complex AND, OR and NOT conditions to apply as part of the decisioning process.
