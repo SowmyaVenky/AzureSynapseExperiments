@@ -20,3 +20,16 @@
     * Note that we have created a bunch of roles, and we can describe what the users of each role get. Also note the same user can get multiple roles assigned to them, and that way there is full flexibility of exactly what containers/datasets the user can have read/write access for. 
 
 <img src="./images/adls_sec_003.png" />
+
+* The obvious advantage with this approach is that the access control can be very granular in nature and we can give the users exactly what containers they need access to. The obvious disadvantage with this approach is that there is going to be an explosion of roles.If we have 5000 containers, then we will need one role for each of these containers and maintaining that would be a big nightmare. 
+
+### One storage account for the entire data lake and containers for each SOR
+
+* In this approach, a single storage account can be provisioned for the entire data lake storage. Each container can represent a unique SOR and folders under the container can host each dataset. The things to be aware of with this approach is that there are defined throughput rates for each storage account and if the traffic is very intense we might experience bottlenecks. Also the maximum storage we can have per storage account is around 5 PB. If we are dealing with more than this data size, then we might still follow this approach, but split the data across multiple storage accounts and some kind of documentation to tell us which SOR is on which storage account. 
+
+<img src="./images/adls_sec_004.png" />
+
+* As we can see, one role at the storage account level can do most of the read writes to all the containers inside the data-lake. If it is acceptable, we can use this in the ETL processes and perform most of the writes using this singular role. We could still have container specific read and write roles to assign to teams similar to the approach above. As we can see the control is at the container level and so it is an all or nothing at the SOR level.
+
+<img src="./images/adls_sec_005.png" />
+
