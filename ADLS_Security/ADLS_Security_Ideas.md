@@ -6,8 +6,6 @@
 
 <img src="./images/adls_sec_001.png" />
 
-* <b> NOTE USER A, B and C are examples. Roles should be assigned to groups and it makes it easier to add and remove users to the group. This is the best practice. This document uses users to make the concept easier to visualize. </b>
-
 ##  RBAC CASE 1 - Storage account for each SOR
 
 * The idea here is to create a separate storage account for each SOR we are trying to bring into the data lake. This might seem like an overkill at a first glance. This might be the only way to get things like:
@@ -19,11 +17,14 @@
 
 * Following points can be observed. 
     * We have a storage account created for hosting the SOR data. As we can see under the storage account, we have created containers for each dataset that we want to bring in. Under the container we can have multiple folders to hold the data based on certain partitioning strategy like date, or region etc. As we see there are also tags assigned at the container level. Container 1 has no PII/PCI, Container 2 has just PII and container 3 has both PII and PCI. 
-    * Note that we have created a bunch of roles, and we can describe what the users of each role get. Also note the same user can get multiple roles assigned to them, and that way there is full flexibility of exactly what containers/datasets the user can have read/write access for. 
+    * Note that we have created a bunch of groups, and we can describe what the users of each group membership get. Also note the same user can get multiple groups assigned to them, and that way there is full flexibility of exactly what containers/datasets the user can have read/write access for. 
 
 <img src="./images/adls_sec_003.png" />
 
-* The obvious advantage with this approach is that the access control can be very granular in nature and we can give the users exactly what containers they need access to. The obvious disadvantage with this approach is that there is going to be an explosion of roles.If we have 5000 containers, then we will need one role for each of these containers and maintaining that would be a big nightmare. 
+
+* <b> NOTE USER A, B and C are examples. Roles should be assigned to groups and it makes it easier to add and remove users to the group. This is the best practice. This document uses users to make the concept easier to visualize. </b>
+
+* The obvious advantage with this approach is that the access control can be very granular in nature and we can give the users exactly what containers they need access to. The obvious disadvantage with this approach is that there is going to be an explosion of roles.If we have 5000 containers, then we will need to understand what containers contain non-pii and pci data, what contain pii data and what contains pci data. Every time a new container/dataset gets created, we need to go through this evaluation, and add the correct role to include it as a resource for all right groups. Maintaining this setup is not that simple or easy. 
 
 ## RBAC CASE 2 - One storage account for the entire data lake and containers for each SOR
 
@@ -31,7 +32,7 @@
 
 <img src="./images/adls_sec_004.png" />
 
-* As we can see, one role at the storage account level can do most of the read writes to all the containers inside the data-lake. If it is acceptable, we can use this in the ETL processes and perform most of the writes using this singular role. We could still have container specific read and write roles to assign to teams similar to the approach above. As we can see the control is at the container level and so it is an all or nothing at the SOR level.
+* As we can see, one role at the storage account level can do most of the read writes to all the containers inside the data-lake. If it is acceptable, we can use this in the ETL processes and perform most of the writes using this singular role. We could still have container specific read and write roles to assign to teams similar to the approach above. As we can see the control is at the container level and so it is an all or nothing at the SOR level. <b>It is very hard to separate control at the PII/PCI/Plain data levels as we have done before. </b>
 
 <img src="./images/adls_sec_005.png" />
 
