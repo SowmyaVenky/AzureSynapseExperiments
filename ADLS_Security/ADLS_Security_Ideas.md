@@ -24,7 +24,7 @@
 
 * <b> NOTE USER A, B and C are examples. Roles should be assigned to groups and it makes it easier to add and remove users to the group. This is the best practice. This document uses users to make the concept easier to visualize. </b>
 
-* The obvious advantage with this approach is that the access control can be very granular in nature and we can give the users exactly what containers they need access to. The obvious disadvantage with this approach is that there is going to be an explosion of roles.If we have 5000 containers, then we will need to understand what containers contain non-pii and pci data, what contain pii data and what contains pci data. Every time a new container/dataset gets created, we need to go through this evaluation, and add the correct role to include it as a resource for all right groups. Maintaining this setup is not that simple or easy. 
+* The obvious advantage with this approach is that the access control can be very granular in nature and we can give the users exactly what containers they need access to. The obvious disadvantage with this approach is that there is going to be an explosion of roles.If we have 5000 containers, then we will need to understand what containers contain non-pii and pci data, what contain pii data and what contains pci data. Every time a new container/dataset gets created, we need to go through this evaluation, and add the correct role to include it as a resource for all right groups. Maintaining this setup is not that simple.
 
 ## RBAC CASE 2 - One storage account for the entire data lake and containers for each SOR
 
