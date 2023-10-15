@@ -53,10 +53,76 @@
 
 <img src="./images/rbac_003.png" />
 
-
 ## ABAC with RBAC Case 1 
 
-* Next we can look at how we can use ABAC in addition to the RBAC to make it easier to control access to datasets based on the conditions. Only when the conditions are met, the person will get the access, else the access is denied. This is a great feature to use when we have complex AND, OR and NOT conditions to apply as part of the decisioning process.
+* This is very similar to the use-case where we had RBAC at the storage account level, and a separate storage account for each SOR. There is a difference however in the way the containers are organized inside the storage account. Since the ABAC rules are applied, any new datasets that get put into the containers over time will automatically get accounted for without any manual work.
+
+* The storage account hosts data for a single SOR.
+
+* The containers we created inside the storage account are standardized and there are essentially 3 containers created inside the storage account. One for storing datasets that are plain, one for storing the datasets that are PII, and another one for storing the data that is PCI. 
+
+* The datasets fall into the correct container based on their characteristics and are essentially folders under the container. 
+
+* Access rules in JSON format for ABAC will remain exactly the same for every SOR and can be easily reused. Also the roles are applied at the storage account level consistently as opposed to putting it at the container levels as before, making things a lot easier. 
+
+<img src="./images/adls_sec_008.png" />
+
+* Here is the ABAC expression we need to use to apply for the 4 types of rules we need for each SOR. 
+
+* CIS_READ_ALL - There are no ABAC rules here it is SBDR at the storage account level.
+
+* CIS_PLAIN_READ_ALL - Condition is container name = plain
+<pre>
+(
+ (
+  !(ActionMatches{'Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read'} AND NOT SubOperationMatches{'Blob.List'})
+  AND
+  !(ActionMatches{'Microsoft.Storage/storageAccounts/blobServices/containers/blobs/runAsSuperUser/action'})
+ )
+ OR 
+ (
+  @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:name] StringEquals 'plain'
+ )
+)
+</pre>
+
+
+* CIS_PII_READ_ALL - This will filter the name of container = PII 
+<pre>
+(
+ (
+  !(ActionMatches{'Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read'} AND NOT SubOperationMatches{'Blob.List'})
+  AND
+  !(ActionMatches{'Microsoft.Storage/storageAccounts/blobServices/containers/blobs/runAsSuperUser/action'})
+ )
+ OR 
+ (
+  @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:name] StringEquals 'PII'
+ )
+)
+</pre>
+
+* CIS_PCI_READ_ALL
+
+<pre>
+(
+ (
+  !(ActionMatches{'Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read'} AND NOT SubOperationMatches{'Blob.List'})
+  AND
+  !(ActionMatches{'Microsoft.Storage/storageAccounts/blobServices/containers/blobs/runAsSuperUser/action'})
+ )
+ OR 
+ (
+  @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:name] StringEquals 'PCI'
+ )
+)
+</pre>
+
+## ABAC with RBAC Case 2
+
+* This is an enhancement to the previous use-case where we had a single storage account for the entire data lake and one container for each SOR. We were not able to separate the access to users with just RBAC. It was an all or nothing access scenario. 
+
+* Now we can look at how we can use ABAC in addition to the RBAC to make it easier to control access to datasets based on the conditions. Only when the conditions are met, the person will get the access, else the access is denied. This is a great feature to use when we have complex AND, OR and NOT conditions to apply as part of the decisioning process.
 
 * So with this knowledge, we can propose a way to assign permissions to people based on a container name and path of the files inside the container. Let us assume that we have container for SOR as before. But now, we will create paths like /pii, /pci and /plain and put the files that have the PII, PCI and regular datasets under these main folders. If the files are organized this way we can assign an ABAC rule to allow a person become a blob reader or contributor when the container name is exactly the SOR name, and the paths are exactly /pii, /pci and /plain. 
 
@@ -64,7 +130,7 @@
 
 * For a user that has complete access to the hogan cis data (both pii, pci and plain), the container name is used in the condition. 
 
-* CIS_READ_ALL
+* CIS_READ_ALL - The rule is applied with the condition of container name = hogancis
 <pre>
 (
  (
@@ -79,7 +145,7 @@
 )
 </pre>
 
-* CIS_PLAIN_READ_ALL
+* CIS_PLAIN_READ_ALL - Note that we filter by container name = hogancis and path = plain/*
 <pre>
 (
  (
@@ -97,7 +163,7 @@
 </pre>
 
 
-* CIS_PII_READ_ALL
+* CIS_PII_READ_ALL - - Note that we filter by container name = hogancis and path = pii/*
 <pre>
 (
  (
@@ -109,15 +175,10 @@
  (
   @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:name] StringEquals 'hogancis'
   AND
-    ( 
-    @Resource[Microsoft.Storage/storageAccounts/blobServices/containers/blobs:path] StringLike 'pii/*'
-    ) 
-    OR 
-    ( 
-    @Resource[Microsoft.Storage/storageAccounts/blobServices/containers/blobs:path] StringLike 'plain/*'
-    )
+  @Resource[Microsoft.Storage/storageAccounts/blobServices/containers/blobs:path] StringLike 'pii/*'
  )
 )
+
 </pre>
 
 * CIS_PCI_READ_ALL
@@ -133,17 +194,10 @@
  (
   @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:name] StringEquals 'hogancis'
   AND
-    ( 
-    @Resource[Microsoft.Storage/storageAccounts/blobServices/containers/blobs:path] StringLike 'pci/*'
-    ) 
-    OR 
-    ( 
-    @Resource[Microsoft.Storage/storageAccounts/blobServices/containers/blobs:path] StringLike 'plain/*'
-    )
+  @Resource[Microsoft.Storage/storageAccounts/blobServices/containers/blobs:path] StringLike 'pci/*'
  )
 )
 </pre>
-
 
 ## Theory for ABAC 
 
