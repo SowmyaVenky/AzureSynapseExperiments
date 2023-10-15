@@ -8,6 +8,8 @@ Various fun projects with Azure Synapse Suite
 
 * Once data is inside the dedicated pool, the columns in the table can be masked using various patterns. The users who do not have admin rights will see masked data, while the ones that have admin will see the regular data. We can also grant unmask on columns for various roles to allow for mask/unmask based entitilements. This experiment also shows how we can use Submit-AzSynapseSparkJob to allow us to submit the job from my local computer to Livy on the spark pool. Read more <a href="./dedicated_pool/Dynamic_Data_Masking.md">here</a>
 
+* This explores how we can setup security in the data lake layer. It investigates the RBAC, ABAC and the ACLs way of doing things. Read more about this <a href="./ADLS_Security/ADLS_Security_Ideas.md">here</a>
+
 ## Analyze JSON data that shows temperatures at Raleigh airport.
 * A simple use-case that shows how to take a parquet file from ADLS and expose it as an external table inside Synapse Serverless. Then we use Synapse spark pool to take this parquet file and convert it into a delta format. Please see steps <a href="./Analyze_Raleign_Airport_Temps.md">here</a>
 
