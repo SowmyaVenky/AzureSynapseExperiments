@@ -10,6 +10,8 @@ Various fun projects with Azure Synapse Suite
 
 * This explores how we can setup security in the data lake layer. It investigates the RBAC, ABAC and the ACLs way of doing things. Read more about this <a href="./ADLS_Security/ADLS_Security_Ideas.md">here</a>
 
+* This experiment explores how we can setup both Synapse and ADLS with customer managed encryption keys (CMEK). More details can be found <a href="./SynapseCMEK/README.md">here</a>
+
 ## Analyze JSON data that shows temperatures at Raleigh airport.
 * A simple use-case that shows how to take a parquet file from ADLS and expose it as an external table inside Synapse Serverless. Then we use Synapse spark pool to take this parquet file and convert it into a delta format. Please see steps <a href="./Analyze_Raleign_Airport_Temps.md">here</a>
 
