@@ -92,3 +92,4 @@
 
 * I run into the same problem I ran into before with the ADLS CMEK. It enforces that the KV be in HA configuration and the acloud guru policy does not allow is to go ahead and create one. This proves that we are good to create the entire stack and it should work given that the KV can be setup with purge protection enabled (HA).
 
+<img src="./images/cmek-024.png" />
