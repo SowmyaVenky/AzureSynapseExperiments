@@ -124,4 +124,10 @@ Events:
   Normal  SparkDriverCompleted       9m45s  spark-operator  Driver spark-pi-driver completed
   Normal  SparkApplicationCompleted  9m45s  spark-operator  SparkApplication spark-pi completed
 
+
+kubectl logs spark-driver-pod 
+
+We will see this in the logs
+
+Pi is roughly 3.1385756928784643
 </code>
