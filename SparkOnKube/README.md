@@ -20,6 +20,9 @@ Move-Item .\kind-windows-amd64.exe .\kind.exe
 <code>
 helm repo add spark-operator https://googlecloudplatform.github.io/spark-on-k8s-operator
 helm install my-release spark-operator/spark-operator --namespace spark-operator --create-namespace
+helm install my-release spark-operator/spark-operator --namespace spark-operator --set webhook.enable=true --create-namespace
+helm status --namespace spark-operator my-release
+helm uninstall --namespace spark-operator my-release
 
 C:\Venky\AzureSynapseExperiments\SparkOnKube>kubectl get po -n spark-operator
 NAME                                        READY   STATUS    RESTARTS   AGE
@@ -131,3 +134,46 @@ We will see this in the logs
 
 Pi is roughly 3.1385756928784643
 </code>
+
+## Mounting a local windows directory to the driver and executor pods
+
+* We will usually need to mount an external folder to both the driver and executors to do even simple tasks. For this purpose, we can use the volumemounts option to mount a directory to the pods. In windows we need to make sure that the string /run/desktop/mnt/host/ is appended to the start of the path to allow the mounts to work. Otherwise we will get errors. 
+
+<code>
+  volumes:
+    - name: "test-volume"
+      hostPath:
+        path: "/run/desktop/mnt/host/C:/Venky/AzureSynapseExperiments/SparkOnKube/mount"
+        type: DirectoryOrCreate
+</code>
+
+* Once we run this again, we will see the pods getting created and destroyed
+
+<code>
+C:\Venky\AzureSynapseExperiments\SparkOnKube>kubectl apply -f spark-pi.yaml
+sparkapplication.sparkoperator.k8s.io/spark-pi created
+
+C:\Venky\AzureSynapseExperiments\SparkOnKube>kubectl get po -w
+NAME              READY   STATUS    RESTARTS   AGE
+spark-pi-driver   0/1     Pending   0          0s
+spark-pi-driver   0/1     Pending   0          0s
+spark-pi-driver   0/1     ContainerCreating   0          0s
+spark-pi-driver   1/1     Running             0          2s
+spark-pi-55a43d8da7fda3b4-exec-1   0/1     Pending             0          0s
+spark-pi-55a43d8da7fda3b4-exec-1   0/1     Pending             0          0s
+spark-pi-55a43d8da7fda3b4-exec-1   0/1     ContainerCreating   0          0s
+spark-pi-55a43d8da7fda3b4-exec-1   1/1     Running             0          2s
+spark-pi-55a43d8da7fda3b4-exec-1   1/1     Terminating         0          5s
+spark-pi-55a43d8da7fda3b4-exec-1   0/1     Terminating         0          5s
+spark-pi-driver                    0/1     Completed           0          14s
+spark-pi-55a43d8da7fda3b4-exec-1   0/1     Terminating         0          6s
+spark-pi-55a43d8da7fda3b4-exec-1   0/1     Terminating         0          6s
+spark-pi-55a43d8da7fda3b4-exec-1   0/1     Terminating         0          6s
+spark-pi-driver                    0/1     Completed           0          15s
+spark-pi-driver                    0/1     Completed           0          16s
+</code>
+
+## Building custom image to process JSON and convert to CSV
+
+* Now we will use a custom docker file to build an image with the required code and execute it via the spark operator.
+

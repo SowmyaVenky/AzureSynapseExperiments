@@ -16,8 +16,8 @@ spec:
   volumes:
     - name: "test-volume"
       hostPath:
-        path: "/tmp"
-        type: Directory
+        path: "/run/desktop/mnt/host/C:/Venky/AzureSynapseExperiments/SparkOnKube/mount"
+        type: DirectoryOrCreate
   driver:
     cores: 1
     coreLimit: "1200m"
@@ -27,7 +27,7 @@ spec:
     serviceAccount: spark
     volumeMounts:
       - name: "test-volume"
-        mountPath: "/tmp"
+        mountPath: "/mnt"
   executor:
     cores: 1
     instances: 1
@@ -36,4 +36,4 @@ spec:
       version: 3.1.3
     volumeMounts:
       - name: "test-volume"
-        mountPath: "/tmp"
+        mountPath: "/mnt"
