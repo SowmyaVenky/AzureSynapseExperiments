@@ -138,3 +138,28 @@ We will see this in the logs
 
 Pi is roughly 3.1385756928784643
 </code>
+* We can use this command to actually see the pods as they get created and destroyed. This gives us a clear view of how the spark operator does its magic and simplifies the process greatly for us...
+
+<code>
+C:\Venky\AzureSynapseExperiments\SparkOnKube>kubectl apply -f spark-pi.yaml
+sparkapplication.sparkoperator.k8s.io/spark-pi created
+
+C:\Venky\AzureSynapseExperiments\SparkOnKube>kubectl get po -w
+NAME              READY   STATUS    RESTARTS   AGE
+spark-pi-driver   0/1     Pending   0          0s
+spark-pi-driver   0/1     Pending   0          0s
+spark-pi-driver   0/1     ContainerCreating   0          0s
+spark-pi-driver   1/1     Running             0          2s
+spark-pi-55a43d8da7fda3b4-exec-1   0/1     Pending             0          0s
+spark-pi-55a43d8da7fda3b4-exec-1   0/1     Pending             0          0s
+spark-pi-55a43d8da7fda3b4-exec-1   0/1     ContainerCreating   0          0s
+spark-pi-55a43d8da7fda3b4-exec-1   1/1     Running             0          2s
+spark-pi-55a43d8da7fda3b4-exec-1   1/1     Terminating         0          5s
+spark-pi-55a43d8da7fda3b4-exec-1   0/1     Terminating         0          5s
+spark-pi-driver                    0/1     Completed           0          14s
+spark-pi-55a43d8da7fda3b4-exec-1   0/1     Terminating         0          6s
+spark-pi-55a43d8da7fda3b4-exec-1   0/1     Terminating         0          6s
+spark-pi-55a43d8da7fda3b4-exec-1   0/1     Terminating         0          6s
+spark-pi-driver                    0/1     Completed           0          15s
+spark-pi-driver                    0/1     Completed           0          16s
+</code>
