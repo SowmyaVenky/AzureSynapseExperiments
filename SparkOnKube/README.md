@@ -18,6 +18,6 @@ mvn clean package
 docker build -t sowmyavenky/feasample:1.0 .
 docker push sowmyavenky/feasample:1.0
 </code>
-* 
+
 * Next we will need to apply the feasample.yaml to start the spark application. 
 * Once we run this again, we will see the pods getting created and destroyed
