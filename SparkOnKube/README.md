@@ -1,180 +1,23 @@
-# Spark on Kubernetes 
-
-* This experiment will setup a kubernetes cluster on docker desktop running locally. Make sure docker desktop is installed and we have no problems running the test conainer. 
-
-* Download the kubectl.exe from this website https://kubernetes.io/docs/tasks/tools/install-kubectl-windows/
-
-* Download the KIND exe running this command in powershell.
-<code>
-curl.exe -Lo kind-windows-amd64.exe https://kind.sigs.k8s.io/dl/v0.20.0/kind-windows-amd64
-Move-Item .\kind-windows-amd64.exe .\kind.exe
-</code>
-
-![alt text](kind-001.png "Create kubernetes cluster")
-
-* Download helm from the website called helm-releases.
-
-
-![alt text](kind-002.png "Create kubernetes cluster")
-
-<code>
-helm repo add spark-operator https://googlecloudplatform.github.io/spark-on-k8s-operator
-helm install my-release spark-operator/spark-operator --namespace spark-operator --create-namespace
-
-helm install my-release spark-operator/spark-operator --namespace spark-operator --set webhook.enable=true --create-namespace
-helm status --namespace spark-operator my-release
-helm uninstall --namespace spark-operator my-release
-
-C:\Venky\AzureSynapseExperiments\SparkOnKube>kubectl get po -n spark-operator
-NAME                                        READY   STATUS    RESTARTS   AGE
-my-release-spark-operator-85bbc7865-846k5   1/1     Running   0          7h9m
-
-</code>
-
-* We need to create a service account and give it power to execute the spark apps and watch the pods that are running. 
-
-<code>
-kubectl apply -f service-account.yaml
-</code>
-
-* Execute the spark application now 
-<code>
-kubectl apply -f spark-pi.yaml
-
-C:\Venky\AzureSynapseExperiments\SparkOnKube>kubectl get sparkapplication
-NAME       STATUS      ATTEMPTS   START                  FINISH                 AGE
-spark-pi   COMPLETED   1          2024-01-25T01:29:48Z   2024-01-25T01:30:02Z   8m22s
-
-</code>
-
-* We can now check the pods and the logs to see whether pi was computed...
-
-<code>
-C:\Venky\AzureSynapseExperiments\SparkOnKube>kubectl get po
-NAME              READY   STATUS      RESTARTS   AGE
-spark-pi-driver   0/1     Completed   0          9m22s
-
-C:\Venky\AzureSynapseExperiments\SparkOnKube>kubectl describe sparkapplication spark-pi
-Name:         spark-pi
-Namespace:    default
-Labels:       <none>
-Annotations:  <none>
-API Version:  sparkoperator.k8s.io/v1beta2
-Kind:         SparkApplication
-Metadata:
-  Creation Timestamp:  2024-01-25T01:29:45Z
-  Generation:          1
-  Resource Version:    42964
-  UID:                 5b91ce88-eb08-485f-a42a-c7812d43e3f4
-Spec:
-  Driver:
-    Core Limit:  1200m
-    Cores:       1
-    Labels:
-      Version:        3.1.1
-    Memory:           512m
-    Service Account:  spark
-    Volume Mounts:
-      Mount Path:  /tmp
-      Name:        test-volume
-  Executor:
-    Cores:      1
-    Instances:  1
-    Labels:
-      Version:  3.1.1
-    Memory:     512m
-    Volume Mounts:
-      Mount Path:         /tmp
-      Name:               test-volume
-  Image:                  apache/spark:v3.1.3
-  Image Pull Policy:      Always
-  Main Application File:  local:///opt/spark/examples/jars/spark-examples_2.12-3.1.3.jar
-  Main Class:             org.apache.spark.examples.SparkPi
-  Mode:                   cluster
-  Restart Policy:
-    Type:         Never
-  Spark Version:  3.1.1
-  Type:           Scala
-  Volumes:
-    Host Path:
-      Path:  /tmp
-      Type:  Directory
-    Name:    test-volume
-Status:
-  Application State:
-    State:  COMPLETED
-  Driver Info:
-    Pod Name:             spark-pi-driver
-    Web UI Address:       10.96.11.63:0
-    Web UI Port:          4040
-    Web UI Service Name:  spark-pi-ui-svc
-  Execution Attempts:     1
-  Executor State:
-    spark-pi-2cfc858d3e3ce43d-exec-1:  COMPLETED
-  Last Submission Attempt Time:        2024-01-25T01:29:48Z
-  Spark Application Id:                spark-597638d88ba34f3e8ae2699733068e88
-  Submission Attempts:                 1
-  Submission ID:                       4a721489-9d35-44b4-a47c-2c000c8e2da0
-  Termination Time:                    2024-01-25T01:30:02Z
-Events:
-  Type    Reason                     Age    From            Message
-  ----    ------                     ----   ----            -------
-  Normal  SparkApplicationAdded      10m    spark-operator  SparkApplication spark-pi was added, enqueuing it for submission
-  Normal  SparkApplicationSubmitted  9m59s  spark-operator  SparkApplication spark-pi was submitted successfully
-  Normal  SparkDriverRunning         9m57s  spark-operator  Driver spark-pi-driver is running
-  Normal  SparkExecutorPending       9m51s  spark-operator  Executor [spark-pi-2cfc858d3e3ce43d-exec-1] is pending
-  Normal  SparkExecutorRunning       9m49s  spark-operator  Executor [spark-pi-2cfc858d3e3ce43d-exec-1] is running
-  Normal  SparkExecutorCompleted     9m45s  spark-operator  Executor [spark-pi-2cfc858d3e3ce43d-exec-1] completed
-  Normal  SparkDriverCompleted       9m45s  spark-operator  Driver spark-pi-driver completed
-  Normal  SparkApplicationCompleted  9m45s  spark-operator  SparkApplication spark-pi completed
-
-
-kubectl logs spark-driver-pod 
-
-We will see this in the logs
-
-Pi is roughly 3.1385756928784643
-</code>
-
 ## Mounting a local windows directory to the driver and executor pods
 
-* We will usually need to mount an external folder to both the driver and executors to do even simple tasks. For this purpose, we can use the volumemounts option to mount a directory to the pods. In windows we need to make sure that the string /run/desktop/mnt/host/ is appended to the start of the path to allow the mounts to work. Otherwise we will get errors. 
+* We will usually need to mount an external folder to both the driver and executors to do even simple tasks. For this purpose, we can use the volumemounts option to mount a directory to the pods. There is a level of indirection here to understand. Once we install the kind cluster the process goes ahead and creates a docker container. If we use the default kind create cluster command, there will be no volume mounts available. To enable a mount of a host directory on to the driver and executor pods, we need to create a kind cluster using a YAML definition file rather than just a command line.
 
+* Please refer to the file <a href="./kind_cluster.yaml">kind_cluster.yaml</a> to understand how the local directory on the windows machine is being mounted into the kubernetes cluster as /www. This WILL ACT LIKE the host folder available to the spark application YAML files. This is very important to understand. The spark application files that we push to the spark operator will deploy that to the KIND cluster, and will refer to the /www as though it is a native path inside the kubernetes cluster. 
+
+* We will need to remove the cluster that we had created before and create a new one using this command:
 <code>
-  volumes:
-    - name: "test-volume"
-      hostPath:
-        path: "/run/desktop/mnt/host/C:/Venky/AzureSynapseExperiments/SparkOnKube/mount"
-        type: DirectoryOrCreate
-</code>
+kind create cluster --config kind_cluster.yaml
+</code
 
+* This will create the cluster. Next we need to reinstall the helm charts like we did before to enable the spark operator.
+* Next we need to create the service account to allow it to be used by the spark operator.
+* We will now have a custom docker file created that takes the base spark image and then adds our own application jar over to the image.
+<code>
+cd feasample
+mvn clean package
+docker build -t sowmyavenky/feasample:1.0 .
+docker push sowmyavenky/feasample:1.0
+</code>
+* 
+* Next we will need to apply the feasample.yaml to start the spark application. 
 * Once we run this again, we will see the pods getting created and destroyed
-
-<code>
-C:\Venky\AzureSynapseExperiments\SparkOnKube>kubectl apply -f spark-pi.yaml
-sparkapplication.sparkoperator.k8s.io/spark-pi created
-
-C:\Venky\AzureSynapseExperiments\SparkOnKube>kubectl get po -w
-NAME              READY   STATUS    RESTARTS   AGE
-spark-pi-driver   0/1     Pending   0          0s
-spark-pi-driver   0/1     Pending   0          0s
-spark-pi-driver   0/1     ContainerCreating   0          0s
-spark-pi-driver   1/1     Running             0          2s
-spark-pi-55a43d8da7fda3b4-exec-1   0/1     Pending             0          0s
-spark-pi-55a43d8da7fda3b4-exec-1   0/1     Pending             0          0s
-spark-pi-55a43d8da7fda3b4-exec-1   0/1     ContainerCreating   0          0s
-spark-pi-55a43d8da7fda3b4-exec-1   1/1     Running             0          2s
-spark-pi-55a43d8da7fda3b4-exec-1   1/1     Terminating         0          5s
-spark-pi-55a43d8da7fda3b4-exec-1   0/1     Terminating         0          5s
-spark-pi-driver                    0/1     Completed           0          14s
-spark-pi-55a43d8da7fda3b4-exec-1   0/1     Terminating         0          6s
-spark-pi-55a43d8da7fda3b4-exec-1   0/1     Terminating         0          6s
-spark-pi-55a43d8da7fda3b4-exec-1   0/1     Terminating         0          6s
-spark-pi-driver                    0/1     Completed           0          15s
-spark-pi-driver                    0/1     Completed           0          16s
-</code>
-
-## Building custom image to process JSON and convert to CSV
-
-* Now we will use a custom docker file to build an image with the required code and execute it via the spark operator.
-
