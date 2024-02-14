@@ -20,6 +20,7 @@ Move-Item .\kind-windows-amd64.exe .\kind.exe
 <code>
 helm repo add spark-operator https://googlecloudplatform.github.io/spark-on-k8s-operator
 helm install my-release spark-operator/spark-operator --namespace spark-operator --create-namespace
+
 helm install my-release spark-operator/spark-operator --namespace spark-operator --set webhook.enable=true --create-namespace
 helm status --namespace spark-operator my-release
 helm uninstall --namespace spark-operator my-release
