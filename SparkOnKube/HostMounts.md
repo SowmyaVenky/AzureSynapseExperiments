@@ -18,6 +18,51 @@ mvn clean package
 docker build -t sowmyavenky/feasample:1.0 .
 docker push sowmyavenky/feasample:1.0
 </code>
-* 
+
+
+![alt text](./kind-003.png "Create kubernetes cluster")
+
+
+![alt text](./kind-004.png "Create kubernetes cluster")
+
+* We need to place a JSON file at the mounted location. Note that we have created 2 directories infile and outfile to read the JSON from and write the csv out to respectively.
+
+
+![alt text](./kind-005.png "Create kubernetes cluster")
+
 * Next we will need to apply the feasample.yaml to start the spark application. 
-* Once we run this again, we will see the pods getting created and destroyed
+
+<code>
+C:\Venky\AzureSynapseExperiments\SparkOnKube>kubectl apply -f feasample.yaml
+sparkapplication.sparkoperator.k8s.io/feasample created
+</code>
+
+
+* Once we run this again, we will see the pods getting created and destroyed.
+
+<code>
+C:\Venky\AzureSynapseExperiments\SparkOnKube>kubectl get po -w
+NAME               READY   STATUS    RESTARTS   AGE
+feasample-driver   1/1     Running   0          7s
+readjson-b4884b8da8d99cac-exec-1   0/1     Pending   0          0s
+readjson-b4884b8da8d99cac-exec-1   0/1     Pending   0          0s
+readjson-b4884b8da8d99cac-exec-1   0/1     ContainerCreating   0          0s
+readjson-b4884b8da8d99cac-exec-1   1/1     Running             0          2s
+readjson-b4884b8da8d99cac-exec-1   1/1     Terminating         0          14s
+readjson-b4884b8da8d99cac-exec-1   0/1     Terminating         0          14s
+readjson-b4884b8da8d99cac-exec-1   0/1     Terminating         0          15s
+feasample-driver                   0/1     Completed           0          25s
+readjson-b4884b8da8d99cac-exec-1   0/1     Terminating         0          15s
+readjson-b4884b8da8d99cac-exec-1   0/1     Terminating         0          15s
+feasample-driver                   0/1     Completed           0          26s
+feasample-driver                   0/1     Completed           0          27s
+</code>
+
+* We can see that the files were read and written out as CSV.
+
+![alt text](./kind-006.png "Create kubernetes cluster")
+
+* The logs also show that the process ran good.
+
+
+![alt text](./kind-007.png "Create kubernetes cluster")

@@ -2,6 +2,7 @@ package com.gssystems.app;
 
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
+import org.apache.spark.sql.SaveMode;
 import org.apache.spark.sql.SparkSession;
 
 public class App {
@@ -22,6 +23,9 @@ public class App {
         Dataset<Row> tempsDF = spark.read().json(infile);
         tempsDF.printSchema();
         System.out.println("infile row count..." + tempsDF.count());
+
+        System.out.println("Writing the convered csv to the directory " + args[1]);
+        tempsDF.repartition(1).write().mode(SaveMode.Overwrite).option("header", "true").csv(args[1]);
         spark.close();
     }
 }
