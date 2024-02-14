@@ -6,17 +6,17 @@
 
 * We will need to remove the cluster that we had created before and create a new one using this command:
 <code>
-kind create cluster --config kind_cluster.yaml
+    kind create cluster --config kind_cluster.yaml
 </code
 
 * This will create the cluster. Next we need to reinstall the helm charts like we did before to enable the spark operator.
 * Next we need to create the service account to allow it to be used by the spark operator.
 * We will now have a custom docker file created that takes the base spark image and then adds our own application jar over to the image.
 <code>
-cd feasample
-mvn clean package
-docker build -t sowmyavenky/feasample:1.0 .
-docker push sowmyavenky/feasample:1.0
+    cd feasample
+    mvn clean package
+    docker build -t sowmyavenky/feasample:1.0 .
+    docker push sowmyavenky/feasample:1.0
 </code>
 
 * Next we will need to apply the feasample.yaml to start the spark application. 
