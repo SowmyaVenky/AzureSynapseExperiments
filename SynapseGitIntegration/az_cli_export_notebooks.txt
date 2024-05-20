@@ -1,0 +1,19 @@
+az login
+az synapse notebook list --workspace-name venkysyn1001 --query "[*].name"
+
+C:\Venky\AzureSynapseExperiments>az synapse notebook list --workspace-name venkysyn1001 --query "[*].name"
+Command group 'synapse' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+[
+  "VenkyTestNotebook1",
+  "VenkyTestNotebook2",
+  "VenkyTestNotebook3",
+  "VenkyTestNotebook4",
+  "VenkyTestNotebook5",
+  "VenkyTestNotebook6"
+]
+
+# Export all notebooks.
+az synapse notebook export --output-folder C:\Venky\AzureSynapseExperiments\SynapseGitIntegration\venkysyn1001-exported-notebooks_cli --workspace-name venkysyn1001
+
+# Export all sql scripts
+az synapse sql-script export --output-folder C:\Venky\AzureSynapseExperiments\SynapseGitIntegration\venkysyn1001-exported-sqls_cli --workspace-name venkysyn1001
