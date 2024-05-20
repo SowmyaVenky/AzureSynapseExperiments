@@ -9,17 +9,11 @@ from utils.Utils import Utils
 
 # To get the tenant id it is good to run Connect-AzAccount and once it logs in, it prints the tenant id.
 
-azure_client_id = '29a1bdc6-772c-4101-95b7-980dcb02cfd1'
+azure_client_id = 'REPLACE_WITH_VALUE'
 azure_tenant_id = '84f1e4ea-8554-43e1-8709-f0b8589ea118'
-azure_client_secret = 'mRk8Q~gdSyVGYMPRMNkEJyGInF4YINYdlzX05c.d'
+azure_client_secret = 'REPLACE_WITH_VALUE'
 synapse_workspace_name = 'venkysyn1001'
 output_folder = 'venkysyn1001_exported'
-
-app = msal.PublicClientApplication(client_id=azure_client_id)
-result = app.acquire_token_by_username_password(username="cloud_user_p_5ee46e86@realhandsonlabs.com", password="0BsWHsDhAg11x!0dVyS0")
-print(result)
-
-exit
 
 print("Getting access token for synapse...")
 a = Utils()
