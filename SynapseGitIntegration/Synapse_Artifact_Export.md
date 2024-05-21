@@ -74,7 +74,7 @@ az synapse sql-script export --output-folder C:\Venky\AzureSynapseExperiments\Sy
 
 * If we run the 1005-Create-Synapse-workspace.ps1 script, it is going to provision a brand new workspace for us to test the imports. Here is a brand new workspace that is created for us to test the import process.
 
-<img href="./images/img_043.png">
+<img src="./images/img_043.png">
 
 
 * We can now import the notebooks and SQL Scripts one by one into the new workspace. 
@@ -122,15 +122,15 @@ Command group 'synapse' is in preview and under development. Reference and suppo
 
 * Here is the notebook running in the old source Synapse workspace 
 
-<img href="./images/img_042.png">
+<img src="./images/img_042.png">
 
 * After the import scripts have run fine, we can actually see the notebooks and SQL scripts very similar to what they looked like on the source workspace. 
 
-<img href="./images/img_044.png">
+<img src="./images/img_044.png">
 
 * Now we can test the SQL script and the notebook in the new workspace and ensure they run properly.
 
-<img href="./images/img_045.png">
+<img src="./images/img_045.png">
 
-<img href="./images/img_046.png">
+<img src="./images/img_046.png">
 
