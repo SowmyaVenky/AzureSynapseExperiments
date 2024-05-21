@@ -57,7 +57,7 @@
       "computeSubnetId": "",
       "sqlSKU": "DW100c",
       "defaultDataLakeStorageAccountUrl": "[concat('https://', parameters('dataLakeAccountName'), '.dfs.core.windows.net')]",
-      "sparkAutoScaleEnabled": "true",
+      "sparkAutoScaleEnabled": "false",
       "sparkMinNodeCount": 3,
       "sparkMaxNodeCount": 3,
       "sparkNodeCount": 3,
