@@ -127,3 +127,54 @@
 * Next we need to try to take all these artifacts from one Synapse workspace and push it to another Synapse workspace. The fabric migration project gives us some sample scripts that we can use.
 * https://github.com/microsoft/fabric-migration/blob/main/data-engineering/utils/util.py
   
+## Create a linked service to the ADLS for use inside pipelines. 
+
+* We need to create a linked service that represents a connection to the ADLS storage that forms the basis for a simple pipeline we are going to build. As we can see we are using the account key which is not a good idea in production scenarions. 
+
+<img src="./images/img_050.png" />
+
+* Next we need to create an integration dataset to use in the pipeline. Note that the parquet is selected for the file type and we point to the folder where all our parquet files reside. The * at the end IS NOT NEEDED. It throws an error if we put that. Also, note that the schema has been auto detected!
+
+<img src="./images/img_051.png" />
+
+<img src="./images/img_052.png" />
+
+<img src="./images/img_053.png" />
+
+* Next we add another folder in the same container in ADLS to act as a destination to the pipeline outputs we are creating. 
+
+<img src="./images/img_054.png" />
+
+* Let us create another integration dataset now pointing to this folder. Point to the new folder we created in the container, pick the format to the JSON and point this dataset also to the same linked service we used for the source dataset. Real world examples will have more complex setup as we can imagine.
+
+<img src="./images/img_055.png" />
+
+<img src="./images/img_056.png" />
+
+* Next we will build the pipeline to do the ETL visually. This will be a very simple pipeline that will take the data from the parquet folder and push that to another folder converting it to the JSON format in the process.
+
+<img src="./images/img_057.png" />
+
+<img src="./images/img_058.png" />
+
+* For the copy task we added to the canvas we add the definition of the source dataset we created earlier. 
+
+<img src="./images/img_059.png" />
+
+* Next we define the sink dataset. 
+
+<img src="./images/img_060.png" />
+
+* Next validate the pipeline to ensure there are no errors. The setting on the source dataset needed to be changed to wildcard and we need to tell the folder where the path is. After that it validated fine as can be seen. 
+
+<img src="./images/img_061.png" />
+
+* Trigger the pipeline to run now and monitor it. 
+
+<img src="./images/img_062.png" />
+
+* The pipeline run was good and the data is created in the destination folder as JSON. 
+
+<img src="./images/img_062.png" />
+
+<img src="./images/img_062.png" />

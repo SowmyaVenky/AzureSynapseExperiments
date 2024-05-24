@@ -1,0 +1,31 @@
+{
+  "etag": "6300ff18-0000-0700-0000-6650a8960000",
+  "id": "/subscriptions/0cfe2870-d256-4119-b0a3-16293ac11bdc/resourceGroups/1-4650e39b-playground-sandbox/providers/Microsoft.Synapse/workspaces/venkysynapseworksp1001/datasets/TemperaturesJSONDS",
+  "name": "TemperaturesJSONDS",
+  "properties": {
+    "additionalProperties": null,
+    "annotations": [],
+    "compression": null,
+    "description": "This is a JSON dataset that contains temperatures data.",
+    "encodingName": null,
+    "folder": null,
+    "linkedServiceName": {
+      "parameters": null,
+      "referenceName": "VenkyADLSLinkedService",
+      "type": "LinkedServiceReference"
+    },
+    "location": {
+      "additionalProperties": null,
+      "fileName": null,
+      "fileSystem": "files",
+      "folderPath": "temperatures_json",
+      "type": "AzureBlobFSLocation"
+    },
+    "parameters": null,
+    "schema": {},
+    "structure": null,
+    "type": "Json"
+  },
+  "resourceGroup": "1-4650e39b-playground-sandbox",
+  "type": "Microsoft.Synapse/workspaces/datasets"
+}

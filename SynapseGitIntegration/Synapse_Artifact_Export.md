@@ -12,6 +12,8 @@ az login
 
 * This will open a browser window where we need to add the credentials and login. Once logged in we can execute the following commands to export the notebooks and SQL scripts into a target folder.
 
+# Export the notebooks from the workspace.
+
 <code>
 az login
 az synapse notebook list --workspace-name venkysyn1001 --query "[*].name"
@@ -29,9 +31,60 @@ Command group 'synapse' is in preview and under development. Reference and suppo
 
 # Export all notebooks.
 az synapse notebook export --output-folder C:\Venky\AzureSynapseExperiments\SynapseGitIntegration\venkysyn1001-exported-notebooks_cli --workspace-name venkysyn1001
+</code>
 
 # Export all sql scripts
+
+<code>
+
+az synapse sql-script list --workspace-name venkysyn1001 --query "[*].name"
+
 az synapse sql-script export --output-folder C:\Venky\AzureSynapseExperiments\SynapseGitIntegration\venkysyn1001-exported-sqls_cli --workspace-name venkysyn1001
+
+</code>
+
+# Export all the linked services we have in the workspace. 
+
+* We need to export the link to ADLS alone. The other 2 are created new for each workspace. 
+
+<code>
+az synapse linked-service list --workspace-name venkysyn1001 --query "[*].name"
+Command group 'synapse' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+[
+  "venkysynapseworksp1001-WorkspaceDefaultSqlServer",
+  "venkysynapseworksp1001-WorkspaceDefaultStorage",
+  "VenkyADLSLinkedService"
+]
+
+az synapse linked-service show --workspace-name venkysyn1001 --name "VenkyADLSLinkedService" > "C:\Venky\AzureSynapseExperiments\SynapseGitIntegration\venkysyn1001-exported-linked-services_cli\VenkyADLSLinkedService.json"
+
+</code>
+
+# Export all the datasets that we need to make the pipeline work. 
+<code>
+C:\Venky\AzureSynapseExperiments>az synapse dataset list --workspace-name venkysyn1001 --query "[*].name"
+Command group 'synapse' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+[
+  "TemperaturesParquetDS",
+  "TemperaturesJSONDS"
+]
+
+az synapse dataset show --workspace-name venkysyn1001 --name "TemperaturesParquetDS" > "C:\Venky\AzureSynapseExperiments\SynapseGitIntegration\venkysyn1001-exported-datasets_cli\TemperaturesParquetDS.json"
+
+az synapse dataset show --workspace-name venkysyn1001 --name "TemperaturesJSONDS" > "C:\Venky\AzureSynapseExperiments\SynapseGitIntegration\venkysyn1001-exported-datasets_cli\TemperaturesJSONDS.json"
+
+</code>
+
+# Export all the pipelines now 
+
+<code>
+C:\Venky\AzureSynapseExperiments>az synapse pipeline list --workspace-name venkysyn1001 --query "[*].name"
+Command group 'synapse' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
+[
+  "TemperaturesParquetToJSON"
+]
+
+az synapse dataset show --workspace-name venkysyn1001 --name "TemperaturesParquetToJSON" > "C:\Venky\AzureSynapseExperiments\SynapseGitIntegration\venkysyn1001-exported-pipeline_cli\TemperaturesParquetToJSON.json"
 
 </code>
 
