@@ -1,45 +1,8 @@
 ## Synapse artifact export process
 
-* We are going to try to export the notebooks and SQL Scripts from one Synapse region and transport the same into another Synapse region. We are going to do this via both the powershell process and the AZ CLI.
+* We are going to try to export the datasets, linked services, pipelines, notebooks and SQL Scripts from one Synapse region and transport the same into another Synapse region. We are going to do this via both the powershell process and the AZ CLI.
 
-### Azure Powershell process
-
-* With Azure power shell we need to connect our powershell account to the subscription by logging in 
-<code>
-Connect-AzAccount
-</code>
-
-* Once this is executed, a browser will start up and authenticate the user. Once authenticated we can export the required notebooks and SQL Scripts as shown below:
-
-<code>
-Get-AzSynapseNotebook -WorkspaceName venkysyn1001 | Select-Object -Property Name
-Get-AzSynapseNotebook -WorkspaceName venkysyn1001 -Name VenkyTestNotebook6
-
-Export-AzSynapseNotebook -WorkspaceName venkysyn1001 -Name VenkyTestNotebook1 -OutputFolder "C:\Venky\AzureSynapseExperiments\SynapseGitIntegration\venkysyn1001-exported-notebooks"
-Export-AzSynapseNotebook -WorkspaceName venkysyn1001 -Name VenkyTestNotebook2 -OutputFolder "C:\Venky\AzureSynapseExperiments\SynapseGitIntegration\venkysyn1001-exported-notebooks"
-Export-AzSynapseNotebook -WorkspaceName venkysyn1001 -Name VenkyTestNotebook3 -OutputFolder "C:\Venky\AzureSynapseExperiments\SynapseGitIntegration\venkysyn1001-exported-notebooks"
-Export-AzSynapseNotebook -WorkspaceName venkysyn1001 -Name VenkyTestNotebook4 -OutputFolder "C:\Venky\AzureSynapseExperiments\SynapseGitIntegration\venkysyn1001-exported-notebooks"
-Export-AzSynapseNotebook -WorkspaceName venkysyn1001 -Name VenkyTestNotebook5 -OutputFolder "C:\Venky\AzureSynapseExperiments\SynapseGitIntegration\venkysyn1001-exported-notebooks"
-Export-AzSynapseNotebook -WorkspaceName venkysyn1001 -Name VenkyTestNotebook6 -OutputFolder "C:\Venky\AzureSynapseExperiments\SynapseGitIntegration\venkysyn1001-exported-notebooks"
-</code>
-
-* These commands will export the notebooks in ipynb format and store it on the destination folder. 
-
-* We can now create another script to pull down the SQL scripts present in the first Synapse workspace and store it in another folder. 
-
-<code>
-Get-AzSynapseSqlScript -WorkspaceName venkysyn1001 | Select-Object -Property Name
-Get-AzSynapseSqlScript -WorkspaceName venkysyn1001 -Name VenkySQLScript1
-
-Export-AzSynapseNotebook -WorkspaceName venkysyn1001 -Name VenkySQLScript1 -OutputFolder "C:\Venky\AzureSynapseExperiments\SynapseGitIntegration\venkysyn1001-exported-sqls"
-Export-AzSynapseNotebook -WorkspaceName venkysyn1001 -Name VenkySQLScript2 -OutputFolder "C:\Venky\AzureSynapseExperiments\SynapseGitIntegration\venkysyn1001-exported-sqls"
-Export-AzSynapseNotebook -WorkspaceName venkysyn1001 -Name VenkySQLScript3 -OutputFolder "C:\Venky\AzureSynapseExperiments\SynapseGitIntegration\venkysyn1001-exported-sqls"
-Export-AzSynapseNotebook -WorkspaceName venkysyn1001 -Name VenkySQLScript4 -OutputFolder "C:\Venky\AzureSynapseExperiments\SynapseGitIntegration\venkysyn1001-exported-sqls"
-Export-AzSynapseNotebook -WorkspaceName venkysyn1001 -Name VenkySQLScript5 -OutputFolder "C:\Venky\AzureSynapseExperiments\SynapseGitIntegration\venkysyn1001-exported-sqls"
-
-</code>
-
-### Azure Powershell process
+### Azure CLI based process
 
 * We can do the same process via Azure CLI. We need to authenticate our AZ CLI shell to our subscription to allow us to do the export/import. 
 
@@ -72,14 +35,19 @@ az synapse sql-script export --output-folder C:\Venky\AzureSynapseExperiments\Sy
 
 </code>
 
+* Now we are creating a new Synapse workspace that is clean to serve as a target to import the artifacts from the other source workspace. 
+
 * If we run the 1005-Create-Synapse-workspace.ps1 script, it is going to provision a brand new workspace for us to test the imports. Here is a brand new workspace that is created for us to test the import process.
 
 <img src="./images/img_043.png">
 
 
 * We can now import the notebooks and SQL Scripts one by one into the new workspace. 
+
+## Import the notebooks that we exported before. 
+
 <code>
-# IMPORT all notebooks.
+# IMPORT notebooks.
 az synapse notebook import --file @"C:\Venky\AzureSynapseExperiments\SynapseGitIntegration\venkysyn1001-exported-notebooks_cli\VenkyTestNotebook1.ipynb" --name VenkyTestNotebook1 --workspace-name venkysynapseworksp1001
 az synapse notebook import --file @"C:\Venky\AzureSynapseExperiments\SynapseGitIntegration\venkysyn1001-exported-notebooks_cli\VenkyTestNotebook2.ipynb" --name VenkyTestNotebook2 --workspace-name venkysynapseworksp1001
 az synapse notebook import --file @"C:\Venky\AzureSynapseExperiments\SynapseGitIntegration\venkysyn1001-exported-notebooks_cli\VenkyTestNotebook3.ipynb" --name VenkyTestNotebook3 --workspace-name venkysynapseworksp1001
@@ -99,7 +67,7 @@ Command group 'synapse' is in preview and under development. Reference and suppo
   "VenkyTestNotebook6"
 ]
 
-# Export all sql scripts
+# Import all sql scripts we exported before.
 az synapse sql-script import --file C:\Venky\AzureSynapseExperiments\SynapseGitIntegration\venkysyn1001-exported-sqls_cli\VenkySQLScript1.sql --name VenkySQLScript1 --workspace-name venkysynapseworksp1001
 az synapse sql-script import --file C:\Venky\AzureSynapseExperiments\SynapseGitIntegration\venkysyn1001-exported-sqls_cli\VenkySQLScript2.sql --name VenkySQLScript2 --workspace-name venkysynapseworksp1001
 az synapse sql-script import --file C:\Venky\AzureSynapseExperiments\SynapseGitIntegration\venkysyn1001-exported-sqls_cli\VenkySQLScript3.sql --name VenkySQLScript3 --workspace-name venkysynapseworksp1001
@@ -134,3 +102,4 @@ Command group 'synapse' is in preview and under development. Reference and suppo
 
 <img src="./images/img_046.png">
 
+* If we want to do the same thing with Azure Powershell instead please refer to <a href="./AZ_Powershell.md">here</a>
