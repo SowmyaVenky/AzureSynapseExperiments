@@ -55,6 +55,11 @@ az synapse notebook import --file @"C:\Venky\AzureSynapseExperiments\SynapseGitI
 az synapse notebook import --file @"C:\Venky\AzureSynapseExperiments\SynapseGitIntegration\venkysyn1001-exported-notebooks_cli\VenkyTestNotebook5.ipynb" --name VenkyTestNotebook5 --workspace-name venkysynapseworksp1001
 az synapse notebook import --file @"C:\Venky\AzureSynapseExperiments\SynapseGitIntegration\venkysyn1001-exported-notebooks_cli\VenkyTestNotebook6.ipynb" --name VenkyTestNotebook6 --workspace-name venkysynapseworksp1001
 
+## This is a notebook we have created locally outside of Synapse and trying to import that 
+
+az synapse notebook import --file @"C:\Venky\AzureSynapseExperiments\SynapseRemoteTesting\VenkyRemoteNotebook1.ipynb" --name VenkyRemoteNotebook1 --workspace-name venkysynapseworksp1001
+
+
 az synapse notebook list --workspace-name venkysynapseworksp1001 --query "[*].name"
 
 Command group 'synapse' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
