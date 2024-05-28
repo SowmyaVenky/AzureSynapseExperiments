@@ -29,21 +29,16 @@ Command group 'synapse' is in preview and under development. Reference and suppo
   "VenkyTestNotebook6"
 ]
 
-# Export all notebooks.
 az synapse notebook export --output-folder C:\Venky\AzureSynapseExperiments\SynapseGitIntegration\venkysyn1001-exported-notebooks_cli --workspace-name venkysyn1001
 </code>
 
 # Export all sql scripts
 
 <code>
-
 az synapse sql-script list --workspace-name venkysyn1001 --query "[*].name"
 
 az synapse sql-script export --output-folder C:\Venky\AzureSynapseExperiments\SynapseGitIntegration\venkysyn1001-exported-sqls_cli --workspace-name venkysyn1001
-
 </code>
-
-# Export all the linked services we have in the workspace. 
 
 * We need to export the link to ADLS alone. The other 2 are created new for each workspace. 
 
@@ -57,10 +52,10 @@ Command group 'synapse' is in preview and under development. Reference and suppo
 ]
 
 az synapse linked-service show --workspace-name venkysyn1001 --name "VenkyADLSLinkedService" > "C:\Venky\AzureSynapseExperiments\SynapseGitIntegration\venkysyn1001-exported-linked-services_cli\VenkyADLSLinkedService.json"
-
 </code>
 
 # Export all the datasets that we need to make the pipeline work. 
+
 <code>
 C:\Venky\AzureSynapseExperiments>az synapse dataset list --workspace-name venkysyn1001 --query "[*].name"
 Command group 'synapse' is in preview and under development. Reference and support levels: https://aka.ms/CLI_refstatus
@@ -72,7 +67,6 @@ Command group 'synapse' is in preview and under development. Reference and suppo
 az synapse dataset show --workspace-name venkysyn1001 --name "TemperaturesParquetDS" > "C:\Venky\AzureSynapseExperiments\SynapseGitIntegration\venkysyn1001-exported-datasets_cli\TemperaturesParquetDS.json"
 
 az synapse dataset show --workspace-name venkysyn1001 --name "TemperaturesJSONDS" > "C:\Venky\AzureSynapseExperiments\SynapseGitIntegration\venkysyn1001-exported-datasets_cli\TemperaturesJSONDS.json"
-
 </code>
 
 # Export all the pipelines now 
@@ -85,7 +79,6 @@ Command group 'synapse' is in preview and under development. Reference and suppo
 ]
 
 az synapse dataset show --workspace-name venkysyn1001 --name "TemperaturesParquetToJSON" > "C:\Venky\AzureSynapseExperiments\SynapseGitIntegration\venkysyn1001-exported-pipeline_cli\TemperaturesParquetToJSON.json"
-
 </code>
 
 * Now we are creating a new Synapse workspace that is clean to serve as a target to import the artifacts from the other source workspace. 
@@ -108,10 +101,9 @@ az synapse notebook import --file @"C:\Venky\AzureSynapseExperiments\SynapseGitI
 az synapse notebook import --file @"C:\Venky\AzureSynapseExperiments\SynapseGitIntegration\venkysyn1001-exported-notebooks_cli\VenkyTestNotebook5.ipynb" --name VenkyTestNotebook5 --workspace-name venkysynapseworksp1001
 az synapse notebook import --file @"C:\Venky\AzureSynapseExperiments\SynapseGitIntegration\venkysyn1001-exported-notebooks_cli\VenkyTestNotebook6.ipynb" --name VenkyTestNotebook6 --workspace-name venkysynapseworksp1001
 
-## This is a notebook we have created locally outside of Synapse and trying to import that 
+This is a notebook we have created locally outside of Synapse and trying to import that 
 
 az synapse notebook import --file @"C:\Venky\AzureSynapseExperiments\SynapseRemoteTesting\VenkyRemoteNotebook1.ipynb" --name VenkyRemoteNotebook1 --workspace-name venkysynapseworksp1001
-
 
 az synapse notebook list --workspace-name venkysynapseworksp1001 --query "[*].name"
 
@@ -125,7 +117,8 @@ Command group 'synapse' is in preview and under development. Reference and suppo
   "VenkyTestNotebook6"
 ]
 
-# Import all sql scripts we exported before.
+Import all sql scripts we exported before.
+
 az synapse sql-script import --file C:\Venky\AzureSynapseExperiments\SynapseGitIntegration\venkysyn1001-exported-sqls_cli\VenkySQLScript1.sql --name VenkySQLScript1 --workspace-name venkysynapseworksp1001
 az synapse sql-script import --file C:\Venky\AzureSynapseExperiments\SynapseGitIntegration\venkysyn1001-exported-sqls_cli\VenkySQLScript2.sql --name VenkySQLScript2 --workspace-name venkysynapseworksp1001
 az synapse sql-script import --file C:\Venky\AzureSynapseExperiments\SynapseGitIntegration\venkysyn1001-exported-sqls_cli\VenkySQLScript3.sql --name VenkySQLScript3 --workspace-name venkysynapseworksp1001
