@@ -1,135 +1,4 @@
 {
-  "activities": [
-    {
-      "additionalProperties": null,
-      "dataIntegrationUnits": null,
-      "dependsOn": [],
-      "description": "This converts from parquet to JSON",
-      "enableSkipIncompatibleRow": null,
-      "enableStaging": false,
-      "inputs": [
-        {
-          "parameters": {},
-          "referenceName": "TemperaturesParquetDS",
-          "type": "DatasetReference"
-        }
-      ],
-      "linkedServiceName": null,
-      "logSettings": null,
-      "logStorageSettings": null,
-      "name": "ParquetToJSONConvertor",
-      "outputs": [
-        {
-          "parameters": {},
-          "referenceName": "TemperaturesJSONDS",
-          "type": "DatasetReference"
-        }
-      ],
-      "parallelCopies": null,
-      "policy": {
-        "additionalProperties": null,
-        "retry": 0,
-        "retryIntervalInSeconds": 30,
-        "secureInput": false,
-        "secureOutput": false,
-        "timeout": "0.12:00:00"
-      },
-      "preserve": null,
-      "preserveRules": null,
-      "redirectIncompatibleRowSettings": null,
-      "sink": {
-        "additionalProperties": null,
-        "formatSettings": {
-          "additionalProperties": null,
-          "filePattern": null,
-          "type": "JsonWriteSettings"
-        },
-        "maxConcurrentConnections": null,
-        "sinkRetryCount": null,
-        "sinkRetryWait": null,
-        "storeSettings": {
-          "additionalProperties": null,
-          "blockSizeInMb": null,
-          "copyBehavior": "PreserveHierarchy",
-          "maxConcurrentConnections": null,
-          "type": "AzureBlobFSWriteSettings"
-        },
-        "type": "JsonSink",
-        "writeBatchSize": null,
-        "writeBatchTimeout": null
-      },
-      "skipErrorFile": null,
-      "source": {
-        "additionalColumns": null,
-        "formatSettings": {
-          "type": "ParquetReadSettings"
-        },
-        "maxConcurrentConnections": null,
-        "sourceRetryCount": null,
-        "sourceRetryWait": null,
-        "storeSettings": {
-          "additionalProperties": null,
-          "deleteFilesAfterCompletion": null,
-          "enablePartitionDiscovery": false,
-          "fileListPath": null,
-          "maxConcurrentConnections": null,
-          "modifiedDatetimeEnd": null,
-          "modifiedDatetimeStart": null,
-          "partitionRootPath": null,
-          "recursive": true,
-          "type": "AzureBlobFSReadSettings",
-          "wildcardFileName": "*.parquet",
-          "wildcardFolderPath": "temperatures"
-        },
-        "type": "ParquetSource"
-      },
-      "stagingSettings": null,
-      "translator": {
-        "mappings": [
-          {
-            "sink": {
-              "path": "latitude"
-            },
-            "source": {
-              "name": "latitude",
-              "type": "Double"
-            }
-          },
-          {
-            "sink": {
-              "path": "longitude"
-            },
-            "source": {
-              "name": "longitude",
-              "type": "Double"
-            }
-          },
-          {
-            "sink": {
-              "path": "time"
-            },
-            "source": {
-              "name": "time",
-              "type": "String"
-            }
-          },
-          {
-            "sink": {
-              "path": "temperature_2m"
-            },
-            "source": {
-              "name": "temperature_2m",
-              "type": "Double"
-            }
-          }
-        ],
-        "type": "TabularTranslator"
-      },
-      "type": "Copy",
-      "userProperties": [],
-      "validateDataConsistency": null
-    }
-  ],
   "additionalProperties": null,
   "annotations": [],
   "concurrency": null,
@@ -142,5 +11,138 @@
   "resourceGroup": "1-4650e39b-playground-sandbox",
   "runDimensions": null,
   "type": "Microsoft.Synapse/workspaces/pipelines",
-  "variables": null
+  "variables": null,
+  "properties": {
+    "activities": [
+      {
+        "additionalProperties": null,
+        "dataIntegrationUnits": null,
+        "dependsOn": [],
+        "description": "This converts from parquet to JSON",
+        "enableSkipIncompatibleRow": null,
+        "enableStaging": false,
+        "inputs": [
+          {
+            "parameters": {},
+            "referenceName": "TemperaturesParquetDS",
+            "type": "DatasetReference"
+          }
+        ],
+        "linkedServiceName": null,
+        "logSettings": null,
+        "logStorageSettings": null,
+        "name": "ParquetToJSONConvertor",
+        "outputs": [
+          {
+            "parameters": {},
+            "referenceName": "TemperaturesJSONDS",
+            "type": "DatasetReference"
+          }
+        ],
+        "parallelCopies": null,
+        "policy": {
+          "additionalProperties": null,
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false,
+          "timeout": "0.12:00:00"
+        },
+        "preserve": null,
+        "preserveRules": null,
+        "redirectIncompatibleRowSettings": null,
+        "sink": {
+          "additionalProperties": null,
+          "formatSettings": {
+            "additionalProperties": null,
+            "filePattern": null,
+            "type": "JsonWriteSettings"
+          },
+          "maxConcurrentConnections": null,
+          "sinkRetryCount": null,
+          "sinkRetryWait": null,
+          "storeSettings": {
+            "additionalProperties": null,
+            "blockSizeInMb": null,
+            "copyBehavior": "PreserveHierarchy",
+            "maxConcurrentConnections": null,
+            "type": "AzureBlobFSWriteSettings"
+          },
+          "type": "JsonSink",
+          "writeBatchSize": null,
+          "writeBatchTimeout": null
+        },
+        "skipErrorFile": null,
+        "source": {
+          "additionalColumns": null,
+          "formatSettings": {
+            "type": "ParquetReadSettings"
+          },
+          "maxConcurrentConnections": null,
+          "sourceRetryCount": null,
+          "sourceRetryWait": null,
+          "storeSettings": {
+            "additionalProperties": null,
+            "deleteFilesAfterCompletion": null,
+            "enablePartitionDiscovery": false,
+            "fileListPath": null,
+            "maxConcurrentConnections": null,
+            "modifiedDatetimeEnd": null,
+            "modifiedDatetimeStart": null,
+            "partitionRootPath": null,
+            "recursive": true,
+            "type": "AzureBlobFSReadSettings",
+            "wildcardFileName": "*.parquet",
+            "wildcardFolderPath": "temperatures"
+          },
+          "type": "ParquetSource"
+        },
+        "stagingSettings": null,
+        "translator": {
+          "mappings": [
+            {
+              "sink": {
+                "path": "latitude"
+              },
+              "source": {
+                "name": "latitude",
+                "type": "Double"
+              }
+            },
+            {
+              "sink": {
+                "path": "longitude"
+              },
+              "source": {
+                "name": "longitude",
+                "type": "Double"
+              }
+            },
+            {
+              "sink": {
+                "path": "time"
+              },
+              "source": {
+                "name": "time",
+                "type": "String"
+              }
+            },
+            {
+              "sink": {
+                "path": "temperature_2m"
+              },
+              "source": {
+                "name": "temperature_2m",
+                "type": "Double"
+              }
+            }
+          ],
+          "type": "TabularTranslator"
+        },
+        "type": "Copy",
+        "userProperties": [],
+        "validateDataConsistency": null
+      }
+    ]
+  }
 }
