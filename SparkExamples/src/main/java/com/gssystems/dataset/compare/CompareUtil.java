@@ -95,9 +95,14 @@ public class CompareUtil {
         DifferencesGenerator x1 = new DifferencesGenerator(keysToConsider, orcLeftDataset, parquetRightDataset);
         Dataset<Row> diffDS = joinedDataset.flatMap(x1,
                 rowEnc);
-        System.out.println(diffDS.count());
+        System.out.println("Total Records : " + diffDS.count());
+
         diffDS.printSchema(0);
         diffDS.show();
+
+        Dataset<Row> mismatchDS = diffDS.filter(diffDS.col("matches").equalTo(false));
+        System.out.println("Total MISMATCHES Records : " + mismatchDS.count());
+
 
         if (WRITE_FILE_OUTPUTS) {
             diffDS.repartition(1).write().option("header", "true").mode(SaveMode.Overwrite).csv(DiffDataset);
