@@ -47,8 +47,8 @@ public class DifferencesGenerator implements FlatMapFunction<Row, Row> {
             fields[1] = rightDataset;
             fields[2] = aCol;
 
-            Object leftVal = t.getAs(aCol).toString();
-            Object rightVal = t.getAs(aCol + "_r").toString();
+            Object leftVal = t.getAs(aCol) == null ? "N/A" : t.getAs(aCol).toString();
+            Object rightVal = t.getAs(aCol + "_r") == null ? "N/A-R" : t.getAs(aCol + "_r").toString();
 
             fields[3] = leftVal;
             fields[4] = rightVal;
